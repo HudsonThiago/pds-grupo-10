@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.sip.sip.model.Projeto;
 
-@Repository("ProjectDAOJPA")
+@Repository("ProjetoDAOJPA")
 public class ProjetoDAOJPA implements ProjetoDAO {
 
 	@Autowired

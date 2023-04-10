@@ -14,7 +14,7 @@ import java.util.List;
 public class ManterProjetoService implements IManterProjetoService {
 	
 	@Autowired
-	@Qualifier("ProjectDAOJPA")
+	@Qualifier("ProjetoDAOJPA")
 	private ProjetoDAO projetoDAO;
 	@Qualifier("TecnologiaDAOJPA")
 	@Autowired
