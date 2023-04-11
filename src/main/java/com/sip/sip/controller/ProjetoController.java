@@ -1,7 +1,9 @@
 package com.sip.sip.controller;
 
 import com.sip.sip.exception.ProjetoNotFoundException;
+import com.sip.sip.model.Disponibilidade;
 import com.sip.sip.model.Projeto;
+import com.sip.sip.model.ProjetoDTO;
 import com.sip.sip.service.IManterProjetoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,7 +32,14 @@ public class ProjetoController {
 
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    public Projeto criarProjeto(@RequestBody Projeto projeto) {
+    public Projeto criarProjeto(ProjetoDTO projetoDTO) {
+        Projeto projeto = new Projeto();
+        projeto.setNome(projetoDTO.getNome());
+        projeto.setDescricao(projetoDTO.getDescricao());
+        Disponibilidade d = new Disponibilidade();
+        d.setDiasPorSemana(projetoDTO.getDisponibilidadeDiasPorSemana());
+        d.setHorasPorSemana(projetoDTO.getDisponibilidadeHorasPorSemana());
+        projeto.setDisponibilidade(d);
         return manterProjetoService.criarProjeto(projeto);
     }
 
