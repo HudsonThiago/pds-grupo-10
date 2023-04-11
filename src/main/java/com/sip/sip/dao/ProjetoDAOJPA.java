@@ -44,4 +44,8 @@ public class ProjetoDAOJPA implements ProjetoDAO {
 		projetoRepository.deleteById(id);
 	}
 
+	public List<Projeto> filtrarProjetosNumCurtidasMaior (int min) {
+		return projetoRepository.findByNumCurtidasGreaterThan(min);
+	}
+
 }

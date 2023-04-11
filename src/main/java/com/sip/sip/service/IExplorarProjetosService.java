@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface IExplorarProjetosService {
     List<Projeto> listarProjetos();
+
+    List<Projeto> filtrarProjetosNumCurtidasMaior (int min);
 }

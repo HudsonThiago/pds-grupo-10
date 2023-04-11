@@ -16,4 +16,6 @@ public interface ProjetoDAO {
 
 	void excluirProjeto(Long id);
 
+	List<Projeto> filtrarProjetosNumCurtidasMaior (int min);
+
 }

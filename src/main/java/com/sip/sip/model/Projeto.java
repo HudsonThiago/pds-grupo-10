@@ -15,22 +15,22 @@ public class Projeto {
 	@Column
 	private String descricao;
 	@PrimaryKeyJoinColumn
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	private Usuario criador;
 	@Column
-	@OneToMany
+	@OneToMany(cascade=CascadeType.ALL)
 	private List<Tecnologia> tecnologias;
 	@Column
-	@OneToMany
+	@OneToMany(cascade=CascadeType.ALL)
 	private List<Cargo> cargosDesejados;
 	@Column
-	@OneToMany
+	@OneToMany(cascade=CascadeType.ALL)
 	private List<Usuario> membros;
 	@PrimaryKeyJoinColumn
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	private Disponibilidade disponibilidade;
 	@Column
-	@OneToMany
+	@OneToMany(cascade=CascadeType.ALL)
 	private List<Cargo> cargosAbertos;
 	@Column
 	private int numDeVagas;

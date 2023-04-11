@@ -21,4 +21,8 @@ public class ExplorarProjetosService implements IExplorarProjetosService{
     public List<Projeto> listarProjetos() {
         return projetoDAO.listarProjetos();
     }
+
+    public List<Projeto> filtrarProjetosNumCurtidasMaior (int min) {
+        return projetoDAO.filtrarProjetosNumCurtidasMaior(min);
+    }
 }

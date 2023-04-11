@@ -21,25 +21,60 @@
 <body>
 <div class="container mt-5">
     <div class="row">
-        <div class="col-sm-4" th:each="projeto : ${projetos}">
+        <div class="col-sm-3">
             <div class="card">
-                <img class="card-img-top" th:src="@{${projeto.imagemUrl}}" alt="Imagem do Projeto">
                 <div class="card-body">
-                    <h5 class="card-title" th:text="${projeto.nome}"></h5>
-                    <p class="card-text" th:text="${projeto.descricao}"></p>
-                    <a href="#" class="btn btn-primary" th:href="@{/projeto/{id}(id=${projeto.id})}">Ler Mais</a>
-                    <a class="btn btn-light" th:attr="projeto-id=${projeto.id}" onclick="curtir(this)">
-                        <i class="bi bi-hand-thumbs-up"></i> Curtir <span class="badge badge-light" th:text="${projeto.numCurtidas}"></span>
-                    </a>
-                    <a href="#" class="btn btn-light" th:attr="projeto-id=${projeto.id}" onclick="favoritar(this)">
-                        <i class="bi bi-heart"></i> Favoritar
-                    </a>
+                    <h5 class="card-title">Filtros</h5>
+                    <form action="" method="POST">
+                        <div class="input-group">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="minCurtidasCheck" id="minCurtidasCheck">
+                                <label class="form-check-label" for="minCurtidasCheck">
+                                    Mínimo de curtidas:
+                                </label>
+                            </div>
+                            <input type="number" name="minCurtidas" id="minCurtidas" disabled>
+                            <label class="form-label" for="minCurtidas"></label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="filtro2" id="filtro2">
+                            <label class="form-check-label" for="filtro2">
+                                Filtro 2
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="filtro3" id="filtro3">
+                            <label class="form-check-label" for="filtro3">
+                                Filtro 3
+                            </label>
+                        </div>
+                        <button class="btn btn-primary" type="submit">Filtrar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-9">
+            <div class="row">
+                <div th:each="projeto : ${projetos}" class="col-sm-6">
+                    <div class="card">
+                        <img class="card-img-top" th:src="@{${projeto.imagemUrl}}" alt="Imagem do Projeto">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${projeto.nome}"></h5>
+                            <p class="card-text" th:text="${projeto.descricao}"></p>
+                            <a href="#" class="btn btn-primary" th:href="@{/projeto/{id}(id=${projeto.id})}">Ler Mais</a>
+                            <a class="btn btn-light" th:attr="projeto-id=${projeto.id}" onclick="curtir(this)">
+                                <i class="bi bi-hand-thumbs-up"></i> Curtir <span class="badge badge-light" th:text="${projeto.numCurtidas}"></span>
+                            </a>
+                            <a href="#" class="btn btn-light" th:attr="projeto-id=${projeto.id}" onclick="favoritar(this)">
+                                <i class="bi bi-heart"></i> Favoritar
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 <script type="text/javascript">
     function curtir(botao) {
         var id = botao.getAttribute("projeto-id");
@@ -53,9 +88,21 @@
     }
 
     function favoritar(botao) {
-        var id = button.getAttribute("projeto-id");
+        var id = botao.getAttribute("projeto-id");
         fetch("/favoritar/" + id, {method: "POST"});
     }
+
+    // Desabilitar input
+    const checkbox = document.getElementById('minCurtidasCheck');
+    const input = document.getElementById('minCurtidas');
+
+    checkbox.addEventListener('change', () => {
+        if (checkbox.checked) {
+            input.disabled = false;
+        } else {
+            input.disabled = true;
+        }
+    });
 </script>
 
 <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
