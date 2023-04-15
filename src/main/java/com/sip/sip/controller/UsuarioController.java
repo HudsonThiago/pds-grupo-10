@@ -5,6 +5,7 @@ import com.sip.sip.service.ManterUsuarioService;
 import com.sip.sip.dto.UsuarioCadastroDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,10 +23,9 @@ public class UsuarioController {
     }
 
     @GetMapping("/listar-usuarios")
-    public String criarProjeto(Model model) {
+    public ResponseEntity<List<Usuario>> listarUsuarios(Model model) {
         List<Usuario> usuarios = usuarioService.listarUsuarios();
-        model.addAttribute("usuarios", usuarios);
-        return "listar-projetos";
+        return ResponseEntity.status(HttpStatus.OK).body(usuarios);
     }
 
     /*

@@ -27,7 +27,7 @@ public class UsuarioDAOJPA implements UsuarioDAO{
     }
     @Override
     public Usuario criarUsuario(Usuario usuario){
-        return new Usuario();
+        return usuarioRepository.save(usuario);
     }
     @Override
     public boolean Login(String email, String senha){
