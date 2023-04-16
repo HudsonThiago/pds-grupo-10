@@ -2,6 +2,7 @@ package com.sip.sip.service;
 
 import com.sip.sip.exception.ProjetoNotFoundException;
 import com.sip.sip.model.Projeto;
+import com.sip.sip.dto.ProjetoDTO;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ public interface IManterProjetoService {
 
     List<Projeto> listarProjetos();
 
-    Projeto criarProjeto(Projeto projeto);
+    Projeto criarProjeto(ProjetoDTO projeto);
 
     Projeto atualizarProjeto(Long id, Projeto projeto) throws ProjetoNotFoundException;
 

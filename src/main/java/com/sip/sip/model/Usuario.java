@@ -1,104 +1,22 @@
 package com.sip.sip.model;
 
-import jakarta.persistence.*;
-
-import java.util.List;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity
 public class Usuario {
+
     @Id
     @GeneratedValue(strategy= GenerationType.SEQUENCE)
     private Long id;
-    @Column
-    private String nome;
-    @Column
-    private String email;
-    @Column
-    private String senha;
-    @Column
-    private String descricao;
-    @Column
-    @OneToMany(cascade=CascadeType.ALL)
-    private List<Tecnologia> tecnologias;
-    @Column
-    @OneToMany(cascade=CascadeType.ALL)
-    private List<Projeto> projetosParticipados;
-    @Column
-    @OneToMany(cascade=CascadeType.ALL)
-    private List<Projeto> projetosCurtidos;
-    @Column
-    @OneToMany(cascade=CascadeType.ALL)
-    private List<Projeto> projetosFavoritados;
-
-    public Long getId() {
-        return id;
-    }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public List<Tecnologia> getTecnologias() {
-        return tecnologias;
-    }
-
-    public void setTecnologias(List<Tecnologia> tecnologias) {
-        this.tecnologias = tecnologias;
-    }
-
-    public List<Projeto> getProjetosParticipados() {
-        return projetosParticipados;
-    }
-
-    public void setProjetosParticipados(List<Projeto> projetosParticipados) {
-        this.projetosParticipados = projetosParticipados;
-    }
-
-    public List<Projeto> getProjetosCurtidos() {
-        return projetosCurtidos;
-    }
-
-    public void setProjetosCurtidos(List<Projeto> projetosCurtidos) {
-        this.projetosCurtidos = projetosCurtidos;
-    }
-
-    public List<Projeto> getProjetosFavoritados() {
-        return projetosFavoritados;
-    }
-
-    public void setProjetosFavoritados(List<Projeto> projetosFavoritados) {
-        this.projetosFavoritados = projetosFavoritados;
+    public Long getId() {
+        return id;
     }
 }
