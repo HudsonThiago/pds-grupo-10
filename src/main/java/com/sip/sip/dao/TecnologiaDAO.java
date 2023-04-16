@@ -1,6 +1,5 @@
 package com.sip.sip.dao;
 
-import com.sip.sip.model.Projeto;
 import com.sip.sip.model.Tecnologia;
 import org.springframework.stereotype.Repository;
 
@@ -9,7 +8,7 @@ import java.util.List;
 public interface TecnologiaDAO {
     List<Tecnologia> listarTecnologias();
 
-    Tecnologia buscarTecnologiaPorId(Long id);
+    Tecnologia buscarTecnologia(Long id);
 
     Tecnologia criarTecnologia(Tecnologia tecnologia);
 

@@ -17,8 +17,8 @@ public class Projeto {
 	@PrimaryKeyJoinColumn
 	@OneToOne(cascade=CascadeType.ALL)
 	private Usuario criador;
-	@Column
-	@OneToMany(cascade=CascadeType.ALL)
+	@JoinColumn
+	@ManyToMany(cascade=CascadeType.ALL)
 	private List<Tecnologia> tecnologias;
 	@Column
 	@OneToMany(cascade=CascadeType.ALL)

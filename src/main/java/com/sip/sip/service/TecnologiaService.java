@@ -14,7 +14,23 @@ public class TecnologiaService implements ITecnologiaService{
     @Qualifier("TecnologiaDAOJPA")
     private TecnologiaDAO tecnologiaDAO;
 
+    public Tecnologia buscarTecnologiaPorId(Long id) {
+        return tecnologiaDAO.buscarTecnologia(id);
+    }
+
     public List<Tecnologia> listarTecnologias() {
         return tecnologiaDAO.listarTecnologias();
+    }
+
+    public Tecnologia criarTecnologia(Tecnologia tecnologia) {
+        return tecnologiaDAO.criarTecnologia(tecnologia);
+    }
+
+    public Tecnologia atualizarTecnologia(Long id, Tecnologia tecnologia) {
+        return null;
+    }
+
+    public void excluirTecnologia(Long id) {
+
     }
 }

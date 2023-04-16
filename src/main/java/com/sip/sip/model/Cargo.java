@@ -10,6 +10,15 @@ public class Cargo {
     @Id
     @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
+    private String nome;
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
     public void setId(Long id) {
         this.id = id;

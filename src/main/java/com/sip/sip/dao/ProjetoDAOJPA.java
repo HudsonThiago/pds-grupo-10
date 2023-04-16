@@ -3,18 +3,26 @@ package com.sip.sip.dao;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import com.sip.sip.dto.FiltroDTO;
+import com.sip.sip.dto.ProjetoDTO;
+import com.sip.sip.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.sip.sip.model.Projeto;
+
 
 @Repository("ProjetoDAOJPA")
 public class ProjetoDAOJPA implements ProjetoDAO {
 
 	@Autowired
 	private ProjetoRepository projetoRepository;
+	@Autowired
+	private TecnologiaDAO tecnologiaDAO;
+	@Autowired
+	private CargoDAO cargoDAO;
+
 	@Override
 	public List<Projeto> listarProjetos() {
 		List<Projeto> projetos = new ArrayList<>();
@@ -44,8 +52,206 @@ public class ProjetoDAOJPA implements ProjetoDAO {
 		projetoRepository.deleteById(id);
 	}
 
+	@Override
 	public List<Projeto> filtrarProjetosNumCurtidasMaior (int min) {
-		return projetoRepository.findByNumCurtidasGreaterThan(min);
+		return projetoRepository.findByNumCurtidasGreaterThanEqual(min);
 	}
+
+	public List<Projeto> filtrarProjetosNumCurtidasMaior (int min, List<Long> ids) {
+		return projetoRepository.findByNumCurtidasGreaterThanEqualAndIdIn(min, ids);
+	}
+
+
+	@Override
+	public List<Projeto> filtrarProjetosNumFavoritosMaior(int min, List<Long> ids) {
+		return projetoRepository.findByNumFavoritosGreaterThanEqualAndIdIn(min, ids);
+	}
+
+	public List<Projeto> filtrarProjetosNumFavoritosMaior(int min) {
+		return projetoRepository.findByNumFavoritosGreaterThanEqual(min);
+	}
+
+	@Override
+	public List<Projeto> filtrarProjetosEmDesenvolvimento(Boolean bool, List<Long> ids) {
+		return projetoRepository.findByEmDesenvolvimentoAndIdIn(bool, ids);
+	}
+
+	public List<Projeto> filtrarProjetosEmDesenvolvimento(Boolean bool) {
+		return projetoRepository.findByEmDesenvolvimento(bool);
+	}
+
+	@Override
+	public List<Projeto> filtrarProjetosProcurandoVagas(Boolean bool, List<Long> ids) {
+		return projetoRepository.findByProcurandoVagasAndIdIn(bool, ids);
+	}
+
+	public List<Projeto> filtrarProjetosProcurandoVagas(Boolean bool) {
+		return projetoRepository.findByProcurandoVagas(bool);
+	}
+
+	@Override
+	public List<Projeto> filtrarProjetosDisponibilidadeHorasPorSemana(int horasPorSemana, List<Long> ids) {
+		return projetoRepository.findByDisponibilidadeHorasPorSemanaAndIdIn(horasPorSemana, ids);
+	}
+
+	public List<Projeto> filtrarProjetosDisponibilidadeHorasPorSemana(int horasPorSemana) {
+		return projetoRepository.findByDisponibilidadeHorasPorSemana(horasPorSemana);
+	}
+
+	@Override
+	public List<Projeto> filtrarProjetosDisponibilidadeDiasPorSemana(int diasPorSemana, List<Long> ids) {
+		return projetoRepository.findByDisponibilidadeDiasPorSemanaAndIdIn(diasPorSemana, ids);
+	}
+
+	public List<Projeto> filtrarProjetosDisponibilidadeDiasPorSemana(int diasPorSemana) {
+		return projetoRepository.findByDisponibilidadeDiasPorSemana(diasPorSemana);
+	}
+
+	@Override
+	public List<Projeto> filtrarProjetosTecnologias(List<Tecnologia> tecnologias) {
+		return projetoRepository.findByTecnologiasIn(tecnologias);
+	}
+	public List<Projeto> filtrarProjetosTecnologias(List<Tecnologia> tecnologias, List<Long> ids) {
+		return projetoRepository.findByTecnologiasInAndIdIn(tecnologias, ids);
+	}
+
+	@Override
+	public List<Projeto> filtrarProjetosCargos(List<Cargo> cargos) {
+		return projetoRepository.findByCargosDesejadosIn(cargos);
+	}
+	public List<Projeto> filtrarProjetosCargos(List<Cargo> cargos, List<Long> ids) {
+		return projetoRepository.findByCargosDesejadosInAndIdIn(cargos, ids);
+	}
+
+    @Override
+    public List<Projeto> filtrarProjetos(FiltroDTO filtros) {
+		List<Projeto> projetos = listarProjetos();
+		int minCurtidas = filtros.getMinCurtidas();
+		int minFavoritos = filtros.getMinFavoritos();
+		int horasPorSemana = filtros.getHorasPorSemana();
+		int diasPorSemana = filtros.getDiasPorSemana();
+		String procurandoVagas = filtros.getProcurandoVagas();
+		String emDesenvolvimento = filtros.getEmDesenvolvimento();
+		List<Long> tecnologiasId = filtros.getTecnologiasEscolhidasId();
+		List<Tecnologia> tecnologias = tecnologiasId.stream().map(tecnologiaId -> tecnologiaDAO.buscarTecnologia(tecnologiaId))
+								.collect(Collectors.toList());
+		List<Long> cargosId = filtros.getCargosEscolhidosId();
+		List<Cargo> cargos = cargosId.stream().map(cargoId -> cargoDAO.buscarCargo(cargoId)).collect(Collectors.toList());
+
+		List<Long> ids = null;
+
+		if(minCurtidas != 0) {
+			if (ids == null) {
+				projetos = filtrarProjetosNumCurtidasMaior(minCurtidas);
+				if (projetos.isEmpty()) return projetos;
+
+				ids = projetos.stream().map(Projeto::getId).collect(Collectors.toList());
+			} else {
+				projetos = filtrarProjetosNumCurtidasMaior(minCurtidas,ids);
+				ids = projetos.stream().map(Projeto::getId).collect(Collectors.toList());
+			}
+		}
+		if(minFavoritos != 0 ) {
+			if (ids == null) {
+				projetos = filtrarProjetosNumFavoritosMaior(minFavoritos);
+				if (projetos.isEmpty()) return projetos;
+
+				ids = projetos.stream().map(Projeto::getId).collect(Collectors.toList());
+			} else {
+				projetos = filtrarProjetosNumFavoritosMaior(minFavoritos,ids);
+				ids = projetos.stream().map(Projeto::getId).collect(Collectors.toList());
+			}
+		}
+		if(horasPorSemana != 0) {
+			if (ids == null) {
+				projetos = filtrarProjetosDisponibilidadeHorasPorSemana(horasPorSemana);
+				if (projetos.isEmpty()) return projetos;
+
+				ids = projetos.stream().map(Projeto::getId).collect(Collectors.toList());
+			} else {
+				projetos = filtrarProjetosDisponibilidadeHorasPorSemana(minCurtidas,ids);
+				ids = projetos.stream().map(Projeto::getId).collect(Collectors.toList());
+			}
+		}
+		if(diasPorSemana != 0) {
+			if (ids == null) {
+				projetos = filtrarProjetosDisponibilidadeDiasPorSemana(diasPorSemana);
+				if (projetos.isEmpty()) return projetos;
+
+				ids = projetos.stream().map(Projeto::getId).collect(Collectors.toList());
+			} else {
+				projetos = filtrarProjetosDisponibilidadeDiasPorSemana(diasPorSemana,ids);
+				ids = projetos.stream().map(Projeto::getId).collect(Collectors.toList());
+			}
+		}
+		if(procurandoVagas.equals("checked")) {
+			if (ids == null) {
+				projetos = filtrarProjetosProcurandoVagas(true);
+				if (projetos.isEmpty()) return projetos;
+
+				ids = projetos.stream().map(Projeto::getId).collect(Collectors.toList());
+			} else {
+				projetos = filtrarProjetosProcurandoVagas(true, ids);
+				ids = projetos.stream().map(Projeto::getId).collect(Collectors.toList());
+			}
+		} else if (procurandoVagas.equals("indeterminate")) {
+			if (ids == null) {
+				projetos = filtrarProjetosProcurandoVagas(false);
+				if (projetos.isEmpty()) return projetos;
+
+				ids = projetos.stream().map(Projeto::getId).collect(Collectors.toList());
+			} else {
+				projetos = filtrarProjetosProcurandoVagas(false, ids);
+				ids = projetos.stream().map(Projeto::getId).collect(Collectors.toList());
+			}
+		}
+		if(emDesenvolvimento.equals("checked")) {
+			if (ids == null) {
+				projetos = filtrarProjetosEmDesenvolvimento(true);
+				if (projetos.isEmpty()) return projetos;
+
+				ids = projetos.stream().map(Projeto::getId).collect(Collectors.toList());
+			} else {
+				projetos = filtrarProjetosEmDesenvolvimento(true, ids);
+				ids = projetos.stream().map(Projeto::getId).collect(Collectors.toList());
+			}
+		} else if (emDesenvolvimento.equals("indeterminate")) {
+			if (ids == null) {
+				projetos = filtrarProjetosEmDesenvolvimento(false);
+				if (projetos.isEmpty()) return projetos;
+
+				ids = projetos.stream().map(Projeto::getId).collect(Collectors.toList());
+			} else {
+				projetos = filtrarProjetosEmDesenvolvimento(false, ids);
+				ids = projetos.stream().map(Projeto::getId).collect(Collectors.toList());
+			}
+		}
+
+		if (!tecnologias.isEmpty()) {
+			if (ids == null) {
+				projetos = filtrarProjetosTecnologias(tecnologias);
+				if (projetos.isEmpty()) return projetos;
+
+				ids = projetos.stream().map(Projeto::getId).collect(Collectors.toList());
+			}
+			else {
+				projetos = filtrarProjetosTecnologias(tecnologias, ids);
+				ids = projetos.stream().map(Projeto::getId).collect(Collectors.toList());
+			}
+		}
+		if (!cargos.isEmpty()) {
+			if (ids == null) {
+				projetos = filtrarProjetosCargos(cargos);
+				if (projetos.isEmpty()) return projetos;
+
+				ids = projetos.stream().map(Projeto::getId).collect(Collectors.toList());
+			}
+			else {
+				projetos = filtrarProjetosCargos(cargos, ids);
+				ids = projetos.stream().map(Projeto::getId).collect(Collectors.toList());
+			}
+		}
+		return projetos;
+    }
 
 }

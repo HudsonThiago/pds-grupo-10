@@ -21,7 +21,7 @@ public class TecnologiaDAOJPA implements TecnologiaDAO{
     }
 
     @Override
-    public Tecnologia buscarTecnologiaPorId(Long id) {
+    public Tecnologia buscarTecnologia(Long id) {
         Optional<Tecnologia> tecnologiaOptional = tecnologiaRepository.findById(id);
         return tecnologiaOptional.orElse(null);
     }

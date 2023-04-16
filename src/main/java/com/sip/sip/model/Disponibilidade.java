@@ -11,6 +11,13 @@ public class Disponibilidade {
     @GeneratedValue(strategy= GenerationType.SEQUENCE)
     private Long id;
 
+    public Disponibilidade(int horasPorSemana, int diasPorSemana) {
+        this.horasPorSemana = horasPorSemana;
+        this.diasPorSemana = diasPorSemana;
+    }
+    public Disponibilidade() {
+    }
+
     public int getHorasPorSemana() {
         return horasPorSemana;
     }
