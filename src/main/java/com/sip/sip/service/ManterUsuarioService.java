@@ -28,9 +28,6 @@ public class ManterUsuarioService {
         Usuario usuario = new Usuario();
         BeanUtils.copyProperties(usuarioDto, usuario);
 
-        String senha = usuario.getSenha();
-
-
         return usuarioDAOJPA.criarUsuario(usuario);
     }
 

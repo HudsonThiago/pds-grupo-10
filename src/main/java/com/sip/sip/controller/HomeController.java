@@ -22,10 +22,15 @@ public class HomeController {
     public String cadastroUsuario() {
         return "home/cadastro";
     }
+
     @RequestMapping(value="cadastro", method=RequestMethod.POST)
     public String cadastroUsuario(UsuarioCadastroDTO usuario) {
-
         manterUsuarioService.criarUsuario(usuario);
         return "home/cadastro";
+    }
+
+    @RequestMapping(value="/", method=RequestMethod.GET)
+    public String loginUsuario() {
+        return "home/index";
     }
 }
