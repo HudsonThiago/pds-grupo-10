@@ -31,22 +31,9 @@
         />
         <div class="container homeContainer">
             <div class="leftColumn">
-                <a class="backButton" th:href="@{/}">
-                    <i class="fa-solid fa-arrow-left"></i>
-                    <p>Voltar</p>
-                </a>
-                <h1 class="boldTitle">Cadastro</h1>
+                <a class="backButton"></a>
+                <h1 class="boldTitle">Login</h1>
                 <form method="post">
-                    <label for="nome">
-                        <h4 class="inputLabel">Nome</h4>
-                        <div class="inputBox">
-                            <div class="inputIconBox">
-                                <i class="fa-solid fa-user"></i>
-                            </div>
-                            <input id="nome" name="nome" type="text" />
-                        </div>
-                    </label>
-
                     <label for="email">
                         <h4 class="inputLabel">Email</h4>
                         <div class="inputBox">
@@ -66,21 +53,11 @@
                             <input id="senha" name="senha" type="password" />
                         </div>
                     </label>
-
-                    <label for="confirmarSenha">
-                        <h4 class="inputLabel">Confirmar senha</h4>
-                        <div class="inputBox">
-                            <div class="inputIconBox">
-                                <i class="fa-solid fa-lock"></i>
-                            </div>
-                            <input
-                                id="confirmarSenha"
-                                name="confirmarSenha"
-                                type="password"
-                            />
-                        </div>
-                    </label>
-                    <button type="submit">Cadastrar</button>
+                    <a class="registerButton" th:href="@{/cadastro}">
+                        Não possui uma conta?
+                        <span>cadastre-se</span>
+                    </a>
+                    <button type="submit">Entrar</button>
                 </form>
             </div>
         </div>

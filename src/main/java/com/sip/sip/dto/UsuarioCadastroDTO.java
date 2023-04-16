@@ -4,6 +4,7 @@ public class UsuarioCadastroDTO {
     private String nome;
     private String email;
     private String senha;
+    private String confirmarSenha;
 
     public String getNome() {
         return nome;
@@ -26,6 +27,14 @@ public class UsuarioCadastroDTO {
     }
 
     public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public String getConfirmarSenha() {
+        return senha;
+    }
+
+    public void setConfirmarSenha(String senha) {
         this.senha = senha;
     }
 }
