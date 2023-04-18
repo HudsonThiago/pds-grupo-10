@@ -1,27 +1,66 @@
 .homeContainer {
     width: auto;
     margin: 0px 200px;
-    margin-top: 50px;
+    margin-top: 80px;
     display: flex;
 
     .leftColumn {
         position: relative;
         z-index: 2;
-        width: 45%;
-        margin-right: 5%;
+        width: 400px;
     }
 
     .rightColumn {
-        width: 45%;
-        margin-left: 5%;
+        width: auto;
+        margin-left: 100px;
     }
 }
 
 .homeLayer {
-    position: absolute;
+    position: fixed;
     z-index: 1;
     width: auto;
     height: 100%;
-    margin-top: -50px;
+    top: 0;
     right: 0;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    pointer-events: none;
+}
+
+@media screen and (max-width: 1000px) {
+    .homeLayer {
+        display: none;
+    }
+
+    .homeContainer {
+        width: auto;
+        margin: 0px 100px;
+        margin-top: 80px;
+        display: flex;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .homeContainer {
+        width: auto;
+        margin: 0px 50px;
+        margin-top: 50px;
+        display: flex;
+        flex-wrap: wrap;
+
+        .leftColumn {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+        }
+
+        .rightColumn {
+            width: auto;
+            margin-left: 100%;
+        }
+    }
 }
