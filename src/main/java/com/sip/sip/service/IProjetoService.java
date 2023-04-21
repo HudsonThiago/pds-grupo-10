@@ -6,7 +6,7 @@ import com.sip.sip.dto.ProjetoDTO;
 
 import java.util.List;
 
-public interface IManterProjetoService {
+public interface IProjetoService {
     Projeto buscarProjetoPorId(Long id) throws ProjetoNotFoundException;
 
     List<Projeto> listarProjetos();
