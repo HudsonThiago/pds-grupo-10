@@ -1,7 +1,7 @@
 .homeContainer {
   width: auto;
   margin: 0px 200px;
-  margin-top: 50px;
+  margin-top: 80px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -10,21 +10,62 @@
 .homeContainer .leftColumn {
   position: relative;
   z-index: 2;
-  width: 45%;
-  margin-right: 5%;
+  width: 400px;
 }
 
 .homeContainer .rightColumn {
-  width: 45%;
-  margin-left: 5%;
+  width: auto;
+  margin-left: 100px;
 }
 
 .homeLayer {
-  position: absolute;
+  position: fixed;
   z-index: 1;
   width: auto;
   height: 100%;
-  margin-top: -50px;
+  top: 0;
   right: 0;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  -ms-user-select: none;
+      user-select: none;
+  pointer-events: none;
+}
+
+@media screen and (max-width: 1000px) {
+  .homeLayer {
+    display: none;
+  }
+  .homeContainer {
+    width: auto;
+    margin: 0px 100px;
+    margin-top: 80px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .homeContainer {
+    width: auto;
+    margin: 0px 50px;
+    margin-top: 50px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+  }
+  .homeContainer .leftColumn {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+  }
+  .homeContainer .rightColumn {
+    width: auto;
+    margin-left: 100%;
+  }
 }
 /*# sourceMappingURL=containers.css.map */
