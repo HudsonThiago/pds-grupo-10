@@ -6,7 +6,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.sip.sip.dto.FiltroDTO;
-import com.sip.sip.dto.ProjetoDTO;
 import com.sip.sip.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

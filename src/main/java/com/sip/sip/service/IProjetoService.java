@@ -1,9 +1,12 @@
 package com.sip.sip.service;
 
+import com.sip.sip.dto.ProjetoCadastroDTO;
+import com.sip.sip.dto.ProjetoDTO;
 import com.sip.sip.exception.ProjetoNotFoundException;
 import com.sip.sip.model.Projeto;
-import com.sip.sip.dto.ProjetoDTO;
 
+
+import java.io.IOException;
 import java.util.List;
 
 public interface IProjetoService {
@@ -11,7 +14,7 @@ public interface IProjetoService {
 
     List<Projeto> listarProjetos();
 
-    Projeto criarProjeto(ProjetoDTO projeto);
+    ProjetoDTO criarProjeto(ProjetoCadastroDTO projeto) throws IOException;
 
     Projeto atualizarProjeto(Long id, Projeto projeto) throws ProjetoNotFoundException;
 
