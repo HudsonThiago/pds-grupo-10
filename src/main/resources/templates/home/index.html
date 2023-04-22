@@ -28,36 +28,53 @@
             class="homeLayer"
             th:src="@{/image/homeLayer.svg}"
             alt="homeLayer"
+            draggable="false"
         />
         <div class="container homeContainer">
             <div class="leftColumn">
                 <a class="backButton"></a>
                 <h1 class="boldTitle">Login</h1>
                 <form method="post">
-                    <label for="email">
+                    <label class="inputContainer" for="email">
                         <h4 class="inputLabel">Email</h4>
                         <div class="inputBox">
                             <div class="inputIconBox">
                                 <i class="fa-solid fa-envelope"></i>
                             </div>
-                            <input id="email" name="email" type="email" />
+                            <input
+                                class="textField"
+                                id="email"
+                                name="email"
+                                type="email"
+                                required
+                            />
                         </div>
                     </label>
 
-                    <label for="senha">
+                    <label class="inputContainer" for="senha">
                         <h4 class="inputLabel">Senha</h4>
                         <div class="inputBox">
                             <div class="inputIconBox">
                                 <i class="fa-solid fa-lock"></i>
                             </div>
-                            <input id="senha" name="senha" type="password" />
+                            <input
+                                class="textField"
+                                id="senha"
+                                name="senha"
+                                type="password"
+                                required
+                            />
+                        </div>
+                        <div class="errorText">
+                            <i class="fa-solid fa-circle-xmark"></i>
+                            <p>Email ou senha incorreta, tente de novo</p>
                         </div>
                     </label>
                     <a class="registerButton" th:href="@{/cadastro}">
                         Não possui uma conta?
                         <span>cadastre-se</span>
                     </a>
-                    <button type="submit">Entrar</button>
+                    <button class="button" type="submit">Entrar</button>
                 </form>
             </div>
         </div>

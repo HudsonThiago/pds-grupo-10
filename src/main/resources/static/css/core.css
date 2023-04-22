@@ -5,6 +5,7 @@
   --bw100: #ffffff;
   --inputLabel: #666666;
   --inputTitleSize: 0.8rem;
+  --errorTextColor: #d73939;
 }
 
 body {

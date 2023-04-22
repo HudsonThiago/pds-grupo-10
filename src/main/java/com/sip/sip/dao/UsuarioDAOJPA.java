@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository("UsuarioDAOJPA")
 public class UsuarioDAOJPA implements UsuarioDAO{
@@ -23,10 +24,15 @@ public class UsuarioDAOJPA implements UsuarioDAO{
 
     @Override
     public Usuario buscarUsuarioPorId(Long id){
-        return new Usuario();
+        Optional<Usuario> usuario = usuarioRepository.findById(id);
+        return usuario.orElse(null);
     }
     @Override
     public Usuario criarUsuario(Usuario usuario){
+        return usuarioRepository.save(usuario);
+    }
+    @Override
+    public Usuario atualizarUsuario(Usuario usuario) {
         return usuarioRepository.save(usuario);
     }
     @Override
