@@ -3,7 +3,6 @@ package com.sip.sip.dao;
 import com.sip.sip.dto.FiltroDTO;
 import com.sip.sip.model.Cargo;
 import com.sip.sip.model.Projeto;
-import com.sip.sip.dto.ProjetoDTO;
 import com.sip.sip.model.Tecnologia;
 
 import java.util.List;

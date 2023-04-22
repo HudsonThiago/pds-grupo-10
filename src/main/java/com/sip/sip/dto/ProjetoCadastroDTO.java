@@ -1,8 +1,19 @@
 package com.sip.sip.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 
-public class ProjetoDTO {
+public class ProjetoCadastroDTO {
+        private String nome;
+        private String descricao;
+        private int horasPorSemana;
+        private int diasPorSemana;
+        private int numDeVagas;
+        private List<Long> tecnologiasEscolhidasId;
+        private List<Long> cargosEscolhidosId;
+        private MultipartFile imagem;
+
         public String getNome() {
                 return nome;
         }
@@ -17,14 +28,6 @@ public class ProjetoDTO {
 
         public void setDescricao(String descricao) {
                 this.descricao = descricao;
-        }
-
-        public String getUsuarioCriadorNome() {
-                return usuarioCriadorNome;
-        }
-
-        public void setUsuarioCriadorNome(String usuarioCriadorNome) {
-                this.usuarioCriadorNome = usuarioCriadorNome;
         }
 
         public int getHorasPorSemana() {
@@ -51,18 +54,6 @@ public class ProjetoDTO {
                 this.numDeVagas = numDeVagas;
         }
 
-        private Long id;
-        private String nome;
-        private String descricao;
-        private String usuarioCriadorNome;
-        private int horasPorSemana;
-        private int diasPorSemana;
-        private int numDeVagas;
-
-
-
-        private List<Long> tecnologiasEscolhidasId;
-
         public List<Long> getTecnologiasEscolhidasId() {
                 return tecnologiasEscolhidasId;
         }
@@ -71,11 +62,19 @@ public class ProjetoDTO {
                 this.tecnologiasEscolhidasId = tecnologiasEscolhidasId;
         }
 
-        public Long getId() {
-                return id;
+        public List<Long> getCargosEscolhidosId() {
+                return cargosEscolhidosId;
         }
 
-        public void setId(Long id) {
-                this.id = id;
+        public void setCargosEscolhidosId(List<Long> cargosEscolhidosId) {
+                this.cargosEscolhidosId = cargosEscolhidosId;
+        }
+
+        public MultipartFile getImagem() {
+                return imagem;
+        }
+
+        public void setImagem(MultipartFile imagem) {
+                this.imagem = imagem;
         }
 }
