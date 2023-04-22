@@ -39,7 +39,7 @@ public class Projeto {
 	@Column
 	private boolean emDesenvolvimento;
 	@Column
-	private String imagemUrl;
+	private String imagemUrl = "/imagens/default.jpg";
 	@Column
 	private String dataCriacao;
 	@Column
