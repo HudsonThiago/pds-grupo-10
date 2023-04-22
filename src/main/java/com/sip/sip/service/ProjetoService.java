@@ -69,8 +69,7 @@ public class ProjetoService implements IProjetoService {
 		dto.setNome(p.getNome());
 		dto.setDescricao(p.getDescricao());
 		if (p.getCriador() != null) {
-			// set usuario criador
-//			dto.setUsuarioCriadorNome(p.getCriador().getNome());
+			dto.setUsuarioCriadorNome(p.getCriador().getNome());
 		}
 		dto.setDiasPorSemana(p.getDisponibilidade().getDiasPorSemana());
 		dto.setHorasPorSemana(p.getDisponibilidade().getHorasPorSemana());
