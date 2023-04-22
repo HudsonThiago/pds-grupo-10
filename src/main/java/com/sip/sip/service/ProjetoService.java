@@ -93,6 +93,7 @@ public class ProjetoService implements IProjetoService {
 		// obter imagem
 		MultipartFile arquivo = dto.getImagem();
 		BufferedImage imagemOriginal = ImageIO.read(arquivo.getInputStream());
+		if (imagemOriginal == null) return projetoToProjetoDTO(novoProjeto);
 		int type = imagemOriginal.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : imagemOriginal.getType();
 
 		// redimensionar imagem
