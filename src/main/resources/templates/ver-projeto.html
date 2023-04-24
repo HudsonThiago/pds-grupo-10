@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Project Details</title>
+  <!-- Add Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card mb-4">
+        <img th:src="@{__${projeto.imagemUrl.replace('.jpg', 'Banner.jpg')}__}" alt="Imagem do projeto">
+        <div class="card-body">
+          <h2 class="card-title" th:text="${projeto.nome}"></h2>
+          <p class="card-text" th:text="${projeto.descricao}"></p>
+          <div class="d-flex justify-content-between">
+            <p class="card-text"><strong>Membros:</strong></p>
+            <a th:href="@{/gerenciar-membros/{id}(id=${projeto.id})}" class="link-primary">Gerenciar Membros</a>
+          </div>
+          <ul class="list-group mt-3 w-50" th:each="membro: ${projeto.nomeCargoMap}">
+            <li class="list-group-item" th:text="${membro.key}"></li>
+            <ul class="list-group">
+              <li class="list-group-item" th:each="cargo : ${membro.value}" text="Cargo: ">
+                <span th:text="${cargo} "></span>
+              </li>
+            </ul>
+          </ul>
+          <p class="card-text"><strong>Disponibilidade:</strong></p>
+          <p class="card-text ml-3"><strong>Horas por semana: </strong> <span th:text="${projeto.horasPorSemana}"></span></p>
+          <hr>
+          <p class="card-text ml-3"><strong>Dias por semana: </strong> <span th:text="${projeto.diasPorSemana}"></span></p>
+          <hr>
+          <p class="card-text ml-3"><strong>Número de vagas: </strong> <span th:text="${projeto.numDeVagas}"></span></p>
+          <hr>
+          <p class="card-text"><strong>Tecnologias: </strong></p>
+          <ul class="list-group mt-3 w-50 ml-3" th:each="tecnologia : ${projeto.tecnologiasEscolhidasId}">
+            <li class="list-group-item" th:text="${tecnologia.key}"></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Add Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+</html>

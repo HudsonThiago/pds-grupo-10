@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.List;
 
 public interface IProjetoService {
-    Projeto buscarProjetoPorId(Long id) throws ProjetoNotFoundException;
+    ProjetoDTO buscarProjetoPorId(Long id) throws ProjetoNotFoundException;
 
     List<Projeto> listarProjetos();
 

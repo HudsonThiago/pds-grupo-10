@@ -1,6 +1,8 @@
 package com.sip.sip.dto;
 
+
 import java.util.List;
+import java.util.Map;
 
 public class ProjetoDTO {
         public String getNome() {
@@ -58,16 +60,23 @@ public class ProjetoDTO {
         private int horasPorSemana;
         private int diasPorSemana;
         private int numDeVagas;
+        private String imagemUrl;
 
+        public String getImagemUrl() {
+                return imagemUrl;
+        }
 
+        public void setImagemUrl(String imagemUrl) {
+                this.imagemUrl = imagemUrl;
+        }
 
-        private List<Long> tecnologiasEscolhidasId;
+        private Map<String, Long> tecnologiasEscolhidasId;
 
-        public List<Long> getTecnologiasEscolhidasId() {
+        public Map<String, Long> getTecnologiasEscolhidasId() {
                 return tecnologiasEscolhidasId;
         }
 
-        public void setTecnologiasEscolhidasId(List<Long> tecnologiasEscolhidasId) {
+        public void setTecnologiasEscolhidasId(Map<String, Long> tecnologiasEscolhidasId) {
                 this.tecnologiasEscolhidasId = tecnologiasEscolhidasId;
         }
 
@@ -77,5 +86,25 @@ public class ProjetoDTO {
 
         public void setId(Long id) {
                 this.id = id;
+        }
+
+        private Map<String,Long> membros;
+
+        private Map<String, List<String>> nomeCargoMap;
+
+        public Map<String, Long> getMembros() {
+                return membros;
+        }
+
+        public void setMembros(Map<String, Long> membros) {
+                this.membros = membros;
+        }
+
+        public Map<String, List<String>> getNomeCargoMap() {
+                return nomeCargoMap;
+        }
+
+        public void setNomeCargoMap(Map<String, List<String>> nomeCargoMap) {
+                this.nomeCargoMap = nomeCargoMap;
         }
 }
