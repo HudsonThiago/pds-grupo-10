@@ -4,10 +4,8 @@ import com.sip.sip.dao.ProjetoDAO;
 import com.sip.sip.dao.TecnologiaDAO;
 import com.sip.sip.dto.ProjetoCadastroDTO;
 import com.sip.sip.exception.ProjetoNotFoundException;
-import com.sip.sip.model.Disponibilidade;
-import com.sip.sip.model.Projeto;
+import com.sip.sip.model.*;
 import com.sip.sip.dto.ProjetoDTO;
-import com.sip.sip.model.Tecnologia;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -22,12 +20,14 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
 public class ProjetoService implements IProjetoService {
-	
+
 	@Autowired
 	@Qualifier("ProjetoDAOJPA")
 	private ProjetoDAO projetoDAO;
@@ -39,12 +39,12 @@ public class ProjetoService implements IProjetoService {
 		return projetoDAO.listarProjetos();
 	}
 
-	public Projeto buscarProjetoPorId(Long id) throws ProjetoNotFoundException {
+	public ProjetoDTO buscarProjetoPorId(Long id) throws ProjetoNotFoundException {
 		Projeto projetoExistente = projetoDAO.buscarProjetoPorId(id);
         if (projetoExistente == null) {
             throw new ProjetoNotFoundException("Projeto não encontrado com id: " + id);
         }
-        return projetoExistente;
+        return projetoToProjetoDTO(projetoExistente);
 	}
 
 	private Projeto cadastroDTOToProjeto(ProjetoCadastroDTO dto) {
@@ -75,9 +75,24 @@ public class ProjetoService implements IProjetoService {
 		dto.setHorasPorSemana(p.getDisponibilidade().getHorasPorSemana());
 
 		dto.setNumDeVagas(p.getNumDeVagas());
-		List<Long> tecnologiasId = p.getTecnologias().stream()
-									.map(tecnologia -> tecnologia.getId()).collect(Collectors.toList());
+		Map<String, Long> tecnologiasId = p.getTecnologias().stream()
+				.collect(Collectors.toMap(
+						tecnologia -> tecnologia.getNome(),
+						tecnologia -> tecnologia.getId()
+						)
+				);
+
 		dto.setTecnologiasEscolhidasId(tecnologiasId);
+		dto.setImagemUrl(p.getImagemUrl());
+
+		if (p.getUsuariosProjeto() == null) return dto;
+		Map<String, List<String>> usuariosMap = p.getUsuariosProjeto().stream()
+				.collect(Collectors.toMap(
+				uProj -> uProj.getUsuario().getNome(),
+				uProj -> uProj.getCargos().stream().map(Cargo::getNome).collect(Collectors.toList())
+		));
+		dto.setNomeCargoMap(usuariosMap);
+
 		return dto;
 	}
 
@@ -89,6 +104,7 @@ public class ProjetoService implements IProjetoService {
 		// salvar projeto sem imagem
 		Projeto novoProjeto = projetoDAO.criarProjeto(projeto);
 		Long id = novoProjeto.getId();
+		if(novoProjeto.getImagemUrl() == "default.jpg") return projetoToProjetoDTO(novoProjeto);
 
 		// obter imagem
 		MultipartFile arquivo = dto.getImagem();
@@ -96,24 +112,34 @@ public class ProjetoService implements IProjetoService {
 		if (imagemOriginal == null) return projetoToProjetoDTO(novoProjeto);
 		int type = imagemOriginal.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : imagemOriginal.getType();
 
-		// redimensionar imagem
-		BufferedImage imagemRedimensionada = new BufferedImage(200, 100, type);
-		Graphics2D g = imagemRedimensionada.createGraphics();
+		// redimensionar imagem 200x100
+		BufferedImage imagemSmall = new BufferedImage(200, 100, type);
+		Graphics2D g = imagemSmall.createGraphics();
 		g.drawImage(imagemOriginal, 0, 0, 200, 100, null);
 		g.dispose();
 
+		//redimensionar imagem 600x300
+		BufferedImage imagemBanner = new BufferedImage(600, 300, type);
+		Graphics2D g2 = imagemBanner.createGraphics();
+		g2.drawImage(imagemOriginal, 0, 0, 600, 300, null);
+		g2.dispose();
 
 		// renomear arquivo
 		String fileName = arquivo.getOriginalFilename();
 		String extensao = StringUtils.getFilenameExtension(fileName);
 		String novoNome =  "imagemProjeto" + id + "." + extensao;
-
+		String nomeBanner =  "imagemProjeto" + id + "Banner." + extensao;
 
 		// copiar para pasta
 		Path path = Paths.get("imagens/", novoNome);
 		File arquivoDestino = path.toFile();
-		ImageIO.write(imagemRedimensionada, extensao, arquivoDestino);
+		ImageIO.write(imagemSmall, extensao, arquivoDestino);
 		novoProjeto.setImagemUrl("/imagens/" + novoNome);
+
+		// copiar banner para pasta
+		Path pathBanner = Paths.get("imagens/", nomeBanner);
+		File arquivoDestinoBanner = pathBanner.toFile();
+		ImageIO.write(imagemBanner, extensao, arquivoDestinoBanner);
 
 		Projeto p = projetoDAO.atualizarProjeto(novoProjeto);
 		return projetoToProjetoDTO(p);
@@ -133,7 +159,7 @@ public class ProjetoService implements IProjetoService {
             throw new ProjetoNotFoundException("Projeto não encontrado com id: " + id);
         }
         projetoDAO.excluirProjeto(id);
-		
+
 	}
 
 }

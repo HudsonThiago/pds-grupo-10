@@ -28,7 +28,7 @@ public class ProjetoController {
     }
 
     @GetMapping("/{id}")
-    public Projeto buscarProjetoPorId(@PathVariable Long id) throws ProjetoNotFoundException {
+    public ProjetoDTO buscarProjetoPorId(@PathVariable Long id) throws ProjetoNotFoundException {
         return projetoService.buscarProjetoPorId(id);
     }
 
