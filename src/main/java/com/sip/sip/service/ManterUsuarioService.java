@@ -24,7 +24,7 @@ public class ManterUsuarioService {
     public Usuario buscarUsuarioPorId(Long id){
         return usuarioDAOJPA.buscarUsuarioPorId(id);
     }
-
+    
     public Usuario criarUsuario(UsuarioCadastroDTO usuarioDto){
 
         Usuario usuario = new Usuario();
