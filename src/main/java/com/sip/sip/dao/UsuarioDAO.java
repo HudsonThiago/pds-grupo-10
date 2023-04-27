@@ -9,8 +9,8 @@ public interface UsuarioDAO {
     List<Usuario> listarUsuarios();
 
     Usuario buscarUsuarioPorId(Long id);
+    Usuario buscarUsuarioPorEmail(String email);
 
     Usuario criarUsuario(Usuario usuario);
     Usuario atualizarUsuario(Usuario usuario);
-    boolean Login(String email, String senha);
 }

@@ -1,0 +1,87 @@
+.inputLabel {
+    font-size: var(--inputTitleSize);
+    color: var(--inputLabel);
+    margin: 0;
+    margin-left: 6px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.backButton {
+    width: fit-content;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    i {
+        color: var(--inputLabel);
+    }
+
+    p {
+        text-decoration: none;
+        color: var(--inputLabel);
+        margin-left: 10px;
+        font-weight: 700;
+    }
+}
+
+.inputBox {
+    box-sizing: border-box;
+    background-color: var(--bw100);
+    width: 100%;
+    padding: 4px;
+    padding-right: 30px;
+    display: grid;
+    align-items: center;
+    grid-template-columns: 40px auto;
+    border-radius: 100px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 10rem;
+    box-shadow: 1px 1px 2px #00000066;
+
+    .inputIconBox {
+        background-color: var(--primaryColor);
+        width: 24px;
+        height: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 100%;
+
+        i {
+            color: var(--bw100);
+            font-size: 0.8rem;
+        }
+    }
+
+    input {
+        font-family: "Inter", sans-serif;
+        background-color: transparent;
+        width: 100%;
+        height: 18px;
+        border: none;
+    }
+}
+
+button {
+    margin-top: 40px;
+    font-family: "Inter", sans-serif;
+    min-width: 200px;
+    background: var(--primaryColor);
+    background: linear-gradient(
+        90deg,
+        var(--primaryColor) 0%,
+        var(--secondaryColor) 100%
+    );
+    color: var(--bw100);
+    font-weight: 500;
+    font-size: 0.8rem;
+    border: none;
+    border-radius: 5px;
+    border-top-left-radius: 10rem;
+    border-bottom-right-radius: 10rem;
+    padding: 8px 50px;
+    cursor: pointer;
+    box-shadow: 1px 1px 2px #00000066;
+}

@@ -1,4 +1,4 @@
-package com.sip.sip.controller;
+package com.sip.sip.config.controller;
 
 import com.sip.sip.exception.TecnologiaNotFoundException;
 import com.sip.sip.model.Tecnologia;

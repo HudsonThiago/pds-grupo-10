@@ -1,4 +1,4 @@
-package com.sip.sip.controller;
+package com.sip.sip.config.controller;
 
 import com.sip.sip.exception.CargoNotFoundException;
 import com.sip.sip.model.Cargo;
