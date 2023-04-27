@@ -25,7 +25,7 @@ public class HomeController {
     @RequestMapping(value = "cadastro", method = RequestMethod.POST)
     public String cadastroUsuario(UsuarioCadastroDTO usuario) {
         manterUsuarioService.criarUsuario(usuario);
-        return "home/cadastro";
+        return "home/cadastro"; 
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
