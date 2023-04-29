@@ -60,7 +60,7 @@ public class ManterUsuarioService {
 
         if(!isNull(usuario)){
             if(usuario.getEmail().equals(email) && usuario.getSenha().equals(senha)){
-                return "redirect:/listar-projetos";
+                return "redirect:/dashboard";
             }
         }
         return "redirect:/";
