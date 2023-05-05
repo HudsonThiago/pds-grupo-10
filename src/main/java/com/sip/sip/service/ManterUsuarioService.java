@@ -53,8 +53,6 @@ public class ManterUsuarioService {
         return usuarioDAOJPA.atualizarUsuario(usuario);
     }
 
-
-
     public String login(String email, String senha){
         Usuario usuario = usuarioDAOJPA.buscarUsuarioPorEmail(email);
 
