@@ -24,7 +24,7 @@ public class UsuarioController {
         this.usuarioService = usuarioService;
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<List<Usuario>> listarUsuarios(Model model) {
         List<Usuario> usuarios = usuarioService.listarUsuarios();
         return ResponseEntity.status(HttpStatus.OK).body(usuarios);
@@ -45,17 +45,4 @@ public class UsuarioController {
     public ResponseEntity<Usuario> atualizarUsuario(@PathVariable(value = "id") long id, @RequestBody AtualizarUsuarioDTO atualizarUsuarioDTO) throws ProjetoNotFoundException {
         return ResponseEntity.status(HttpStatus.OK).body(usuarioService.atualizarUsuario(id, atualizarUsuarioDTO));
     }
-
-    /*
-    @PostMapping("/criar-projeto")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Usuario criarUsuario(UsuarioCadastroDTO usuarioCadastroDTO) {
-        Usuario usuario = new Usuario();
-        usuario.setNome(usuarioCadastroDTO.getNome());
-        usuario.setEmail(usuarioCadastroDTO.getEmail());
-        usuario.setSenha(usuarioCadastroDTO.getSenha());
-        return usuarioService.criarUsuario(usuario);
-    }*/
-
-
 }

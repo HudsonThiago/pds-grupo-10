@@ -16,11 +16,13 @@ public class TecnologiaController {
     @Autowired
     private TecnologiaService tecnologiaService;
 
-
-
     @GetMapping("")
     public List<Tecnologia> listarTecnologias() {
         return tecnologiaService.listarTecnologias();
+    }
+    @GetMapping("/inativas")
+    public List<Tecnologia> listarTecnologiasInativas() {
+        return tecnologiaService.listarTecnologiasInativas();
     }
 
     @GetMapping("/{id}")
@@ -33,6 +35,14 @@ public class TecnologiaController {
     public Tecnologia criarTecnologia(@RequestBody Tecnologia tecnologia) {
         return tecnologiaService.criarTecnologia(tecnologia);
     }
+
+    @PostMapping("/solicitar-tecnologia")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Tecnologia solicitarTecnologia(@RequestBody Tecnologia tecnologia) {
+        tecnologia.setAtivo(false);
+        return tecnologiaService.criarTecnologia(tecnologia);
+    }
+
 
     @PutMapping("/{id}")
     public Tecnologia atualizarTecnologia(@PathVariable Long id, @RequestBody Tecnologia tecnologia) throws TecnologiaNotFoundException {
