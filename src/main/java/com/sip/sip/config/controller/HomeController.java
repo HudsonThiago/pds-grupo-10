@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -23,9 +24,8 @@ public class HomeController {
     }
 
     @RequestMapping(value = "cadastro", method = RequestMethod.POST)
-    public String cadastroUsuario(UsuarioCadastroDTO usuario) {
-        manterUsuarioService.criarUsuario(usuario);
-        return "home/cadastro";
+    public String cadastroUsuario(UsuarioCadastroDTO usuario, RedirectAttributes attributes) {
+        return manterUsuarioService.criarUsuario(usuario, attributes);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -34,8 +34,8 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public String loginUsuario(Model model, Usuario usuario) {
+    public String loginUsuario(Usuario usuario, RedirectAttributes attributes) {
 
-        return manterUsuarioService.login(usuario.getEmail(),usuario.getSenha());
+        return manterUsuarioService.login(attributes, usuario.getEmail(),usuario.getSenha());
     }
 }

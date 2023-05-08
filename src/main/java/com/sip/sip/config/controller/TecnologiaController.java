@@ -3,6 +3,7 @@ package com.sip.sip.config.controller;
 import com.sip.sip.exception.TecnologiaNotFoundException;
 import com.sip.sip.model.Tecnologia;
 import com.sip.sip.service.TecnologiaService;
+import com.sip.sip.model.usuarioLogado.UsuarioLogado;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +40,9 @@ public class TecnologiaController {
     @PostMapping("/solicitar-tecnologia")
     @ResponseStatus(HttpStatus.CREATED)
     public Tecnologia solicitarTecnologia(@RequestBody Tecnologia tecnologia) {
+        UsuarioLogado usuarioLogado = new UsuarioLogado();
         tecnologia.setAtivo(false);
+        tecnologia.setIdUsuarioQueSolicitou(usuarioLogado.id);
         return tecnologiaService.criarTecnologia(tecnologia);
     }
 
