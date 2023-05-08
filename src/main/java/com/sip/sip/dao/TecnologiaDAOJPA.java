@@ -10,14 +10,24 @@ import java.util.Optional;
 
 @Repository("TecnologiaDAOJPA")
 public class TecnologiaDAOJPA implements TecnologiaDAO{
+
     @Autowired
     private TecnologiaRepository tecnologiaRepository;
 
     @Override
-    public List<Tecnologia> listarTecnologias() {
+    public List<Tecnologia> listarTodasAsTecnologias() {
         List<Tecnologia> tecnologias = new ArrayList<>();
         tecnologiaRepository.findAll().forEach(tecnologias::add);
         return tecnologias;
+    }
+    @Override
+    public List<Tecnologia> listarTecnologias() {
+        return tecnologiaRepository.findByAtivoEquals(true);
+    }
+
+    @Override
+    public List<Tecnologia> listarTecnologias(Boolean ativo) {
+        return tecnologiaRepository.findByAtivoEquals(ativo);
     }
 
     @Override

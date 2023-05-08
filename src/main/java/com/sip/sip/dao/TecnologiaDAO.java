@@ -7,12 +7,13 @@ import java.util.List;
 @Repository
 public interface TecnologiaDAO {
     List<Tecnologia> listarTecnologias();
+    List<Tecnologia> listarTecnologias(Boolean ativo);
 
     Tecnologia buscarTecnologia(Long id);
 
     Tecnologia criarTecnologia(Tecnologia tecnologia);
 
     Tecnologia atualizarTecnologia(Tecnologia tecnologia);
-
+    public List<Tecnologia> listarTodasAsTecnologias();
     void excluirTecnologia(Long id);
 }

@@ -1,4 +1,4 @@
-package com.sip.sip.controller;
+package com.sip.sip.config.controller;
 
 import com.sip.sip.dto.AtualizarUsuarioDTO;
 import com.sip.sip.exception.ProjetoNotFoundException;
@@ -24,7 +24,7 @@ public class UsuarioController {
         this.usuarioService = usuarioService;
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<List<Usuario>> listarUsuarios(Model model) {
         List<Usuario> usuarios = usuarioService.listarUsuarios();
         return ResponseEntity.status(HttpStatus.OK).body(usuarios);
@@ -34,21 +34,15 @@ public class UsuarioController {
         Usuario usuario = usuarioService.buscarUsuarioPorId(id);
         return ResponseEntity.status(HttpStatus.OK).body(usuario);
     }
+
+    @GetMapping("/buscarPorEmail/{email}")
+    public ResponseEntity<Usuario> buscarUsuarioPorEmail(@PathVariable(value = "email") String email) {
+        Usuario usuario = usuarioService.buscarUsuarioPorEmail(email);
+        return ResponseEntity.status(HttpStatus.OK).body(usuario);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<Usuario> atualizarUsuario(@PathVariable(value = "id") long id, @RequestBody AtualizarUsuarioDTO atualizarUsuarioDTO) throws ProjetoNotFoundException {
         return ResponseEntity.status(HttpStatus.OK).body(usuarioService.atualizarUsuario(id, atualizarUsuarioDTO));
     }
-
-    /*
-    @PostMapping("/criar-projeto")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Usuario criarUsuario(UsuarioCadastroDTO usuarioCadastroDTO) {
-        Usuario usuario = new Usuario();
-        usuario.setNome(usuarioCadastroDTO.getNome());
-        usuario.setEmail(usuarioCadastroDTO.getEmail());
-        usuario.setSenha(usuarioCadastroDTO.getSenha());
-        return usuarioService.criarUsuario(usuario);
-    }*/
-
-
 }

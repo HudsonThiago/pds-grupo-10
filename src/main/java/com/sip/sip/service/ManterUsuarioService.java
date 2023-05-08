@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static java.util.Objects.isNull;
+
 @Service
 public class ManterUsuarioService {
 
@@ -24,7 +26,11 @@ public class ManterUsuarioService {
     public Usuario buscarUsuarioPorId(Long id){
         return usuarioDAOJPA.buscarUsuarioPorId(id);
     }
-    
+
+    public Usuario buscarUsuarioPorEmail(String email){
+        return usuarioDAOJPA.buscarUsuarioPorEmail(email);
+    }
+
     public Usuario criarUsuario(UsuarioCadastroDTO usuarioDto){
 
         Usuario usuario = new Usuario();
@@ -47,9 +53,14 @@ public class ManterUsuarioService {
         return usuarioDAOJPA.atualizarUsuario(usuario);
     }
 
+    public String login(String email, String senha){
+        Usuario usuario = usuarioDAOJPA.buscarUsuarioPorEmail(email);
 
-
-    public boolean Login(String email, String senha){
-        return usuarioDAOJPA.Login(email, senha);
+        if(!isNull(usuario)){
+            if(usuario.getEmail().equals(email) && usuario.getSenha().equals(senha)){
+                return "redirect:/dashboard";
+            }
+        }
+        return "redirect:/";
     }
 }
