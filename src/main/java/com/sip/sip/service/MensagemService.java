@@ -2,6 +2,7 @@ package com.sip.sip.service;
 
 import com.sip.sip.dao.MensagemDAO;
 import com.sip.sip.dto.MensagemDTO;
+import com.sip.sip.dto.MensagemEnviadaDTO;
 import com.sip.sip.exception.MensagemNotFoundException;
 import com.sip.sip.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class MensagemService implements IMensagemService {
@@ -29,6 +30,11 @@ public class MensagemService implements IMensagemService {
 		return mensagemDAO.listarMensagens();
 	}
 
+	@Override
+	public List<Mensagem> listarMensagensPorDestinatario(Usuario dest) {
+		return mensagemDAO.listarMensagemPorDestinatario(dest);
+	}
+
 	public MensagemDTO buscarMensagemPorId(Long id) throws MensagemNotFoundException {
 		Mensagem mensagemExistente = mensagemDAO.buscarMensagemPorId(id);
         if (mensagemExistente == null) {
@@ -38,11 +44,10 @@ public class MensagemService implements IMensagemService {
 	}
 
 
-	private MensagemDTO mensagemToMensagemDTO(Mensagem m) {
+	public MensagemDTO mensagemToMensagemDTO(Mensagem m) {
 		MensagemDTO dto = new MensagemDTO();
 		dto.setId(m.getId());
 
-		if(m.getTitulo() != null) dto.setTitulo(m.getTitulo());
 		if(m.getConteudo() != null) dto.setConteudo(m.getConteudo());
 
 		if(m.getUsuarioRemetente() != null) {
@@ -55,19 +60,38 @@ public class MensagemService implements IMensagemService {
 			Pair<String, Long> usuarioDestinatario = Pair.of(
 					m.getUsuarioDestinatario().getNome(),
 					m.getUsuarioDestinatario().getId());
-			dto.setUsuarioRemetente(usuarioDestinatario);
+			dto.setUsuarioDestinatario(usuarioDestinatario);
 		}
-		dto.setTimestamp(m.getTimestamp());
+
+		if (m.getTimestamp() == null) {
+			dto.setTimestamp(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")));
+		} else {
+			String timestampString = m.getTimestamp();
+
+			// timestamp -> LocalDateTime
+			DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+			LocalDateTime dateTime = LocalDateTime.parse(timestampString, inputFormatter);
+
+			// Formata LocalDateTime
+			DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("hh:mm a | dd 'de' MMMM", Locale.forLanguageTag("pt-BR"));
+			String formattedDateTime = dateTime.format(outputFormatter);
+
+			dto.setTimestamp(formattedDateTime);
+		}
 		return dto;
 	}
-	private Mensagem mensagemDTOToMensagem(MensagemDTO dto) {
+	public Mensagem mensagemDTOToMensagem(MensagemDTO dto) {
 		Mensagem mensagem = new Mensagem();
 
-		if(dto.getTitulo() != null) mensagem.setTitulo(dto.getTitulo());
 		if(dto.getConteudo() != null) mensagem.setConteudo(dto.getConteudo());
 
 		//todo obter remetente e setar
 
+		if(dto.getUsuarioRemetente() != null) {
+			Long remetenteId = dto.getUsuarioRemetente().getSecond();
+			Usuario remetente = usuarioService.buscarUsuarioPorId(remetenteId);
+			mensagem.setUsuarioRemetente(remetente);
+		}
 
 		if(dto.getUsuarioDestinatario() != null) {
 			Long destinatarioId = dto.getUsuarioDestinatario().getSecond();
@@ -84,11 +108,48 @@ public class MensagemService implements IMensagemService {
 		return mensagem;
 	}
 
+	public Mensagem mensagemEnviadaDTOToMensagem(MensagemEnviadaDTO dto) {
+		Mensagem mensagem = new Mensagem();
+
+		if(dto.getConteudo() != null) mensagem.setConteudo(dto.getConteudo());
+
+		//todo obter remetente e setar
+
+		Usuario remetente = usuarioService.buscarUsuarioPorId(2l);
+		mensagem.setUsuarioRemetente(remetente);
 
 
+		if(dto.getUsuarioDestinatario() != null) {
+			Long destinatarioId = dto.getUsuarioDestinatario();
+			Usuario destinatario = usuarioService.buscarUsuarioPorId(destinatarioId);
+			mensagem.setUsuarioDestinatario(destinatario);
+		}
 
-	public MensagemDTO criarMensagem(MensagemDTO dto) {
-		Mensagem mensagem = mensagemDTOToMensagem(dto);
+		LocalDateTime currentDateTime = LocalDateTime.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+		String timestamp = currentDateTime.format(formatter);
+
+		mensagem.setTimestamp(timestamp);
+
+		return mensagem;
+	}
+
+	public Map<Long, List<MensagemDTO>> listarConversas(Usuario usuario) {
+		Map<Long, List<Mensagem>> conversas = mensagemDAO.listarConversas(usuario);
+
+		Map<Long, List<MensagemDTO>> conversasDTO = new HashMap<>();
+
+		conversas.forEach((id, mensagens) -> {
+			List<MensagemDTO> mensagensDTO = new ArrayList<>();
+			mensagens.forEach(mensagem -> mensagensDTO.add(mensagemToMensagemDTO(mensagem)));
+			conversasDTO.put(id, mensagensDTO);
+		});
+		return conversasDTO;
+	}
+
+
+	public MensagemDTO criarMensagem(MensagemEnviadaDTO dto) {
+		Mensagem mensagem = mensagemEnviadaDTOToMensagem(dto);
 
 		// salvar mensagem
 		Mensagem novaMensagem = mensagemDAO.criarMensagem(mensagem);

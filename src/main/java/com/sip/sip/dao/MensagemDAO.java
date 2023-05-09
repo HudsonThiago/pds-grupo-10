@@ -8,6 +8,8 @@ import com.sip.sip.model.Usuario;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
+
 public interface MensagemDAO {
 
 	List<Mensagem> listarMensagens();
@@ -22,5 +24,5 @@ public interface MensagemDAO {
 
 	void excluirMensagem(Long id);
 
-
+	Map<Long, List<Mensagem>> listarConversas(Usuario usuario);
 }

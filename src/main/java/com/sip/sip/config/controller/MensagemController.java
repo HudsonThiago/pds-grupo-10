@@ -1,6 +1,7 @@
 package com.sip.sip.config.controller;
 
 import com.sip.sip.dto.MensagemDTO;
+import com.sip.sip.dto.MensagemEnviadaDTO;
 import com.sip.sip.exception.MensagemNotFoundException;
 import com.sip.sip.model.Mensagem;
 import com.sip.sip.service.IMensagemService;
@@ -33,8 +34,8 @@ public class MensagemController {
 
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    public MensagemDTO criarMensagem(Model model, @RequestBody MensagemDTO mensagemDTO) throws IOException {
-        return mensagemService.criarMensagem(mensagemDTO);
+    public MensagemDTO criarMensagem(Model model, @RequestBody MensagemEnviadaDTO mensagemEnviadaDTO) throws IOException {
+        return mensagemService.criarMensagem(mensagemEnviadaDTO);
     }
     
     @DeleteMapping("/{id}")

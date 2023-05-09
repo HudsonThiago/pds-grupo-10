@@ -13,6 +13,8 @@ import java.util.List;
 public interface MensagemRepository extends CrudRepository<Mensagem,Long>{
     List<Mensagem> findByUsuarioDestinatario(Usuario usuario);
 
+    List<Mensagem> findByUsuarioDestinatarioIdOrUsuarioRemetenteId(Long id1, Long id2);
+
 
 }
 

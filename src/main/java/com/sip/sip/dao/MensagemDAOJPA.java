@@ -5,9 +5,7 @@ import com.sip.sip.model.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 
 @Repository("MensagemDAOJPA")
@@ -49,6 +47,23 @@ public class MensagemDAOJPA implements MensagemDAO {
 		mensagemRepository.deleteById(id);
 	}
 
+	@Override
+	public Map<Long, List<Mensagem>> listarConversas(Usuario usuario) {
+		List<Mensagem> mensagens = mensagemRepository.findByUsuarioDestinatarioIdOrUsuarioRemetenteId(usuario.getId(),usuario.getId());
+		Map<Long, List<Mensagem>> conversas = new HashMap<>();
+
+		for (Mensagem mensagem : mensagens) {
+			Long outroUsuarioId = mensagem.getUsuarioRemetente().equals(usuario) ?
+					mensagem.getUsuarioDestinatario().getId() :
+					mensagem.getUsuarioRemetente().getId();
+
+			if (!conversas.containsKey(outroUsuarioId)) {
+				conversas.put(outroUsuarioId, new ArrayList<>());
+			}
+			conversas.get(outroUsuarioId).add(mensagem);
+		}
+		return conversas;
+	}
 
 
 }

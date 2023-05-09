@@ -1,14 +1,29 @@
 package com.sip.sip.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.util.Pair;
 
 public class MensagemDTO {
     private Long id;
-    private String titulo;
     private String conteudo;
     private Pair<String,Long> usuarioRemetente;
     private Pair<String,Long> usuarioDestinatario;
     private String timestamp;
+
+    public MensagemDTO(String conteudo, Pair<String, Long> usuarioRemetente, Pair<String, Long> usuarioDestinatario, String timestamp) {
+        this.conteudo = conteudo;
+        this.usuarioRemetente = usuarioRemetente;
+        this.usuarioDestinatario = usuarioDestinatario;
+        this.timestamp = timestamp;
+    }
+
+
+    public static MensagemDTO MensagemDTO(String conteudo, Long usuarioRemetente, Long usuarioDestinatario) {
+        return new MensagemDTO(conteudo, Pair.of(null, usuarioRemetente), Pair.of(null, usuarioDestinatario), null);
+    }
+
+    public MensagemDTO() {}
 
     public Long getId() {
         return id;
@@ -16,14 +31,6 @@ public class MensagemDTO {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
     }
 
     public String getConteudo() {

@@ -7,7 +7,6 @@ public class Mensagem {
     @Id
     @GeneratedValue(strategy= GenerationType.SEQUENCE)
     private Long id;
-    private String titulo;
     private String conteudo;
     @OneToOne
     private Usuario usuarioRemetente;
@@ -21,14 +20,6 @@ public class Mensagem {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
     }
 
     public String getConteudo() {
