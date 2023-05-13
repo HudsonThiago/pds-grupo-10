@@ -29,8 +29,6 @@ public class ManterMensagensPrivadasController {
     @GetMapping("/")
     public String showMensagens(Model model) {
         Usuario principal = usuarioService.buscarUsuarioPorId(2l);
-        List<Mensagem> mensagensList = mensagemService.listarMensagensPorDestinatario(principal);
-        List<MensagemDTO> mensagens = mensagensList.stream().map(m -> mensagemService.mensagemToMensagemDTO(m)).collect(Collectors.toList());
         Map<Long, List<MensagemDTO>> conversas = mensagemService.listarConversas(principal);
         model.addAttribute("conversas", conversas);
         model.addAttribute("principal", principal);
@@ -41,8 +39,6 @@ public class ManterMensagensPrivadasController {
     @GetMapping("/{outroUsuarioId}")
     public String showMensagensParaUsuario(Model model, @PathVariable Long outroUsuarioId) {
         Usuario principal = usuarioService.buscarUsuarioPorId(2l);
-        List<Mensagem> mensagensList = mensagemService.listarMensagensPorDestinatario(principal);
-        List<MensagemDTO> mensagens = mensagensList.stream().map(m -> mensagemService.mensagemToMensagemDTO(m)).collect(Collectors.toList());
         Map<Long, List<MensagemDTO>> conversas = mensagemService.listarConversas(principal);
         model.addAttribute("conversas", conversas);
         model.addAttribute("principal", principal);

@@ -115,7 +115,8 @@ public class MensagemService implements IMensagemService {
 
 		//todo obter remetente e setar
 
-		Usuario remetente = usuarioService.buscarUsuarioPorId(2l);
+
+		Usuario remetente = usuarioService.buscarUsuarioPorId(dto.getUsuarioRemetente());
 		mensagem.setUsuarioRemetente(remetente);
 
 
