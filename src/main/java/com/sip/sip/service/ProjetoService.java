@@ -162,4 +162,15 @@ public class ProjetoService implements IProjetoService {
 
 	}
 
+	public Boolean ehMembro(Long idUsuario, Long idProjeto) {
+		Boolean encontrado = false;
+		List<Usuario> membros = projetoDAO.buscarProjetoPorId(idProjeto).getMembros();
+		for (Usuario membro : membros) {
+			if (membro.getId() == idUsuario) {
+				encontrado = true;
+			}
+		}
+		return encontrado;
+	}
+
 }
