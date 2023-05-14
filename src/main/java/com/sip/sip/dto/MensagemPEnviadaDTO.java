@@ -1,12 +1,13 @@
 package com.sip.sip.dto;
 
 
-public class MensagemEnviadaDTO {
+public class MensagemPEnviadaDTO {
     private String conteudo;
     private Long usuarioDestinatario;
+    // temp todo auth
     private Long usuarioRemetente;
 
-    public MensagemEnviadaDTO(String conteudo, Long usuarioRemetente, Long usuarioDestinatario) {
+    public MensagemPEnviadaDTO(String conteudo, Long usuarioRemetente, Long usuarioDestinatario) {
         this.conteudo = conteudo;
         this.usuarioDestinatario = usuarioDestinatario;
         this.usuarioRemetente = usuarioRemetente;

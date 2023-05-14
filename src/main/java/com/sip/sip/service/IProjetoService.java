@@ -19,4 +19,6 @@ public interface IProjetoService {
     Projeto atualizarProjeto(Long id, Projeto projeto) throws ProjetoNotFoundException;
 
     void excluirProjeto(Long id) throws ProjetoNotFoundException;
+
+    Boolean ehMembro(Long idUsuario, Long idProjeto);
 }

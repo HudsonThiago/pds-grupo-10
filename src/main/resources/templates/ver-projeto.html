@@ -17,7 +17,7 @@
         <div class="card-body">
           <div class="d-flex justify-content-between align-items-center">
             <h2 class="card-title" th:text="${projeto.nome}"></h2>
-            <button type="button" class="btn btn-secondary rounded-pill btn-sm">Abrir Chat <i class="fa-solid fa-comment"></i></button>
+            <a th:if="${ehMembro}" type="button" th:href="@{/chat/{id}(id=${projeto.id})}" class="btn btn-secondary rounded-pill btn-sm">Abrir Chat <i class="fa-solid fa-comment"></i></a>
           </div>
           <p class="card-text" th:text="${projeto.descricao}"></p>
 
@@ -67,5 +67,6 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+<script th:src="@{/js/ver-projeto.js}"></script>
 </body>
 </html>

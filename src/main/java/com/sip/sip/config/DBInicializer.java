@@ -2,19 +2,21 @@ package com.sip.sip.config;
 
 import com.sip.sip.dao.TecnologiaDAOJPA;
 import com.sip.sip.dao.UsuarioDAOJPA;
-import com.sip.sip.dto.MensagemDTO;
-import com.sip.sip.dto.MensagemEnviadaDTO;
+import com.sip.sip.dto.MensagemCEnviadaDTO;
+import com.sip.sip.dto.MensagemPEnviadaDTO;
+import com.sip.sip.dto.ProjetoCadastroDTO;
+import com.sip.sip.exception.ProjetoNotFoundException;
 import com.sip.sip.model.Tecnologia;
 import com.sip.sip.model.Usuario;
-import com.sip.sip.service.IMensagemService;
+import com.sip.sip.service.IMensagemCService;
+import com.sip.sip.service.IMensagemPService;
+import com.sip.sip.service.IProjetoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Component
 public class DBInicializer implements CommandLineRunner {
@@ -22,7 +24,12 @@ public class DBInicializer implements CommandLineRunner {
     private UsuarioDAOJPA usuario;
 
     @Autowired
-    private IMensagemService mensagemService;
+    private IMensagemPService mensagemPService;
+
+    @Autowired
+    private IMensagemCService mensagemCService;
+    @Autowired
+    private IProjetoService projetoService;
 
     public DBInicializer(TecnologiaDAOJPA tecnologia, UsuarioDAOJPA usuario) {
         this.tecnologia = tecnologia;
@@ -34,6 +41,8 @@ public class DBInicializer implements CommandLineRunner {
         instanciarTecnologias();
         instanciarUsuarios();
         instanciarMensagens();
+        instanciarProjetos();
+        instanciarMensagensChat();
     }
 
     private void instanciarTecnologias() {
@@ -54,11 +63,29 @@ public class DBInicializer implements CommandLineRunner {
     }
 
     private void instanciarMensagens() throws IOException {
-        mensagemService.criarMensagem(new MensagemEnviadaDTO("teste do user1 para o 2", 2l, 3l));
-        mensagemService.criarMensagem(new MensagemEnviadaDTO("teste do user2 para o 1", 3l, 2l));
-        mensagemService.criarMensagem(new MensagemEnviadaDTO("teste do user3 para o 1", 4l, 2l));
-        mensagemService.criarMensagem(new MensagemEnviadaDTO("teste do user1 para o 3", 2l, 4l));
-        mensagemService.criarMensagem(new MensagemEnviadaDTO("teste do user2 para o 3", 3l, 4l));
+        mensagemPService.criarMensagem(new MensagemPEnviadaDTO("teste do user1 para o 2", 2l, 3l));
+        mensagemPService.criarMensagem(new MensagemPEnviadaDTO("teste do user2 para o 1", 3l, 2l));
+        mensagemPService.criarMensagem(new MensagemPEnviadaDTO("teste do user3 para o 1", 4l, 2l));
+        mensagemPService.criarMensagem(new MensagemPEnviadaDTO("teste do user1 para o 3", 2l, 4l));
+        mensagemPService.criarMensagem(new MensagemPEnviadaDTO("teste do user2 para o 3", 3l, 4l));
+
+    }
+
+    private void instanciarProjetos() throws IOException {
+        projetoService.criarProjeto(new ProjetoCadastroDTO("projeto1","um projeto", 0,
+                0,0, null,null));
+        projetoService.criarProjeto(new ProjetoCadastroDTO("projeto2","um projeto", 0,
+                0,0, null,null));
+        projetoService.criarProjeto(new ProjetoCadastroDTO("projeto3","um projeto", 0,
+                0,0, null,null));
+    }
+    private void instanciarMensagensChat() throws IOException, ProjetoNotFoundException {
+//        mensagemCService.criarMensagem(new MensagemCEnviadaDTO("teste do user1 para o projeto 2", 2l, 3l));
+        mensagemCService.criarMensagem(new MensagemCEnviadaDTO("teste do user1 para o projeto 1", 2l, 1l));
+        mensagemCService.criarMensagem(new MensagemCEnviadaDTO("teste do user3 para o projeto 1", 4l, 1l));
+        mensagemCService.criarMensagem(new MensagemCEnviadaDTO("teste do user2 para o projeto 1", 3l, 1l));
+//        mensagemCService.criarMensagem(new MensagemCEnviadaDTO("teste do user1 para o projeto 3", 2l, 4l));
+//        mensagemCService.criarMensagem(new MensagemCEnviadaDTO("teste do user2 para o projeto 3", 3l, 4l));
 
     }
 }
