@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.Objects.isNull;
 
@@ -59,22 +60,21 @@ public class ManterUsuarioService {
         return "redirect:/";
     }
 
-    public void addModel(Model model, UsuarioCadastroDTO usuarioDto){
-
+    public void excluirUsuario(Long id){
+        usuarioDAOJPA.excluirUsuario(id);
     }
 
     public Usuario atualizarUsuario(long id, AtualizarUsuarioDTO atualizarUsuarioDTO) throws ProjetoNotFoundException{
-        Usuario usuario = buscarUsuarioPorId(id);
-        if (usuario == null) {
+        Optional<Usuario> usuario = Optional.of(buscarUsuarioPorId(id));
+
+        if (usuario.isEmpty()) {
             throw new ProjetoNotFoundException("Usuario não encontrado com id: " + id);
         }
-        if(atualizarUsuarioDTO.getNome() != null) usuario.setNome(atualizarUsuarioDTO.getNome());
-        if(atualizarUsuarioDTO.getEmail() != null) usuario.setEmail(atualizarUsuarioDTO.getEmail());
-        if(atualizarUsuarioDTO.getDescricao() != null) usuario.setDescricao(atualizarUsuarioDTO.getDescricao());
-        if(atualizarUsuarioDTO.getSenha() != null) usuario.setSenha(atualizarUsuarioDTO.getSenha());
-        usuario.setTecnologias(atualizarUsuarioDTO.getTecnologias());
+        if(atualizarUsuarioDTO.getNome() != null) usuario.get().setNome(atualizarUsuarioDTO.getNome());
+        if(atualizarUsuarioDTO.getEmail() != null) usuario.get().setEmail(atualizarUsuarioDTO.getEmail());
+        if(atualizarUsuarioDTO.getDescricao() != null) usuario.get().setDescricao(atualizarUsuarioDTO.getDescricao());
 
-        return usuarioDAOJPA.atualizarUsuario(usuario);
+        return usuarioDAOJPA.atualizarUsuario(usuario.get());
     }
 
     public String login(RedirectAttributes attributes, String email, String senha){
@@ -85,7 +85,7 @@ public class ManterUsuarioService {
                 UsuarioLogado usuarioLogado = new UsuarioLogado();
                 usuarioLogado.id = usuario.getId();
                 usuarioLogado.nome = usuario.getNome();
-                return "redirect:/dashboard";
+                return "redirect:/explorar-projetos";
             } else {
                 attributes.addFlashAttribute("senhaError", "Email ou senha incorretas, tente novamente!");
             }

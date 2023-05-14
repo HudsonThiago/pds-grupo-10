@@ -41,4 +41,8 @@ public class UsuarioDAOJPA implements UsuarioDAO{
     public Usuario atualizarUsuario(Usuario usuario) {
         return usuarioRepository.save(usuario);
     }
+    @Override
+    public void excluirUsuario(Long id) {
+        usuarioRepository.deleteById(id);
+    }
 }

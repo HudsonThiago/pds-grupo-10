@@ -1,4 +1,4 @@
-package com.sip.sip.config.controller;
+package com.sip.sip.controller;
 
 import com.sip.sip.dto.UsuarioCadastroDTO;
 import com.sip.sip.model.Usuario;

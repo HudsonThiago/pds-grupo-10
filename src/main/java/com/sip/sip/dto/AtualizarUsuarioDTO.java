@@ -7,9 +7,8 @@ import java.util.List;
 public class AtualizarUsuarioDTO {
     private String nome;
     private String email;
-    private String senha;
     private String descricao;
-    private List<Tecnologia> tecnologias;
+    private List<Integer> tecnologias;
 
     public String getNome() {
         return nome;
@@ -27,14 +26,6 @@ public class AtualizarUsuarioDTO {
         this.email = email;
     }
 
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
     public String getDescricao() {
         return descricao;
     }
@@ -43,11 +34,11 @@ public class AtualizarUsuarioDTO {
         this.descricao = descricao;
     }
 
-    public List<Tecnologia> getTecnologias() {
+    public List<Integer> getTecnologias() {
         return tecnologias;
     }
 
-    public void setTecnologias(List<Tecnologia> tecnologias) {
+    public void setTecnologias(List<Integer> tecnologias) {
         this.tecnologias = tecnologias;
     }
 }

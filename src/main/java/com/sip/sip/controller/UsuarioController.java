@@ -1,4 +1,4 @@
-package com.sip.sip.config.controller;
+package com.sip.sip.controller;
 
 import com.sip.sip.dto.AtualizarUsuarioDTO;
 import com.sip.sip.exception.ProjetoNotFoundException;
@@ -18,7 +18,7 @@ import java.util.Optional;
 public class UsuarioController {
 
     @Autowired
-    final ManterUsuarioService usuarioService;
+    private ManterUsuarioService usuarioService;
 
     public UsuarioController(ManterUsuarioService usuarioService) {
         this.usuarioService = usuarioService;
