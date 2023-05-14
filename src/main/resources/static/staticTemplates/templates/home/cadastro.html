@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Criação de Projeto</title>
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+            integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+Z58SLqOqk8WQu2Ew0MId5Ppzr+D5X"
+            crossorigin="anonymous"
+        />
+        <script
+            src="https://kit.fontawesome.com/7fd798150d.js"
+            crossorigin="anonymous"
+        ></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Roboto:ital,wght@0,100;0,300;0,500;0,700;1,900&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+            integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+            crossorigin="anonymous"
+        />
+        <link
+            rel="stylesheet"
+            href="../../static/css/bootstrap-select.min.css"
+        />
+        <link rel="stylesheet" href="../../static/css/core.css" />
+        <link rel="stylesheet" href="../../static/css/inputs.css" />
+        <link rel="stylesheet" href="../../static/css/containers.css" />
+    </head>
+    <body>
+        <img
+            class="homeLayer"
+            src="../../static/image/homeLayer.svg"
+            alt="homeLayer"
+            draggable="false"
+        />
+        <div class="homeContainer">
+            <div class="leftColumn">
+                <a class="backButton" href="index.html">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <p>Voltar</p>
+                </a>
+                <h1 class="boldTitle">Cadastro</h1>
+                <form method="post">
+                    <label class="inputContainer" for="nome">
+                        <h4 class="inputLabel">Nome</h4>
+                        <div class="inputBox">
+                            <div class="inputIconBox">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                            <input
+                                class="textField"
+                                id="nome"
+                                name="nome"
+                                type="text"
+                                required
+                            />
+                        </div>
+                    </label>
+
+                    <label class="inputContainer" for="email">
+                        <h4 class="inputLabel">Email</h4>
+                        <div class="inputBox">
+                            <div class="inputIconBox">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <input
+                                class="textField"
+                                id="email"
+                                name="email"
+                                type="email"
+                                required
+                            />
+                        </div>
+                        <div class="errorText">
+                            <i class="fa-solid fa-circle-xmark"></i>
+                            <p>Este email já foi cadastrado</p>
+                        </div>
+                    </label>
+
+                    <label class="inputContainer" for="senha">
+                        <h4 class="inputLabel">Senha</h4>
+                        <div class="inputBox">
+                            <div class="inputIconBox">
+                                <i class="fa-solid fa-lock"></i>
+                            </div>
+                            <input
+                                class="textField"
+                                id="senha"
+                                name="senha"
+                                type="password"
+                                required
+                            />
+                        </div>
+                    </label>
+
+                    <label class="inputContainer" for="confirmarSenha">
+                        <h4 class="inputLabel">Confirmar senha</h4>
+                        <div class="inputBox">
+                            <div class="inputIconBox">
+                                <i class="fa-solid fa-lock"></i>
+                            </div>
+                            <input
+                                class="textField"
+                                id="confirmarSenha"
+                                name="confirmarSenha"
+                                type="password"
+                                required
+                            />
+                        </div>
+                        <div class="errorText">
+                            <i class="fa-solid fa-circle-xmark"></i>
+                            <p>As senhas não são iguais</p>
+                        </div>
+                    </label>
+                    <button class="button" type="submit">Cadastrar</button>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

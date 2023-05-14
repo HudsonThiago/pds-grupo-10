@@ -52,7 +52,13 @@ public class ManterProjetoController {
 
     @GetMapping("/ver-projeto/{id}")
     public String verProjeto(Model model, @PathVariable Long id) throws ProjetoNotFoundException {
+        // todo auth
+        Usuario principal =  usuarioService.buscarUsuarioPorId(2l);
+
         ProjetoDTO projeto = projetoService.buscarProjetoPorId(id);
+        Boolean ehMembro = projetoService.ehMembro(principal.getId(), projeto.getId());
+        ehMembro = true; // debug
+        model.addAttribute("ehMembro", ehMembro);
         model.addAttribute("projeto", projeto);
         return "ver-projeto";
     }
