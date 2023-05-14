@@ -55,11 +55,13 @@ public class ProjetoService implements IProjetoService {
 				dto.getDiasPorSemana()));
 		projeto.setNumDeVagas(dto.getNumDeVagas());
 		List<Long> tecnologiasEscolhidasId = dto.getTecnologiasEscolhidasId();
-		List<Tecnologia> tecnologiasEscolhidas =
-				tecnologiasEscolhidasId.stream().map((id) -> {
-					return tecnologiaDAO.buscarTecnologia(id);
-				}).collect(Collectors.toList());
-		projeto.setTecnologias((ArrayList<Tecnologia>) tecnologiasEscolhidas);
+		if (dto.getTecnologiasEscolhidasId() != null) {
+			List<Tecnologia> tecnologiasEscolhidas =
+					tecnologiasEscolhidasId.stream().map((id) -> {
+						return tecnologiaDAO.buscarTecnologia(id);
+					}).collect(Collectors.toList());
+			projeto.setTecnologias((ArrayList<Tecnologia>) tecnologiasEscolhidas);
+		}
 		return projeto;
 	}
 
@@ -75,14 +77,17 @@ public class ProjetoService implements IProjetoService {
 		dto.setHorasPorSemana(p.getDisponibilidade().getHorasPorSemana());
 
 		dto.setNumDeVagas(p.getNumDeVagas());
-		Map<String, Long> tecnologiasId = p.getTecnologias().stream()
-				.collect(Collectors.toMap(
-						tecnologia -> tecnologia.getNome(),
-						tecnologia -> tecnologia.getId()
-						)
-				);
 
-		dto.setTecnologiasEscolhidasId(tecnologiasId);
+		if (dto.getTecnologiasEscolhidasId() != null) {
+			Map<String, Long> tecnologiasId = p.getTecnologias().stream()
+					.collect(Collectors.toMap(
+							tecnologia -> tecnologia.getNome(),
+							tecnologia -> tecnologia.getId()
+							)
+					);
+			dto.setTecnologiasEscolhidasId(tecnologiasId);
+		}
+
 		dto.setImagemUrl(p.getImagemUrl());
 
 		if (p.getUsuariosProjeto() == null) return dto;
@@ -104,7 +109,7 @@ public class ProjetoService implements IProjetoService {
 		// salvar projeto sem imagem
 		Projeto novoProjeto = projetoDAO.criarProjeto(projeto);
 		Long id = novoProjeto.getId();
-		if(novoProjeto.getImagemUrl() == "default.jpg") return projetoToProjetoDTO(novoProjeto);
+		if(novoProjeto.getImagemUrl() == "/imagens/default.jpg") return projetoToProjetoDTO(novoProjeto);
 
 		// obter imagem
 		MultipartFile arquivo = dto.getImagem();
@@ -171,6 +176,13 @@ public class ProjetoService implements IProjetoService {
 			}
 		}
 		return encontrado;
+	}
+	public Projeto retornarProjetoPorId(Long id) throws ProjetoNotFoundException {
+		Projeto projetoExistente = projetoDAO.buscarProjetoPorId(id);
+		if (projetoExistente == null) {
+			throw new ProjetoNotFoundException("Projeto não encontrado com id: " + id);
+		}
+		return projetoExistente;
 	}
 
 }

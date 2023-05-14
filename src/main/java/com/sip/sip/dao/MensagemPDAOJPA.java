@@ -8,48 +8,48 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 
 
-@Repository("MensagemDAOJPA")
-public class MensagemDAOJPA implements MensagemDAO {
+@Repository("MensagemPDAOJPA")
+public class MensagemPDAOJPA implements MensagemPDAO {
 
 	@Autowired
-	private MensagemRepository mensagemRepository;
+	private MensagemPRepository mensagemPRepository;
 
 	@Override
 	public List<MensagemPrivada> listarMensagens() {
 		List<MensagemPrivada> mensagem = new ArrayList<>();
-		mensagemRepository.findAll()
+		mensagemPRepository.findAll()
 				.forEach(mensagem::add);
 		return mensagem;
 	}
 
 	@Override
 	public MensagemPrivada buscarMensagemPorId(Long id) {
-		Optional<MensagemPrivada> mensagemOptional = mensagemRepository.findById(id);
+		Optional<MensagemPrivada> mensagemOptional = mensagemPRepository.findById(id);
 		return mensagemOptional.orElse(null);
 	}
 	@Override
 	public List<MensagemPrivada> listarMensagemPorDestinatario(Usuario destinatario) {
-		return mensagemRepository.findByUsuarioDestinatario(destinatario);
+		return mensagemPRepository.findByUsuarioDestinatario(destinatario);
 
 	}
 	@Override
 	public MensagemPrivada criarMensagem(MensagemPrivada mensagem) {
-		return mensagemRepository.save(mensagem);
+		return mensagemPRepository.save(mensagem);
 	}
 
 	@Override
 	public MensagemPrivada atualizarMensagem(MensagemPrivada mensagem) {
-		return mensagemRepository.save(mensagem);
+		return mensagemPRepository.save(mensagem);
 	}
 
 	@Override
 	public void excluirMensagem(Long id) {
-		mensagemRepository.deleteById(id);
+		mensagemPRepository.deleteById(id);
 	}
 
 	@Override
 	public Map<Long, List<MensagemPrivada>> listarConversas(Usuario usuario) {
-		List<MensagemPrivada> mensagens = mensagemRepository.findByUsuarioDestinatarioIdOrUsuarioRemetenteId(usuario.getId(),usuario.getId());
+		List<MensagemPrivada> mensagens = mensagemPRepository.findByUsuarioDestinatarioIdOrUsuarioRemetenteId(usuario.getId(),usuario.getId());
 		Map<Long, List<MensagemPrivada>> conversas = new HashMap<>();
 
 		for (MensagemPrivada mensagem : mensagens) {

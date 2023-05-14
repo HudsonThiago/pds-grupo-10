@@ -1,8 +1,10 @@
 package com.sip.sip.controller;
 
-import com.sip.sip.dto.MensagemDTO;
+import com.sip.sip.dto.MensagemCDTO;
+import com.sip.sip.dto.MensagemPDTO;
 import com.sip.sip.dto.ProjetoDTO;
 import com.sip.sip.exception.ProjetoNotFoundException;
+import com.sip.sip.model.MensagemChat;
 import com.sip.sip.model.Usuario;
 import com.sip.sip.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,7 @@ public class ManterChatController {
     private ITecnologiaService tecnologiaService;
 
     @Autowired
-    private IMensagemService mensagemService;
+    private IMensagemCService mensagemService;
 
     @Autowired
     private IProjetoService projetoService;
@@ -38,13 +40,12 @@ public class ManterChatController {
         //todo auth
         Usuario principal = usuarioService.buscarUsuarioPorId(2l);
         ProjetoDTO projeto = projetoService.buscarProjetoPorId(projetoId);
-        Map<Long, List<MensagemDTO>> conversas = mensagemService.listarConversas(principal);
+        List<MensagemCDTO> mensagens = mensagemService.listarMensagensPorProjetoDestinatario(projetoId);
 
-        model.addAttribute("conversas", conversas);
+        model.addAttribute("mensagens", mensagens);
         model.addAttribute("principal", principal);
         model.addAttribute("projeto", projeto);
-        // debug
-        model.addAttribute("outroUsuarioId", 3l);
+
         return "chat";
     }
 

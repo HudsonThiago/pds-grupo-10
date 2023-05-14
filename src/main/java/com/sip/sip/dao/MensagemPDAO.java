@@ -6,7 +6,7 @@ import com.sip.sip.model.Usuario;
 import java.util.List;
 import java.util.Map;
 
-public interface MensagemDAO {
+public interface MensagemPDAO {
 
 	List<MensagemPrivada> listarMensagens();
 

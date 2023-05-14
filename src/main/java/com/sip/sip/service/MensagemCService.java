@@ -1,10 +1,13 @@
 package com.sip.sip.service;
 
-import com.sip.sip.dao.MensagemDAO;
-import com.sip.sip.dto.MensagemDTO;
-import com.sip.sip.dto.MensagemEnviadaDTO;
+import com.sip.sip.dao.MensagemCDAO;
+import com.sip.sip.dto.*;
+import com.sip.sip.dto.MensagemCDTO;
 import com.sip.sip.exception.MensagemNotFoundException;
-import com.sip.sip.model.*;
+import com.sip.sip.exception.ProjetoNotFoundException;
+import com.sip.sip.model.MensagemChat;
+import com.sip.sip.model.Projeto;
+import com.sip.sip.model.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.util.Pair;
@@ -13,39 +16,43 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
-public class MensagemService implements IMensagemService {
+public class MensagemCService implements IMensagemCService {
 
 	@Autowired
-	@Qualifier("MensagemDAOJPA")
-	private MensagemDAO mensagemDAO;
+	@Qualifier("MensagemCDAOJPA")
+	private MensagemCDAO mensagemCDAO;
 
 	@Autowired
 	private ManterUsuarioService usuarioService;
+	@Autowired
+	private ProjetoService projetoService;
 
 
-
-	public List<MensagemPrivada> listarMensagens() {
-		return mensagemDAO.listarMensagens();
+	public List<MensagemChat> listarMensagens() {
+		return mensagemCDAO.listarMensagens();
 	}
 
 	@Override
-	public List<MensagemPrivada> listarMensagensPorDestinatario(Usuario dest) {
-		return mensagemDAO.listarMensagemPorDestinatario(dest);
+	public List<MensagemCDTO> listarMensagensPorProjetoDestinatario(Long id) throws ProjetoNotFoundException {
+		Projeto projeto = projetoService.retornarProjetoPorId(id);
+		List<MensagemChat> mensagens = mensagemCDAO.listarMensagemPorProjetoDestinatario(projeto);
+		return mensagens.stream().map(mensagem -> mensagemCToMensagemCDTO(mensagem)).collect(Collectors.toList());
 	}
 
-	public MensagemDTO buscarMensagemPorId(Long id) throws MensagemNotFoundException {
-		MensagemPrivada mensagemExistente = mensagemDAO.buscarMensagemPorId(id);
+	public MensagemCDTO buscarMensagemPorId(Long id) throws MensagemNotFoundException {
+		MensagemChat mensagemExistente = mensagemCDAO.buscarMensagemPorId(id);
         if (mensagemExistente == null) {
             throw new MensagemNotFoundException("Mensagem não encontrado com id: " + id);
         }
-        return mensagemToMensagemDTO(mensagemExistente);
+        return mensagemCToMensagemCDTO(mensagemExistente);
 	}
 
 
-	public MensagemDTO mensagemToMensagemDTO(MensagemPrivada m) {
-		MensagemDTO dto = new MensagemDTO();
+	public MensagemCDTO mensagemCToMensagemCDTO(MensagemChat m) {
+		MensagemCDTO dto = new MensagemCDTO();
 		dto.setId(m.getId());
 
 		if(m.getConteudo() != null) dto.setConteudo(m.getConteudo());
@@ -56,11 +63,9 @@ public class MensagemService implements IMensagemService {
 					m.getUsuarioRemetente().getId());
 			dto.setUsuarioRemetente(usuarioRemetente);
 		}
-		if(m.getUsuarioDestinatario() != null) {
-			Pair<String, Long> usuarioDestinatario = Pair.of(
-					m.getUsuarioDestinatario().getNome(),
-					m.getUsuarioDestinatario().getId());
-			dto.setUsuarioDestinatario(usuarioDestinatario);
+		if(m.getProjetoDestinatario() != null) {
+			Long projetoDestinatario = m.getProjetoDestinatario().getId();
+			dto.setProjetoDestinatario(projetoDestinatario);
 		}
 
 		if (m.getTimestamp() == null) {
@@ -80,8 +85,8 @@ public class MensagemService implements IMensagemService {
 		}
 		return dto;
 	}
-	public MensagemPrivada mensagemDTOToMensagem(MensagemDTO dto) {
-		MensagemPrivada mensagem = new MensagemPrivada();
+	public MensagemChat mensagemCDTOToMensagemC(MensagemCDTO dto) throws ProjetoNotFoundException {
+		MensagemChat mensagem = new MensagemChat();
 
 		if(dto.getConteudo() != null) mensagem.setConteudo(dto.getConteudo());
 
@@ -93,10 +98,10 @@ public class MensagemService implements IMensagemService {
 			mensagem.setUsuarioRemetente(remetente);
 		}
 
-		if(dto.getUsuarioDestinatario() != null) {
-			Long destinatarioId = dto.getUsuarioDestinatario().getSecond();
-			Usuario destinatario = usuarioService.buscarUsuarioPorId(destinatarioId);
-			mensagem.setUsuarioDestinatario(destinatario);
+		if(dto.getProjetoDestinatario() != null) {
+			Long destinatarioId = dto.getProjetoDestinatario();
+			Projeto destinatario = projetoService.retornarProjetoPorId(destinatarioId);
+			mensagem.setProjetoDestinatario(destinatario);
 		}
 
 		LocalDateTime currentDateTime = LocalDateTime.now();
@@ -108,8 +113,8 @@ public class MensagemService implements IMensagemService {
 		return mensagem;
 	}
 
-	public MensagemPrivada mensagemEnviadaDTOToMensagem(MensagemEnviadaDTO dto) {
-		MensagemPrivada mensagem = new MensagemPrivada();
+	public MensagemChat mensagemCEnviadaDTOToMensagemC(MensagemCEnviadaDTO dto) throws ProjetoNotFoundException {
+		MensagemChat mensagem = new MensagemChat();
 
 		if(dto.getConteudo() != null) mensagem.setConteudo(dto.getConteudo());
 
@@ -120,10 +125,10 @@ public class MensagemService implements IMensagemService {
 		mensagem.setUsuarioRemetente(remetente);
 
 
-		if(dto.getUsuarioDestinatario() != null) {
-			Long destinatarioId = dto.getUsuarioDestinatario();
-			Usuario destinatario = usuarioService.buscarUsuarioPorId(destinatarioId);
-			mensagem.setUsuarioDestinatario(destinatario);
+		if(dto.getProjetoDestinatario() != null) {
+			Long destinatarioId = dto.getProjetoDestinatario();
+			Projeto destinatario = projetoService.retornarProjetoPorId(destinatarioId);
+			mensagem.setProjetoDestinatario(destinatario);
 		}
 
 		LocalDateTime currentDateTime = LocalDateTime.now();
@@ -135,42 +140,29 @@ public class MensagemService implements IMensagemService {
 		return mensagem;
 	}
 
-	public Map<Long, List<MensagemDTO>> listarConversas(Usuario usuario) {
-		Map<Long, List<MensagemPrivada>> conversas = mensagemDAO.listarConversas(usuario);
 
-		Map<Long, List<MensagemDTO>> conversasDTO = new HashMap<>();
-
-		conversas.forEach((id, mensagens) -> {
-			List<MensagemDTO> mensagensDTO = new ArrayList<>();
-			mensagens.forEach(mensagem -> mensagensDTO.add(mensagemToMensagemDTO(mensagem)));
-			conversasDTO.put(id, mensagensDTO);
-		});
-		return conversasDTO;
-	}
-
-
-	public MensagemDTO criarMensagem(MensagemEnviadaDTO dto) {
-		MensagemPrivada mensagem = mensagemEnviadaDTOToMensagem(dto);
+	public MensagemCDTO criarMensagem(MensagemCEnviadaDTO dto) throws ProjetoNotFoundException {
+		MensagemChat mensagem = mensagemCEnviadaDTOToMensagemC(dto);
 
 		// salvar mensagem
-		MensagemPrivada novaMensagem = mensagemDAO.criarMensagem(mensagem);
-		return mensagemToMensagemDTO(novaMensagem);
+		MensagemChat novaMensagem = mensagemCDAO.criarMensagem(mensagem);
+		return mensagemCToMensagemCDTO(novaMensagem);
 	}
 
-	public MensagemPrivada atualizarMensagem(Long id, MensagemPrivada mensagem) throws MensagemNotFoundException {
-		MensagemPrivada mensagemExistente = mensagemDAO.buscarMensagemPorId(id);
+	public MensagemChat atualizarMensagem(Long id, MensagemChat mensagem) throws MensagemNotFoundException {
+		MensagemChat mensagemExistente = mensagemCDAO.buscarMensagemPorId(id);
         if (mensagemExistente == null) {
             throw new MensagemNotFoundException("Mensagem não encontrado com id: " + id);
         }
-        return mensagemDAO.atualizarMensagem(mensagem);
+        return mensagemCDAO.atualizarMensagem(mensagem);
 	}
 
 	public void excluirMensagem(Long id) throws MensagemNotFoundException {
-		MensagemPrivada mensagemExistente = mensagemDAO.buscarMensagemPorId(id);
+		MensagemChat mensagemExistente = mensagemCDAO.buscarMensagemPorId(id);
         if (mensagemExistente == null) {
             throw new MensagemNotFoundException("Mensagem não encontrado com id: " + id);
         }
-        mensagemDAO.excluirMensagem(id);
+        mensagemCDAO.excluirMensagem(id);
 
 	}
 

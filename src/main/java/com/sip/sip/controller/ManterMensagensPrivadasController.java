@@ -1,7 +1,6 @@
 package com.sip.sip.controller;
 
-import com.sip.sip.dto.FiltroDTO;
-import com.sip.sip.dto.MensagemDTO;
+import com.sip.sip.dto.MensagemPDTO;
 import com.sip.sip.model.*;
 import com.sip.sip.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/mensagens-privadas")
@@ -22,14 +20,14 @@ public class ManterMensagensPrivadasController {
     private ITecnologiaService tecnologiaService;
 
     @Autowired
-    private IMensagemService mensagemService;
+    private IMensagemPService mensagemService;
 
     @Autowired
     private ManterUsuarioService usuarioService;
     @GetMapping("/")
     public String showMensagens(Model model) {
         Usuario principal = usuarioService.buscarUsuarioPorId(2l);
-        Map<Long, List<MensagemDTO>> conversas = mensagemService.listarConversas(principal);
+        Map<Long, List<MensagemPDTO>> conversas = mensagemService.listarConversas(principal);
         model.addAttribute("conversas", conversas);
         model.addAttribute("principal", principal);
         model.addAttribute("outroUsuarioId", conversas.keySet().stream().findFirst().get());
@@ -39,7 +37,7 @@ public class ManterMensagensPrivadasController {
     @GetMapping("/{outroUsuarioId}")
     public String showMensagensParaUsuario(Model model, @PathVariable Long outroUsuarioId) {
         Usuario principal = usuarioService.buscarUsuarioPorId(2l);
-        Map<Long, List<MensagemDTO>> conversas = mensagemService.listarConversas(principal);
+        Map<Long, List<MensagemPDTO>> conversas = mensagemService.listarConversas(principal);
         model.addAttribute("conversas", conversas);
         model.addAttribute("principal", principal);
         model.addAttribute("outroUsuarioId", outroUsuarioId);

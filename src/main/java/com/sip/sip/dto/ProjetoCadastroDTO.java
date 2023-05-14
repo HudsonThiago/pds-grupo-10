@@ -14,6 +14,17 @@ public class ProjetoCadastroDTO {
         private List<Long> cargosEscolhidosId;
         private MultipartFile imagem;
 
+        public ProjetoCadastroDTO(String nome, String descricao, int horasPorSemana, int diasPorSemana, int numDeVagas, List<Long> tecnologiasEscolhidasId, List<Long> cargosEscolhidosId) {
+                this.nome = nome;
+                this.descricao = descricao;
+                this.horasPorSemana = horasPorSemana;
+                this.diasPorSemana = diasPorSemana;
+                this.numDeVagas = numDeVagas;
+                this.tecnologiasEscolhidasId = tecnologiasEscolhidasId;
+                this.cargosEscolhidosId = cargosEscolhidosId;
+        }
+        public ProjetoCadastroDTO() {};
+
         public String getNome() {
                 return nome;
         }

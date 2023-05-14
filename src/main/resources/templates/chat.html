@@ -16,8 +16,8 @@
         <!-- Chat -->
         <div class="col-12 px-0">
             <div class="px-4 py-5 chat-box bg-white">
-                <div th:if="${outroUsuarioId != null}">
-                    <div th:each="mensagem : ${conversas.get(outroUsuarioId)}">
+                <div th:if="${projetoId != null}">
+                    <div th:each="mensagem : ${mensagens}">
                         <div th:if="${mensagem.usuarioRemetente.second == principal.id}" class="media w-50 ml-auto mb-3">
                             <div class="media-body">
                                 <p class="small font-weight-bold mb-2" th:text="Você"></p>
@@ -57,10 +57,10 @@
                 messageForm.addEventListener("submit", function(event) {
                     event.preventDefault();
                     const conteudoMensagem = messageInput.value;
-                    let dest = [[${outroUsuarioId}]];
+                    let dest = [[${projetoId}]];
                     const dadosMensagem = {
                         conteudo: conteudoMensagem,
-                        usuarioDestinatario: dest,
+                        projetoDestinatario: dest,
                         usuarioRemetente: 2 //temp todo auth
                     };
                     const requestOptions = {
@@ -68,7 +68,7 @@
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify(dadosMensagem)
                     };
-                    fetch("/mensagens", requestOptions)
+                    fetch("/mensagensChat", requestOptions)
                         .then(response => response.json())
                         .then(data => window.location.href = window.location.href)
                         .catch(error => console.log(error));
