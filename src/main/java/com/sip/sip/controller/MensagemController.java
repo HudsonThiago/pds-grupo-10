@@ -3,7 +3,7 @@ package com.sip.sip.controller;
 import com.sip.sip.dto.MensagemDTO;
 import com.sip.sip.dto.MensagemEnviadaDTO;
 import com.sip.sip.exception.MensagemNotFoundException;
-import com.sip.sip.model.Mensagem;
+import com.sip.sip.model.MensagemPrivada;
 import com.sip.sip.service.IMensagemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +23,7 @@ public class MensagemController {
 
 
     @GetMapping("")
-    public List<Mensagem> listarMensagens() {
+    public List<MensagemPrivada> listarMensagens() {
         return mensagemService.listarMensagens();
     }
 

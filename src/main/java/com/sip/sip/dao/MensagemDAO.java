@@ -1,28 +1,24 @@
 package com.sip.sip.dao;
 
-import com.sip.sip.dto.FiltroDTO;
-import com.sip.sip.model.Cargo;
-import com.sip.sip.model.Mensagem;
-import com.sip.sip.model.Tecnologia;
+import com.sip.sip.model.MensagemPrivada;
 import com.sip.sip.model.Usuario;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
 
 public interface MensagemDAO {
 
-	List<Mensagem> listarMensagens();
+	List<MensagemPrivada> listarMensagens();
 
-	Mensagem buscarMensagemPorId(Long id);
+	MensagemPrivada buscarMensagemPorId(Long id);
 
-	List<Mensagem> listarMensagemPorDestinatario(Usuario destinatario);
+	List<MensagemPrivada> listarMensagemPorDestinatario(Usuario destinatario);
 
-	Mensagem criarMensagem(Mensagem mensagem);
+	MensagemPrivada criarMensagem(MensagemPrivada mensagem);
 
-	Mensagem atualizarMensagem(Mensagem mensagem);
+	MensagemPrivada atualizarMensagem(MensagemPrivada mensagem);
 
 	void excluirMensagem(Long id);
 
-	Map<Long, List<Mensagem>> listarConversas(Usuario usuario);
+	Map<Long, List<MensagemPrivada>> listarConversas(Usuario usuario);
 }

@@ -1,6 +1,6 @@
 package com.sip.sip.dao;
 
-import com.sip.sip.model.Mensagem;
+import com.sip.sip.model.MensagemPrivada;
 import com.sip.sip.model.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -15,30 +15,30 @@ public class MensagemDAOJPA implements MensagemDAO {
 	private MensagemRepository mensagemRepository;
 
 	@Override
-	public List<Mensagem> listarMensagens() {
-		List<Mensagem> mensagem = new ArrayList<>();
+	public List<MensagemPrivada> listarMensagens() {
+		List<MensagemPrivada> mensagem = new ArrayList<>();
 		mensagemRepository.findAll()
 				.forEach(mensagem::add);
 		return mensagem;
 	}
 
 	@Override
-	public Mensagem buscarMensagemPorId(Long id) {
-		Optional<Mensagem> mensagemOptional = mensagemRepository.findById(id);
+	public MensagemPrivada buscarMensagemPorId(Long id) {
+		Optional<MensagemPrivada> mensagemOptional = mensagemRepository.findById(id);
 		return mensagemOptional.orElse(null);
 	}
 	@Override
-	public List<Mensagem> listarMensagemPorDestinatario(Usuario destinatario) {
+	public List<MensagemPrivada> listarMensagemPorDestinatario(Usuario destinatario) {
 		return mensagemRepository.findByUsuarioDestinatario(destinatario);
 
 	}
 	@Override
-	public Mensagem criarMensagem(Mensagem mensagem) {
+	public MensagemPrivada criarMensagem(MensagemPrivada mensagem) {
 		return mensagemRepository.save(mensagem);
 	}
 
 	@Override
-	public Mensagem atualizarMensagem(Mensagem mensagem) {
+	public MensagemPrivada atualizarMensagem(MensagemPrivada mensagem) {
 		return mensagemRepository.save(mensagem);
 	}
 
@@ -48,11 +48,11 @@ public class MensagemDAOJPA implements MensagemDAO {
 	}
 
 	@Override
-	public Map<Long, List<Mensagem>> listarConversas(Usuario usuario) {
-		List<Mensagem> mensagens = mensagemRepository.findByUsuarioDestinatarioIdOrUsuarioRemetenteId(usuario.getId(),usuario.getId());
-		Map<Long, List<Mensagem>> conversas = new HashMap<>();
+	public Map<Long, List<MensagemPrivada>> listarConversas(Usuario usuario) {
+		List<MensagemPrivada> mensagens = mensagemRepository.findByUsuarioDestinatarioIdOrUsuarioRemetenteId(usuario.getId(),usuario.getId());
+		Map<Long, List<MensagemPrivada>> conversas = new HashMap<>();
 
-		for (Mensagem mensagem : mensagens) {
+		for (MensagemPrivada mensagem : mensagens) {
 			Long outroUsuarioId = mensagem.getUsuarioRemetente().equals(usuario) ?
 					mensagem.getUsuarioDestinatario().getId() :
 					mensagem.getUsuarioRemetente().getId();

@@ -26,17 +26,17 @@ public class MensagemService implements IMensagemService {
 
 
 
-	public List<Mensagem> listarMensagens() {
+	public List<MensagemPrivada> listarMensagens() {
 		return mensagemDAO.listarMensagens();
 	}
 
 	@Override
-	public List<Mensagem> listarMensagensPorDestinatario(Usuario dest) {
+	public List<MensagemPrivada> listarMensagensPorDestinatario(Usuario dest) {
 		return mensagemDAO.listarMensagemPorDestinatario(dest);
 	}
 
 	public MensagemDTO buscarMensagemPorId(Long id) throws MensagemNotFoundException {
-		Mensagem mensagemExistente = mensagemDAO.buscarMensagemPorId(id);
+		MensagemPrivada mensagemExistente = mensagemDAO.buscarMensagemPorId(id);
         if (mensagemExistente == null) {
             throw new MensagemNotFoundException("Mensagem não encontrado com id: " + id);
         }
@@ -44,7 +44,7 @@ public class MensagemService implements IMensagemService {
 	}
 
 
-	public MensagemDTO mensagemToMensagemDTO(Mensagem m) {
+	public MensagemDTO mensagemToMensagemDTO(MensagemPrivada m) {
 		MensagemDTO dto = new MensagemDTO();
 		dto.setId(m.getId());
 
@@ -80,8 +80,8 @@ public class MensagemService implements IMensagemService {
 		}
 		return dto;
 	}
-	public Mensagem mensagemDTOToMensagem(MensagemDTO dto) {
-		Mensagem mensagem = new Mensagem();
+	public MensagemPrivada mensagemDTOToMensagem(MensagemDTO dto) {
+		MensagemPrivada mensagem = new MensagemPrivada();
 
 		if(dto.getConteudo() != null) mensagem.setConteudo(dto.getConteudo());
 
@@ -108,8 +108,8 @@ public class MensagemService implements IMensagemService {
 		return mensagem;
 	}
 
-	public Mensagem mensagemEnviadaDTOToMensagem(MensagemEnviadaDTO dto) {
-		Mensagem mensagem = new Mensagem();
+	public MensagemPrivada mensagemEnviadaDTOToMensagem(MensagemEnviadaDTO dto) {
+		MensagemPrivada mensagem = new MensagemPrivada();
 
 		if(dto.getConteudo() != null) mensagem.setConteudo(dto.getConteudo());
 
@@ -136,7 +136,7 @@ public class MensagemService implements IMensagemService {
 	}
 
 	public Map<Long, List<MensagemDTO>> listarConversas(Usuario usuario) {
-		Map<Long, List<Mensagem>> conversas = mensagemDAO.listarConversas(usuario);
+		Map<Long, List<MensagemPrivada>> conversas = mensagemDAO.listarConversas(usuario);
 
 		Map<Long, List<MensagemDTO>> conversasDTO = new HashMap<>();
 
@@ -150,15 +150,15 @@ public class MensagemService implements IMensagemService {
 
 
 	public MensagemDTO criarMensagem(MensagemEnviadaDTO dto) {
-		Mensagem mensagem = mensagemEnviadaDTOToMensagem(dto);
+		MensagemPrivada mensagem = mensagemEnviadaDTOToMensagem(dto);
 
 		// salvar mensagem
-		Mensagem novaMensagem = mensagemDAO.criarMensagem(mensagem);
+		MensagemPrivada novaMensagem = mensagemDAO.criarMensagem(mensagem);
 		return mensagemToMensagemDTO(novaMensagem);
 	}
 
-	public Mensagem atualizarMensagem(Long id, Mensagem mensagem) throws MensagemNotFoundException {
-		Mensagem mensagemExistente = mensagemDAO.buscarMensagemPorId(id);
+	public MensagemPrivada atualizarMensagem(Long id, MensagemPrivada mensagem) throws MensagemNotFoundException {
+		MensagemPrivada mensagemExistente = mensagemDAO.buscarMensagemPorId(id);
         if (mensagemExistente == null) {
             throw new MensagemNotFoundException("Mensagem não encontrado com id: " + id);
         }
@@ -166,7 +166,7 @@ public class MensagemService implements IMensagemService {
 	}
 
 	public void excluirMensagem(Long id) throws MensagemNotFoundException {
-		Mensagem mensagemExistente = mensagemDAO.buscarMensagemPorId(id);
+		MensagemPrivada mensagemExistente = mensagemDAO.buscarMensagemPorId(id);
         if (mensagemExistente == null) {
             throw new MensagemNotFoundException("Mensagem não encontrado com id: " + id);
         }
