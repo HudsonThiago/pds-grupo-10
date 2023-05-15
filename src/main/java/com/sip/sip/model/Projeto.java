@@ -1,6 +1,8 @@
 package com.sip.sip.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 @Entity
+@OnDelete(action = OnDeleteAction.CASCADE)
 public class Projeto {
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE)

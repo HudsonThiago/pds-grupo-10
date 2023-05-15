@@ -63,4 +63,21 @@ public class ManterProjetoController {
         return "ver-projeto";
     }
 
+    @GetMapping("/editar-projeto/{id}")
+    public String editarProjeto(Model model, @PathVariable Long id) throws ProjetoNotFoundException {
+        // todo auth
+        Usuario principal =  usuarioService.buscarUsuarioPorId(2l);
+
+        List<Tecnologia> tecnologias = tecnologiaService.listarTecnologias();
+        model.addAttribute("tecnologias", tecnologias);
+        List<Cargo> cargos = cargoService.listarCargos();
+        model.addAttribute("cargos", cargos);
+        ProjetoCadastroDTO projeto = projetoService.buscarProjetoCadastradoPorId(id);
+        model.addAttribute("projetoCadastroDTO", projeto);
+        model.addAttribute("id", id);
+
+        return "editar-projeto";
+    }
+
+
 }

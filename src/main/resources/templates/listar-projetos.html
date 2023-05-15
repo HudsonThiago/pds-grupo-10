@@ -21,11 +21,13 @@
           <h5 th:text="${projeto.nome}" class="card-title"></h5>
           <p th:text="${projeto.descricao}" class="card-text"></p>
           <a th:href="@{/ver-projeto/{id}(id=${projeto.id})}" class="btn btn-primary">Ver Projeto</a>
+          <a th:href="@{/editar-projeto/{id}(id=${projeto.id})}" class="btn btn-secondary">Editar Projeto</a>
         </div>
       </div>
     </div>
   </div>
 </div>
+
 
 <!-- Bootstrap Bundle JS (with Popper.js) -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0/js/bootstrap.bundle.min.js"></script>
