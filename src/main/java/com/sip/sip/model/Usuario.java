@@ -37,7 +37,7 @@ public class Usuario implements UserDetails {
     @OneToMany(cascade=CascadeType.ALL)
     private List<Projeto> projetosFavoritados;
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private Role role = Role.USER;
 
     public Usuario(){};
     public Usuario(Long id, String nome, String email, String senha) {
