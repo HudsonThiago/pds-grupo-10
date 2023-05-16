@@ -4,6 +4,7 @@ import com.sip.sip.dao.UsuarioDAOJPA;
 import com.sip.sip.dto.AtualizarUsuarioDTO;
 import com.sip.sip.dto.UsuarioCadastroDTO;
 import com.sip.sip.exception.ProjetoNotFoundException;
+import com.sip.sip.model.Projeto;
 import com.sip.sip.model.Usuario;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,5 +63,12 @@ public class ManterUsuarioService {
             }
         }
         return "redirect:/";
+    }
+    public void favoritarProjeto(Projeto p, Long usuarioId) {
+        Usuario u = buscarUsuarioPorId(usuarioId);
+        List<Projeto> projetosFavoritados = u.getProjetosFavoritados();
+        projetosFavoritados.add(p);
+        u.setProjetosFavoritados(projetosFavoritados);
+        usuarioDAOJPA.atualizarUsuario(u);
     }
 }
