@@ -2,6 +2,9 @@ package com.sip.sip.service;
 
 import com.sip.sip.dao.TecnologiaDAO;
 import com.sip.sip.model.Tecnologia;
+import com.sip.sip.model.Usuario;
+import com.sip.sip.model.usuarioLogado.UsuarioLogado;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -27,6 +30,13 @@ public class TecnologiaService implements ITecnologiaService{
 
     public Tecnologia criarTecnologia(Tecnologia tecnologia) {
         return tecnologiaDAO.criarTecnologia(tecnologia);
+    }
+
+    public void solicitarTecnologia(Tecnologia tecnologia) {
+
+        UsuarioLogado usuarioLogado = new UsuarioLogado();
+        tecnologia.setAtivo(false);
+        tecnologia.setIdUsuarioQueSolicitou(usuarioLogado.id);
     }
 
     public Tecnologia atualizarTecnologia(Long id, Tecnologia tecnologia) {
