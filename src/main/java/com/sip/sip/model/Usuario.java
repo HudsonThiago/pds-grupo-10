@@ -169,40 +169,11 @@ public class Usuario implements UserDetails {
         return true;
     }
 
-    /*
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+    public Role getRole() {
+        return role;
     }
 
-    @Override
-    public String getPassword() {
-        return senha;
+    public void setRole(Role role) {
+        this.role = role;
     }
-
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
-    */
 }

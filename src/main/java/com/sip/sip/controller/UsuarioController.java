@@ -1,6 +1,9 @@
 package com.sip.sip.controller;
 
 import com.sip.sip.dto.AtualizarUsuarioDTO;
+import com.sip.sip.dto.AuthRequest;
+import com.sip.sip.dto.AuthResponse;
+import com.sip.sip.dto.UsuarioCadastroDTO;
 import com.sip.sip.exception.ProjetoNotFoundException;
 import com.sip.sip.model.*;
 import com.sip.sip.service.ManterUsuarioService;
@@ -24,6 +27,17 @@ public class UsuarioController {
         this.usuarioService = usuarioService;
     }
 
+    @PostMapping("")
+    public ResponseEntity<AuthResponse> cadastrar(
+            @RequestBody UsuarioCadastroDTO dto) {
+        return ResponseEntity.ok(usuarioService.criarUsuario(dto));
+    }
+
+    @PostMapping("/authenticate")
+    public ResponseEntity<AuthResponse> authenticate(
+            @RequestBody AuthRequest req) {
+        return ResponseEntity.ok(usuarioService.authenticate(req));
+    }
     @GetMapping("")
     public ResponseEntity<List<Usuario>> listarUsuarios(Model model) {
         List<Usuario> usuarios = usuarioService.listarUsuarios();

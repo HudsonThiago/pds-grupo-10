@@ -16,7 +16,7 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
-    private static final String SECRET_KEY = "5468576D5A7134743677397A24432646294A404E635266556A586E3272357538";
+    private static final String SECRET_KEY = "576D5A7134743777217A25432A462D4A614E635266556A586E3272357538782F";
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
@@ -38,7 +38,7 @@ public class JwtService {
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis()+1000*60*24))
-                .signWith(getSignInKey(), SignatureAlgorithm.ES256)
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
