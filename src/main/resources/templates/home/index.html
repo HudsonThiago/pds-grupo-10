@@ -78,5 +78,41 @@
                 </form>
             </div>
         </div>
+
+    <script>
+        document.querySelector('form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+
+            // Get the form values
+            const email = document.getElementById('email').value;
+            const senha = document.getElementById('senha').value;
+
+            // Create the request body
+            const requestBody = {
+                email: email,
+                senha: senha
+            };
+
+            // Send the POST request
+            fetch('/usuarios/authenticate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestBody)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = '/explorar-projetos';
+                    } else {
+                        location.reload();
+                    }
+                })
+                .catch(error => {
+                    // Handle network error
+                    console.error('Network error', error);
+                });
+        });
+    </script>
     </body>
 </html>
