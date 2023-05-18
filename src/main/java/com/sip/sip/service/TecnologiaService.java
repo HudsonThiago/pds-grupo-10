@@ -24,6 +24,10 @@ public class TecnologiaService implements ITecnologiaService{
     public List<Tecnologia> listarTecnologias() {
         return tecnologiaDAO.listarTecnologias();
     }
+    public List<Tecnologia> listarTodasAsTecnologias() {
+        return tecnologiaDAO.listarTodasAsTecnologias();
+    }
+
     public List<Tecnologia> listarTecnologiasInativas() {
         return tecnologiaDAO.listarTecnologias(false);
     }
@@ -41,11 +45,15 @@ public class TecnologiaService implements ITecnologiaService{
         tecnologiaDAO.criarTecnologia(tecnologia);
     }
 
+    public void mudarEstadoTecnologia(Long id){
+        tecnologiaDAO.mudarEstadoTecnologia(id);
+    }
+
     public Tecnologia atualizarTecnologia(Long id, Tecnologia tecnologia) {
         return null;
     }
 
     public void excluirTecnologia(Long id) {
-
+        tecnologiaDAO.excluirTecnologia(id);
     }
 }
