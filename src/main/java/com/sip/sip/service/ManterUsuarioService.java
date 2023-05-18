@@ -1,9 +1,11 @@
 package com.sip.sip.service;
 
+import com.sip.sip.dao.TecnologiaDAOJPA;
 import com.sip.sip.dao.UsuarioDAOJPA;
 import com.sip.sip.dto.AtualizarUsuarioDTO;
 import com.sip.sip.dto.UsuarioCadastroDTO;
 import com.sip.sip.exception.ProjetoNotFoundException;
+import com.sip.sip.model.Tecnologia;
 import com.sip.sip.model.Usuario;
 import com.sip.sip.model.usuarioLogado.UsuarioLogado;
 import org.springframework.beans.BeanUtils;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +25,9 @@ public class ManterUsuarioService {
 
     @Autowired
     private UsuarioDAOJPA usuarioDAOJPA;
+
+    @Autowired
+    private TecnologiaDAOJPA tecnologiaDAOJPA;
 
     public List<Usuario> listarUsuarios(){
         return usuarioDAOJPA.listarUsuarios();
@@ -73,6 +79,13 @@ public class ManterUsuarioService {
         if(atualizarUsuarioDTO.getNome() != null) usuario.get().setNome(atualizarUsuarioDTO.getNome());
         if(atualizarUsuarioDTO.getEmail() != null) usuario.get().setEmail(atualizarUsuarioDTO.getEmail());
         if(atualizarUsuarioDTO.getDescricao() != null) usuario.get().setDescricao(atualizarUsuarioDTO.getDescricao());
+        List<Tecnologia> tecnologias = new ArrayList<Tecnologia>();
+
+        for (long idTecnologia:atualizarUsuarioDTO.getIdTecnologias()) {
+            tecnologias.add(tecnologiaDAOJPA.buscarTecnologia(idTecnologia));
+        }
+
+        usuario.get().setTecnologias(tecnologias);
 
         return usuarioDAOJPA.atualizarUsuario(usuario.get());
     }

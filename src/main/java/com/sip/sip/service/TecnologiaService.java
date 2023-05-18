@@ -37,6 +37,8 @@ public class TecnologiaService implements ITecnologiaService{
         UsuarioLogado usuarioLogado = new UsuarioLogado();
         tecnologia.setAtivo(false);
         tecnologia.setIdUsuarioQueSolicitou(usuarioLogado.id);
+
+        tecnologiaDAO.criarTecnologia(tecnologia);
     }
 
     public Tecnologia atualizarTecnologia(Long id, Tecnologia tecnologia) {

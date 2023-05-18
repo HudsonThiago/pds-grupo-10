@@ -9,7 +9,7 @@ import com.sip.sip.service.ICargoService;
 import com.sip.sip.service.ITecnologiaService;
 import com.sip.sip.service.ManterUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -52,14 +52,14 @@ public class ManterUsuarioController {
         return "editar-usuario";
     }
 
-    @RequestMapping(value = "/editar-usuario/{id}", method = RequestMethod.POST)
-    public String editarUsuario(Model model, @PathVariable Long id, @RequestBody AtualizarUsuarioDTO usuarioDTO) throws ProjetoNotFoundException {
+    @PostMapping(value = "/editar-usuario/{id}")
+    public String editarUsuario(@PathVariable Long id, AtualizarUsuarioDTO usuarioDTO) throws ProjetoNotFoundException {
 
         Optional<Usuario> usuario = Optional.of(usuarioService.atualizarUsuario(id, usuarioDTO));
 
-        //if (usuario.isEmpty()) {
-        //    return "redirect:editar-usuario/"+id;
-        //}
+        if (usuario.isEmpty()) {
+            return "redirect:editar-usuario/"+id;
+        }
 
         return "redirect:/listar-usuarios";
 

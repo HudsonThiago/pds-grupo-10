@@ -33,9 +33,9 @@
       <td th:text="${usuario.email}">--</td>
 
       <td th:if="${not #lists.isEmpty(usuario.tecnologias)}">
-        <span th:each="tecnologia : ${usuario.tecnologias}">
-          <span th:text="${tecnologia.nome}"></span>
-        </span>
+        <div th:each="tecnologia : ${usuario.tecnologias}">
+          <span th:text="${tecnologia.nome}"></span><br/>
+        </div>
       </td>
       <td th:unless="${not #lists.isEmpty(usuario.tecnologias)}">
         --

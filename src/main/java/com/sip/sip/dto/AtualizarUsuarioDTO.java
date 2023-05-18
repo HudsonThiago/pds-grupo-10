@@ -8,7 +8,7 @@ public class AtualizarUsuarioDTO {
     private String nome;
     private String email;
     private String descricao;
-    private List<Integer> tecnologias;
+    private List<Long> idTecnologias;
 
     public String getNome() {
         return nome;
@@ -34,11 +34,11 @@ public class AtualizarUsuarioDTO {
         this.descricao = descricao;
     }
 
-    public List<Integer> getTecnologias() {
-        return tecnologias;
+    public List<Long> getIdTecnologias() {
+        return idTecnologias;
     }
 
-    public void setTecnologias(List<Integer> tecnologias) {
-        this.tecnologias = tecnologias;
+    public void setIdTecnologias(List<Long> idTecnologias) {
+        this.idTecnologias = idTecnologias;
     }
 }

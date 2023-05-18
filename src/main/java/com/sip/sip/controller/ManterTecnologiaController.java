@@ -26,7 +26,7 @@ public class ManterTecnologiaController {
     }
 
     @PostMapping("solicitar-tecnologia")
-    public String solicitarTecnologia(@RequestBody Tecnologia tecnologia) {
+    public String solicitarTecnologia(Tecnologia tecnologia) {
         tecnologiaService.solicitarTecnologia(tecnologia);
         return "solicitar-tecnologia";
     }
