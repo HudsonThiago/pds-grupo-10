@@ -276,7 +276,14 @@
 
             function favoritar(botao) {
                 var id = botao.getAttribute("projeto-id");
-                fetch("/favoritar/" + id, {method: "POST"});
+                fetch("/favoritar/" + id, {method: "POST"})
+                    .then(function(response) {
+                        return response.json();
+                    })
+                    .then(function(data) {
+                        if (data.numFavoritos == null) return;
+                        botao.querySelector(".badge").textContent = data.numFavoritos;
+                    });
             }
 
 
