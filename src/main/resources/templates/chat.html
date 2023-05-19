@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="|Chat Projeto ${projeto.getNome()}|"></title>
+
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css}" integrity="sha512-tDXPcamuZsWWd6OsKFyH6nAqh/MjZ/5Yk88T5o+aMfygqNFPan1pLyPFAndRzmOWHKT+jSDzWpJv8krj6x1LMA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" th:href="@{/css/mensagens-privadas.css}">
+</head>
+<body>
+<div class="container py-5 px-4">
+    <header class="text-center">
+        <h1 class="display-4 text-black mb-3" th:text="|Chat Projeto ${projeto.getNome()}|"></h1>
+    </header>
+    <div class="row rounded-lg overflow-hidden shadow">
+        <!-- Chat -->
+        <div class="col-12 px-0">
+            <div class="px-4 py-5 chat-box bg-white">
+                <div th:if="${projetoId != null}">
+                    <div th:each="mensagem : ${mensagens}">
+                        <div th:if="${mensagem.usuarioRemetente.second == principal.id}" class="media w-50 ml-auto mb-3">
+                            <div class="media-body">
+                                <p class="small font-weight-bold mb-2" th:text="Você"></p>
+                                <div class="bg-primary rounded py-2 px-3 mb-2">
+                                    <p class="text-small mb-0 text-white" th:text="${mensagem.getConteudo()}"></p>
+                                </div>
+                                <p class="small text-muted" th:text="${mensagem.getTimestamp()}"></p>
+                            </div>
+                        </div>
+                        <div th:if="${mensagem.usuarioRemetente.second != principal.id}" class="media w-50 mb-3"><img src="/imagens/users/userDefault.png" alt="user" width="50" class="rounded-circle">
+                            <div class="media-body ml-3">
+                                <p class="small font-weight-bold mb-2" th:text="${mensagem.usuarioRemetente.getFirst()}"></p>
+                                <div class="bg-light rounded py-2 px-3 mb-2">
+                                    <p class="text-small mb-0 text-muted" th:text="${mensagem.getConteudo()}"></p>
+                                </div>
+                                <p class="small text-muted" th:text="${mensagem.getTimestamp()}"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mensagem -->
+            <form id="message-form" class="bg-light">
+                <div class="input-group">
+                    <input id="message-input" type="text" placeholder="Escreva uma mensagem..." aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
+                    <div class="input-group-append">
+                        <button id="send-button" type="submit" class="btn btn-link"> <i class="fa fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </form>
+
+            <script>
+                const messageForm = document.getElementById("message-form");
+                const messageInput = document.getElementById("message-input");
+
+                messageForm.addEventListener("submit", function(event) {
+                    event.preventDefault();
+                    const conteudoMensagem = messageInput.value;
+                    let dest = [[${projetoId}]];
+                    const dadosMensagem = {
+                        conteudo: conteudoMensagem,
+                        projetoDestinatario: dest,
+                        usuarioRemetente: 2 //temp todo auth
+                    };
+                    const requestOptions = {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(dadosMensagem)
+                    };
+                    fetch("/mensagensChat", requestOptions)
+                        .then(response => response.json())
+                        .then(data => window.location.href = window.location.href)
+                        .catch(error => console.log(error));
+                    messageInput.value = "";
+                });
+            </script>
+
+        </div>
+    </div>
+
+</div>
+<script defer th:src="@{https://use.fontawesome.com/releases/v6.4.0/js/all.js}"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

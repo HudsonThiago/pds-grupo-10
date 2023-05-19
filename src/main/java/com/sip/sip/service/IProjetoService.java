@@ -16,7 +16,13 @@ public interface IProjetoService {
 
     ProjetoDTO criarProjeto(ProjetoCadastroDTO projeto) throws IOException;
 
-    Projeto atualizarProjeto(Long id, Projeto projeto) throws ProjetoNotFoundException;
+    ProjetoCadastroDTO atualizarProjeto(Long id, ProjetoCadastroDTO projeto) throws ProjetoNotFoundException, IOException;
 
     void excluirProjeto(Long id) throws ProjetoNotFoundException;
+
+    Boolean ehMembro(Long idUsuario, Long idProjeto);
+
+    ProjetoCadastroDTO buscarProjetoCadastradoPorId(Long id) throws ProjetoNotFoundException;
+
+    void destacarProjeto(Long idProjeto) throws ProjetoNotFoundException;
 }

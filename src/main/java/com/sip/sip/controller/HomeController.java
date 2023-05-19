@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.ui.Model;
 
 @Controller
 @RequestMapping("/")
@@ -35,17 +36,17 @@ public class HomeController {
         return "redirect:/cadastro";
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "", method = RequestMethod.GET)
     public String loginUsuario() {
         return "home/index";
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @RequestMapping(value = "", method = RequestMethod.POST)
     public String loginUsuario(Usuario usuario, RedirectAttributes attributes) throws UsuarioException {
         Usuario usuarioLogado = new Usuario();
         try{
             usuarioLogado = manterUsuarioService.login(usuario.getEmail(),usuario.getSenha());
-            return "redirect:/explorar-projetos";
+            return "redirect:/dashboard";
         }catch(UsuarioNotFoundException e) {
             attributes.addFlashAttribute("emailError", "Usuário com este email não foi cadastrado!");
         }catch(UsuarioIncorrectDataException e) {

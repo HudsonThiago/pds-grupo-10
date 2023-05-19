@@ -69,22 +69,6 @@
                                         alt="projectImage"
                                         draggable="false"
                                     />
-                                    <div class="technologiesBox">
-                                        <div class="circle">
-                                            <img
-                                                th:src="@{/image/tecnologias/react.png}"
-                                                alt="react"
-                                                draggable="false"
-                                            />
-                                        </div>
-                                        <div class="circle">
-                                            <img
-                                                th:src="@{/image/tecnologias/springBoot.png}"
-                                                alt="react"
-                                                draggable="false"
-                                            />
-                                        </div>
-                                    </div>
                                 </div>
                                 <div class="projectTitleBox">
                                     <h4>Título</h4>
@@ -110,50 +94,37 @@
                         </div>
                     </section>
                     <section>
-                        <h2>Projetos populares</h2>
+                        <h2>Projetos em Destaque</h2>
                         <div class="row">
-                            <div class="cardProjeto">
+                            <div class="cardProjeto" th:each="projeto : ${projetos}" th:if="${projeto.emDestaque}">
                                 <div class="projectImg">
                                     <img
-                                        th:src="@{/image/imageProjectDefault.png}"
-                                        alt="projectImage"
-                                        draggable="false"
+                                            th:src="@{${projeto.imagemUrl}}"
+                                            alt="projectImage"
+                                            draggable="false"
                                     />
-                                    <div class="technologiesBox">
-                                        <div class="circle">
-                                            <img
-                                                th:src="@{/image/tecnologias/react.png}"
-                                                alt="react"
-                                                draggable="false"
-                                            />
-                                        </div>
-                                        <div class="circle">
-                                            <img
-                                                th:src="@{/image/tecnologias/springBoot.png}"
-                                                alt="react"
-                                                draggable="false"
-                                            />
-                                        </div>
-                                    </div>
                                 </div>
                                 <div class="projectTitleBox">
-                                    <h4>Título</h4>
+                                    <h4 th:text="${projeto.nome}"></h4>
                                     <div class="buttonContent">
-                                        <button class="btn btn-primary">
-                                            Ler mais
-                                        </button>
-                                        <button class="btn btn-light">
-                                            <i class="fa-regular fa-heart"></i>
-                                            Curtir
-                                            <span>18</span>
-                                        </button>
-                                        <button class="btn btn-light">
+                                        <a class="btn btn-primary" th:href="@{/ver-projeto/{id}(id=${projeto.id})}">
+                                            Ver Projeto
+                                        </a>
+                                        <button class="btn btn-light" th:attr="projeto-id=${projeto.id}"
+                                                onclick="curtir(this)">
                                             <i
-                                                class="fa-regular fa-bookmark"
+                                                    class="fa-regular fa-heart"
+                                            ></i>
+                                            Curtir
+                                            <span class="badge badge-light" th:text="${projeto.numCurtidas}"></span>
+                                        </button>
+                                        <a class="btn btn-light" th:attr="projeto-id=${projeto.id}" onclick="favoritar(this)">
+                                            <i
+                                                    class="fa-regular fa-bookmark"
                                             ></i>
                                             Favoritar
-                                            <span>2</span>
-                                        </button>
+                                            <span class="badge badge-light" th:text="${projeto.numFavoritos}"></span>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -163,7 +134,7 @@
                         <h2>Projetos</h2>
                         <div class="row-1c-2c">
                             <h3>Filtro</h3>
-                            <h3>projetos encontrados (4)</h3>
+                            <h3 th:text="'projetos encontrados (' + ${projetos.size()} + ')'"></h3>
                             <div>
                                 <form action="" method="POST" th:object="${filtroDTO}">
                                     <div class="input-group">
@@ -237,51 +208,37 @@
                                     <button class="btn btn-primary" type="submit">Filtrar</button>
                                 </form>
                             </div>
-                            <div class="row">
-                                <div class="cardProjeto">
+                            <div class="row" >
+                                <div class="cardProjeto" th:each="projeto : ${projetos}">
                                     <div class="projectImg">
                                         <img
-                                            th:src="@{/image/imageProjectDefault.png}"
+                                            th:src="@{${projeto.imagemUrl}}"
                                             alt="projectImage"
                                             draggable="false"
                                         />
-                                        <div class="technologiesBox">
-                                            <div class="circle">
-                                                <img
-                                                    th:src="@{/image/tecnologias/react.png}"
-                                                    alt="react"
-                                                    draggable="false"
-                                                />
-                                            </div>
-                                            <div class="circle">
-                                                <img
-                                                    th:src="@{/image/tecnologias/springBoot.png}"
-                                                    alt="react"
-                                                    draggable="false"
-                                                />
-                                            </div>
-                                        </div>
+
                                     </div>
                                     <div class="projectTitleBox">
-                                        <h4>Título</h4>
+                                        <h4 th:text="${projeto.nome}"></h4>
                                         <div class="buttonContent">
-                                            <button class="btn btn-primary">
-                                                Ler mais
-                                            </button>
-                                            <button class="btn btn-light">
+                                            <a class="btn btn-primary" th:href="@{/ver-projeto/{id}(id=${projeto.id})}">
+                                                Ver Projeto
+                                            </a>
+                                            <button class="btn btn-light" th:attr="projeto-id=${projeto.id}"
+                                                    onclick="curtir(this)">
                                                 <i
                                                     class="fa-regular fa-heart"
                                                 ></i>
                                                 Curtir
-                                                <span>18</span>
+                                                <span class="badge badge-light" th:text="${projeto.numCurtidas}"></span>
                                             </button>
-                                            <button class="btn btn-light">
+                                            <a class="btn btn-light" th:attr="projeto-id=${projeto.id}" onclick="favoritar(this)">
                                                 <i
                                                     class="fa-regular fa-bookmark"
                                                 ></i>
                                                 Favoritar
-                                                <span>2</span>
-                                            </button>
+                                                <span class="badge badge-light" th:text="${projeto.numFavoritos}"></span>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -299,13 +256,21 @@
                         return response.json();
                     })
                     .then(function(data) {
+                        if (data.numCurtidas == null) return;
                         botao.querySelector(".badge").textContent = data.numCurtidas;
                     });
             }
 
             function favoritar(botao) {
                 var id = botao.getAttribute("projeto-id");
-                fetch("/favoritar/" + id, {method: "POST"});
+                fetch("/favoritar/" + id, {method: "POST"})
+                    .then(function(response) {
+                        return response.json();
+                    })
+                    .then(function(data) {
+                        if (data.numFavoritos == null) return;
+                        botao.querySelector(".badge").textContent = data.numFavoritos;
+                    });
             }
 
 

@@ -7,6 +7,7 @@ import com.sip.sip.dto.UsuarioCadastroDTO;
 import com.sip.sip.exception.TecnologiaNotFoundException;
 import com.sip.sip.exception.Usuario.*;
 import com.sip.sip.model.Tecnologia;
+import com.sip.sip.model.Projeto;
 import com.sip.sip.model.Usuario;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,5 +98,24 @@ public class ManterUsuarioService {
         }else {
             throw new UsuarioNotFoundException("usuario não foi encontrado");
         }
+    }
+    public void favoritarProjeto(Projeto p, Usuario u) {
+        if (u.getProjetosFavoritados().contains(p)) {
+            u.getProjetosFavoritados().remove(p);
+        } else {
+            u.getProjetosFavoritados().add(p);
+        }
+
+        usuarioDAOJPA.atualizarUsuario(u);
+    }
+
+    public void curtirProjeto(Projeto projeto, Usuario usuario) {
+        if (usuario.getProjetosCurtidos().contains(projeto)) {
+            usuario.getProjetosCurtidos().remove(projeto);
+        } else {
+            usuario.getProjetosCurtidos().add(projeto);
+        }
+
+        usuarioDAOJPA.atualizarUsuario(usuario);
     }
 }

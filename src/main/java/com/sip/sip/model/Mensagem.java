@@ -3,16 +3,13 @@ package com.sip.sip.model;
 import jakarta.persistence.*;
 
 @Entity
-public class Mensagem {
+public abstract class Mensagem {
     @Id
     @GeneratedValue(strategy= GenerationType.SEQUENCE)
     private Long id;
-    private String titulo;
     private String conteudo;
     @OneToOne
     private Usuario usuarioRemetente;
-    @OneToOne
-    private Usuario usuarioDestinatario;
     private String timestamp;
 
     public Long getId() {
@@ -21,14 +18,6 @@ public class Mensagem {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
     }
 
     public String getConteudo() {
@@ -47,13 +36,6 @@ public class Mensagem {
         this.usuarioRemetente = usuarioRemetente;
     }
 
-    public Usuario getUsuarioDestinatario() {
-        return usuarioDestinatario;
-    }
-
-    public void setUsuarioDestinatario(Usuario usuarioDestinatario) {
-        this.usuarioDestinatario = usuarioDestinatario;
-    }
 
     public String getTimestamp() {
         return timestamp;
