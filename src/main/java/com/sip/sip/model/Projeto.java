@@ -53,6 +53,8 @@ public class Projeto {
 	private int numFavoritos;
 	@OneToMany(mappedBy = "projeto")
 	private List<UsuarioProjeto> usuariosProjeto;
+	@ManyToMany(mappedBy = "projetosCurtidos")
+	private List<Usuario> curtidoPorUsuarios;
 	
 	public Projeto() {
 	}
@@ -202,5 +204,13 @@ public class Projeto {
 
 	public void setUsuariosProjeto(List<UsuarioProjeto> usuariosProjeto) {
 		this.usuariosProjeto = usuariosProjeto;
+	}
+
+	public List<Usuario> getCurtidoPorUsuarios() {
+		return curtidoPorUsuarios;
+	}
+
+	public void setCurtidoPorUsuarios(List<Usuario> curtidoPorUsuarios) {
+		this.curtidoPorUsuarios = curtidoPorUsuarios;
 	}
 }
