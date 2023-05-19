@@ -1,7 +1,8 @@
 package com.sip.sip.controller;
 
 import com.sip.sip.dto.AtualizarUsuarioDTO;
-import com.sip.sip.exception.ProjetoNotFoundException;
+import com.sip.sip.exception.Usuario.UsuarioAlreadyExistsException;
+import com.sip.sip.exception.Usuario.UsuarioException;
 import com.sip.sip.model.*;
 import com.sip.sip.service.ManterUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -42,7 +42,7 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Usuario> atualizarUsuario(@PathVariable(value = "id") long id, @RequestBody AtualizarUsuarioDTO atualizarUsuarioDTO) throws ProjetoNotFoundException {
+    public ResponseEntity<Usuario> atualizarUsuario(@PathVariable(value = "id") long id, @RequestBody AtualizarUsuarioDTO atualizarUsuarioDTO) throws Exception {
         return ResponseEntity.status(HttpStatus.OK).body(usuarioService.atualizarUsuario(id, atualizarUsuarioDTO));
     }
 }

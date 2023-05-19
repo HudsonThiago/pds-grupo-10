@@ -1,7 +1,11 @@
 package com.sip.sip.controller;
 
 import com.sip.sip.dto.AtualizarUsuarioDTO;
-import com.sip.sip.exception.ProjetoNotFoundException;
+import com.sip.sip.exception.TecnologiaNotFoundException;
+import com.sip.sip.exception.Usuario.UsuarioAlreadyExistsException;
+import com.sip.sip.exception.Usuario.UsuarioException;
+import com.sip.sip.exception.Usuario.UsuarioNotFoundException;
+import com.sip.sip.exception.Usuario.UsuarioUnsupportedPasswordsException;
 import com.sip.sip.model.Cargo;
 import com.sip.sip.model.Tecnologia;
 import com.sip.sip.model.Usuario;
@@ -9,7 +13,6 @@ import com.sip.sip.service.ICargoService;
 import com.sip.sip.service.ITecnologiaService;
 import com.sip.sip.service.ManterUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -53,16 +56,16 @@ public class ManterUsuarioController {
     }
 
     @PostMapping(value = "/editar-usuario/{id}")
-    public String editarUsuario(@PathVariable Long id, AtualizarUsuarioDTO usuarioDTO) throws ProjetoNotFoundException {
+    public String editarUsuario(@PathVariable Long id, AtualizarUsuarioDTO usuarioDTO) throws Exception {
 
-        Optional<Usuario> usuario = Optional.of(usuarioService.atualizarUsuario(id, usuarioDTO));
-
-        if (usuario.isEmpty()) {
-            return "redirect:editar-usuario/"+id;
+        try{
+            Usuario usuario = usuarioService.atualizarUsuario(id, usuarioDTO);
+            return "redirect:/listar-usuarios";
+        }catch(UsuarioNotFoundException e) {
+            return "redirect:/editar-usuario/"+id;
+        }catch (TecnologiaNotFoundException e){
+            return "redirect:/editar-usuario/"+id;
         }
-
-        return "redirect:/listar-usuarios";
-
     }
 
     @RequestMapping(value = "/excluir-usuario/{id}", method = RequestMethod.POST)
