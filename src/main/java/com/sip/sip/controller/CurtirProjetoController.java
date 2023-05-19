@@ -33,11 +33,7 @@ public class CurtirProjetoController {
         Usuario usuario = usuarioService.buscarUsuarioPorId(usuarioId);
         int numCurtidas = projetoService.curtirProjeto(projetoId, usuario);
 
-            Map<String, Integer> response = new HashMap<>();
-        if (numCurtidas == -1) {
-            response.put("numCurtidas", null);
-            return ResponseEntity.ok(response);
-        }
+        Map<String, Integer> response = new HashMap<>();
         Projeto projeto = projetoService.retornarProjetoPorId(projetoId);
         usuarioService.curtirProjeto(projeto, usuario);
         response.put("numCurtidas", numCurtidas);

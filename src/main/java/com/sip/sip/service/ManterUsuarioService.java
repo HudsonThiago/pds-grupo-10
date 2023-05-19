@@ -74,9 +74,10 @@ public class ManterUsuarioService {
 
     public void curtirProjeto(Projeto projeto, Usuario usuario) {
         if (usuario.getProjetosCurtidos().contains(projeto)) {
-            return;
+            usuario.getProjetosCurtidos().remove(projeto);
+        } else {
+            usuario.getProjetosCurtidos().add(projeto);
         }
-        usuario.getProjetosCurtidos().add(projeto);
 
         usuarioDAOJPA.atualizarUsuario(usuario);
     }

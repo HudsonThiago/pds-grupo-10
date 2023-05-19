@@ -265,9 +265,12 @@ public class ProjetoService implements IProjetoService {
 	public int curtirProjeto(Long idProjeto, Usuario usuario) throws ProjetoNotFoundException {
 		Projeto p = retornarProjetoPorId(idProjeto);
 		if (p.getCurtidoPorUsuarios().contains(usuario)) {
-			return -1;
+			p.getCurtidoPorUsuarios().remove(usuario);
+		} else {
+			p.getCurtidoPorUsuarios().add(usuario);
 		}
-		p.setNumCurtidas(p.getNumCurtidas() + 1);
+
+		p.setNumCurtidas(p.getCurtidoPorUsuarios().size());
 
 		projetoDAO.atualizarProjeto(p);
 		return p.getNumCurtidas();
