@@ -4,6 +4,7 @@ import com.sip.sip.dao.ProjetoDAO;
 import com.sip.sip.dao.TecnologiaDAO;
 import com.sip.sip.dto.FiltroDTO;
 import com.sip.sip.model.Projeto;
+import com.sip.sip.model.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -33,5 +34,11 @@ public class ExplorarProjetosService implements IExplorarProjetosService{
     public List<Projeto> filtrarProjetos(FiltroDTO filtros) {
         List<Projeto> projetos = projetoDAO.filtrarProjetos(filtros);
         return projetos;
+    }
+
+    public List<Projeto> listarProjetosRecomendados(Usuario usuario) {
+        List<Projeto> projetosRec = projetoDAO.filtrarProjetosCargos(usuario.getCargos());
+        int amountProjetos = projetosRec.size() >= 3 ? 3 : projetosRec.size();
+        return projetosRec.subList(0,amountProjetos);
     }
 }

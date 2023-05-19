@@ -26,7 +26,7 @@ public class Projeto {
 	@ManyToMany(cascade=CascadeType.ALL)
 	private List<Tecnologia> tecnologias;
 	@Column
-	@OneToMany(cascade=CascadeType.ALL)
+	@ManyToMany
 	private List<Cargo> cargosDesejados;
 	@Column
 	@OneToMany(cascade=CascadeType.ALL)
