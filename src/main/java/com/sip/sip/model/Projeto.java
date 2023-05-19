@@ -23,7 +23,7 @@ public class Projeto {
 	@OneToOne(cascade=CascadeType.ALL)
 	private Usuario criador;
 	@JoinColumn
-	@ManyToMany(cascade=CascadeType.ALL)
+	@ManyToMany
 	private List<Tecnologia> tecnologias;
 	@Column
 	@ManyToMany
