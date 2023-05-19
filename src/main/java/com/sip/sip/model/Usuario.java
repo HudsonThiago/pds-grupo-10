@@ -36,7 +36,12 @@ public class Usuario {
     )
     private List<Projeto> projetosCurtidos;
     @Column
-    @OneToMany(cascade=CascadeType.ALL)
+    @ManyToMany
+    @JoinTable(
+            name = "usuario_projeto_favoritos",
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "projeto_id")
+    )
     private List<Projeto> projetosFavoritados;
 
     public Usuario(){};

@@ -1,9 +1,7 @@
 package com.sip.sip.controller;
 
-import com.sip.sip.dto.ProjetoDTO;
 import com.sip.sip.exception.ProjetoNotFoundException;
 import com.sip.sip.model.Projeto;
-import com.sip.sip.model.Tecnologia;
 import com.sip.sip.model.Usuario;
 import com.sip.sip.service.ManterUsuarioService;
 import com.sip.sip.service.ProjetoService;
@@ -13,8 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 @Controller
@@ -27,12 +24,17 @@ public class FavoritarProjetoController {
 
     @PostMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Map<String, Object>> favoritarProjeto(@PathVariable("id") Long id) throws ProjetoNotFoundException {
-        Usuario principal = usuarioService.buscarUsuarioPorId(2l); //todo auth
-        Projeto projeto = projetoService.retornarProjetoPorId(id);
-        usuarioService.favoritarProjeto(projeto, principal.getId());
+    public ResponseEntity<Map<String, Integer>> favoritarProjeto(@PathVariable("id") Long projetoId) throws ProjetoNotFoundException {
+        Long usuarioId = 2l; // todo auth
+        Usuario usuario = usuarioService.buscarUsuarioPorId(usuarioId);
+        int numFavoritos = projetoService.favoritarProjeto(projetoId, usuario);
 
-        Map<String, Object> response = Collections.emptyMap();
+        Map<String, Integer> response = new HashMap<>();
+        if (numFavoritos == -1) {
+            return ResponseEntity.ok(response);
+        }
+        Projeto projeto = projetoService.retornarProjetoPorId(projetoId);
+        usuarioService.favoritarProjeto(projeto, usuario);
         return ResponseEntity.ok(response);
     }
 }

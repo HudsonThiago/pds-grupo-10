@@ -55,7 +55,10 @@ public class Projeto {
 	private List<UsuarioProjeto> usuariosProjeto;
 	@ManyToMany(mappedBy = "projetosCurtidos")
 	private List<Usuario> curtidoPorUsuarios;
-	
+
+	@ManyToMany(mappedBy = "projetosFavoritados")
+	private List<Usuario> favoritadoPorUsuarios;
+
 	public Projeto() {
 	}
 	
@@ -212,5 +215,13 @@ public class Projeto {
 
 	public void setCurtidoPorUsuarios(List<Usuario> curtidoPorUsuarios) {
 		this.curtidoPorUsuarios = curtidoPorUsuarios;
+	}
+
+	public List<Usuario> getFavoritadoPorUsuarios() {
+		return favoritadoPorUsuarios;
+	}
+
+	public void setFavoritadoPorUsuarios(List<Usuario> favoritadoPorUsuarios) {
+		this.favoritadoPorUsuarios = favoritadoPorUsuarios;
 	}
 }
