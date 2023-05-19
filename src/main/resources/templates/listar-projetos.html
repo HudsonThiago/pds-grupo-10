@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Meus Projetos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container my-5">
+  <h1 class="text-center mb-4">Meus Projetos</h1>
+
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    <!-- Card loop -->
+    <div th:each="projeto : ${projetos}" class="col">
+      <div class="card h-100">
+        <img th:src="${projeto.imagemUrl}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 th:text="${projeto.nome}" class="card-title"></h5>
+          <p th:text="${projeto.descricao}" class="card-text"></p>
+          <a th:href="@{/ver-projeto/{id}(id=${projeto.id})}" class="btn btn-primary">Ver Projeto</a>
+          <a th:href="@{/editar-projeto/{id}(id=${projeto.id})}" class="btn btn-secondary">Editar Projeto</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Bootstrap Bundle JS (with Popper.js) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

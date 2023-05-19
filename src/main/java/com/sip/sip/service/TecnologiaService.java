@@ -21,6 +21,9 @@ public class TecnologiaService implements ITecnologiaService{
     public List<Tecnologia> listarTecnologias() {
         return tecnologiaDAO.listarTecnologias();
     }
+    public List<Tecnologia> listarTecnologiasInativas() {
+        return tecnologiaDAO.listarTecnologias(false);
+    }
 
     public Tecnologia criarTecnologia(Tecnologia tecnologia) {
         return tecnologiaDAO.criarTecnologia(tecnologia);

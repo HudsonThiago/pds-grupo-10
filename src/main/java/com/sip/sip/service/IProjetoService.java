@@ -10,13 +10,17 @@ import java.io.IOException;
 import java.util.List;
 
 public interface IProjetoService {
-    Projeto buscarProjetoPorId(Long id) throws ProjetoNotFoundException;
+    ProjetoDTO buscarProjetoPorId(Long id) throws ProjetoNotFoundException;
 
     List<Projeto> listarProjetos();
 
     ProjetoDTO criarProjeto(ProjetoCadastroDTO projeto) throws IOException;
 
-    Projeto atualizarProjeto(Long id, Projeto projeto) throws ProjetoNotFoundException;
+    ProjetoCadastroDTO atualizarProjeto(Long id, ProjetoCadastroDTO projeto) throws ProjetoNotFoundException, IOException;
 
     void excluirProjeto(Long id) throws ProjetoNotFoundException;
+
+    Boolean ehMembro(Long idUsuario, Long idProjeto);
+
+    ProjetoCadastroDTO buscarProjetoCadastradoPorId(Long id) throws ProjetoNotFoundException;
 }

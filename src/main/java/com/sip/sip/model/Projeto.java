@@ -1,11 +1,16 @@
 package com.sip.sip.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Entity
+@OnDelete(action = OnDeleteAction.CASCADE)
 public class Projeto {
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE)
@@ -46,7 +51,14 @@ public class Projeto {
 	private int numCurtidas;
 	@Column
 	private int numFavoritos;
-	
+	@OneToMany(mappedBy = "projeto")
+	private List<UsuarioProjeto> usuariosProjeto;
+	@ManyToMany(mappedBy = "projetosCurtidos")
+	private List<Usuario> curtidoPorUsuarios;
+
+	@ManyToMany(mappedBy = "projetosFavoritados")
+	private List<Usuario> favoritadoPorUsuarios;
+
 	public Projeto() {
 	}
 	
@@ -171,5 +183,45 @@ public class Projeto {
 
 	public void setCriador(Usuario criador) {
 		this.criador = criador;
+	}
+
+	public void setTecnologias(List<Tecnologia> tecnologias) {
+		this.tecnologias = tecnologias;
+	}
+
+	public void setCargosDesejados(List<Cargo> cargosDesejados) {
+		this.cargosDesejados = cargosDesejados;
+	}
+
+	public void setMembros(List<Usuario> membros) {
+		this.membros = membros;
+	}
+
+	public void setCargosAbertos(List<Cargo> cargosAbertos) {
+		this.cargosAbertos = cargosAbertos;
+	}
+
+	public List<UsuarioProjeto> getUsuariosProjeto() {
+		return usuariosProjeto;
+	}
+
+	public void setUsuariosProjeto(List<UsuarioProjeto> usuariosProjeto) {
+		this.usuariosProjeto = usuariosProjeto;
+	}
+
+	public List<Usuario> getCurtidoPorUsuarios() {
+		return curtidoPorUsuarios;
+	}
+
+	public void setCurtidoPorUsuarios(List<Usuario> curtidoPorUsuarios) {
+		this.curtidoPorUsuarios = curtidoPorUsuarios;
+	}
+
+	public List<Usuario> getFavoritadoPorUsuarios() {
+		return favoritadoPorUsuarios;
+	}
+
+	public void setFavoritadoPorUsuarios(List<Usuario> favoritadoPorUsuarios) {
+		this.favoritadoPorUsuarios = favoritadoPorUsuarios;
 	}
 }

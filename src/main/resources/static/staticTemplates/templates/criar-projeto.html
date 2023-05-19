@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Criação de Projeto</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+Z58SLqOqk8WQu2Ew0MId5Ppzr+D5X" crossorigin="anonymous">
+</head>
+<body>
+<div class="container mt-5">
+  <h1>Criação de Projeto</h1>
+  <form action="/projetos" method="post" role="form">
+    <div class="form-group">
+      <label for="nome">Nome:</label>
+      <input type="text" class="form-control" id="nome" name="nome" required>
+    </div>
+    <div class="form-group">
+      <label for="descricao">Descrição:</label>
+      <textarea class="form-control" id="descricao" name="descricao" required></textarea>
+    </div>
+    <div class="form-group">
+      <label for="tecnologias">Tecnologias:</label>
+      <select class="form-control" id="tecnologias">
+        <option th:each="tecnologia : ${tecnologias}" th:text="${tecnologia.nome}"></option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="horasSemanais">Horas Semanais:</label>
+      <input type="number" class="form-control" id="horasSemanais" name="horasPorSemana" required>
+    </div>
+    <div class="form-group">
+      <label for="diasPorSemana">Dias por Semana:</label>
+      <input type="number" class="form-control" id="diasPorSemana" name="diasPorSemana" required>
+    </div>
+    <div class="form-group">
+      <label for="numDeVagas">Número de Vagas:</label>
+      <input type="number" class="form-control" id="numDeVagas" name="numDeVagas" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Criar Projeto</button>
+  </form>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+</body>
+</html>

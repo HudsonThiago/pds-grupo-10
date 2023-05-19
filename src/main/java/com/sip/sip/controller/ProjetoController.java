@@ -28,7 +28,7 @@ public class ProjetoController {
     }
 
     @GetMapping("/{id}")
-    public Projeto buscarProjetoPorId(@PathVariable Long id) throws ProjetoNotFoundException {
+    public ProjetoDTO buscarProjetoPorId(@PathVariable Long id) throws ProjetoNotFoundException {
         return projetoService.buscarProjetoPorId(id);
     }
 
@@ -39,8 +39,8 @@ public class ProjetoController {
     }
 
     @PutMapping("/{id}")
-    public Projeto atualizarProjeto(@PathVariable Long id, @RequestBody Projeto projeto) throws ProjetoNotFoundException {
-        return projetoService.atualizarProjeto(id, projeto);
+    public ProjetoCadastroDTO atualizarProjeto(@PathVariable Long id, @ModelAttribute ProjetoCadastroDTO projetoDTO) throws ProjetoNotFoundException, IOException {
+        return projetoService.atualizarProjeto(id, projetoDTO);
     }
 
     @DeleteMapping("/{id}")

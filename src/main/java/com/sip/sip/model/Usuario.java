@@ -2,6 +2,7 @@ package com.sip.sip.model;
 
 import jakarta.persistence.*;
 
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -17,6 +18,9 @@ public class Usuario {
     private String senha;
     @Column
     private String descricao;
+
+    @Column
+    private Boolean administrador;
     @Column
     @OneToMany(cascade=CascadeType.ALL)
     private List<Tecnologia> tecnologias;
@@ -24,11 +28,36 @@ public class Usuario {
     @OneToMany(cascade=CascadeType.ALL)
     private List<Projeto> projetosParticipados;
     @Column
-    @OneToMany(cascade=CascadeType.ALL)
+    @ManyToMany
+    @JoinTable(
+            name = "usuario_projeto_curtidas",
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "projeto_id")
+    )
     private List<Projeto> projetosCurtidos;
     @Column
-    @OneToMany(cascade=CascadeType.ALL)
+    @ManyToMany
+    @JoinTable(
+            name = "usuario_projeto_favoritos",
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "projeto_id")
+    )
     private List<Projeto> projetosFavoritados;
+
+    public Usuario(){};
+    public Usuario(Long id, String nome, String email, String senha) {
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+        this.senha = senha;
+    }
+    public Usuario(Long id, String nome, String email, String senha, Boolean administrador) {
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+        this.senha = senha;
+        this.administrador = administrador;
+    }
 
     public Long getId() {
         return id;
@@ -101,4 +130,49 @@ public class Usuario {
     public void setProjetosFavoritados(List<Projeto> projetosFavoritados) {
         this.projetosFavoritados = projetosFavoritados;
     }
+
+    public Boolean getAdministrador() {
+        return administrador;
+    }
+
+    public void setAdministrador(Boolean administrador) {
+        this.administrador = administrador;
+    }
+
+    /*
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+    }
+
+    @Override
+    public String getPassword() {
+        return senha;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+    */
 }

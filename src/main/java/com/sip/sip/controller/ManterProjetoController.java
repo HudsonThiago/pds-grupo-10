@@ -2,14 +2,20 @@ package com.sip.sip.controller;
 
 import com.sip.sip.dto.ProjetoCadastroDTO;
 import com.sip.sip.dto.ProjetoDTO;
+import com.sip.sip.exception.ProjetoNotFoundException;
 import com.sip.sip.model.Cargo;
+import com.sip.sip.model.Projeto;
 import com.sip.sip.model.Tecnologia;
+import com.sip.sip.model.Usuario;
 import com.sip.sip.service.ICargoService;
+import com.sip.sip.service.IProjetoService;
 import com.sip.sip.service.ITecnologiaService;
+import com.sip.sip.service.ManterUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -19,6 +25,11 @@ public class ManterProjetoController {
     private ITecnologiaService tecnologiaService;
     @Autowired
     private ICargoService cargoService;
+    @Autowired
+    private ManterUsuarioService usuarioService;
+    @Autowired
+    private IProjetoService projetoService;
+
     @GetMapping("/criar-projeto")
     public String criarProjeto(Model model) {
         List<Tecnologia> tecnologias = tecnologiaService.listarTecnologias();
@@ -28,4 +39,45 @@ public class ManterProjetoController {
         model.addAttribute("projetoCadastroDTO", new ProjetoCadastroDTO());
         return "criar-projeto";
     }
+
+    @GetMapping("/listar-projetos")
+    public String listarProjetos(Model model) {
+        // Temporario. Mudar para obter o usuario logado no momento
+        Usuario u = new Usuario();
+        u.setProjetosParticipados(projetoService.listarProjetos());
+        List<Projeto> projetos =  u.getProjetosParticipados();
+        model.addAttribute("projetos", projetos);
+        return "listar-projetos";
+    }
+
+    @GetMapping("/ver-projeto/{id}")
+    public String verProjeto(Model model, @PathVariable Long id) throws ProjetoNotFoundException {
+        // todo auth
+        Usuario principal =  usuarioService.buscarUsuarioPorId(2l);
+
+        ProjetoDTO projeto = projetoService.buscarProjetoPorId(id);
+        Boolean ehMembro = projetoService.ehMembro(principal.getId(), projeto.getId());
+        ehMembro = true; // debug
+        model.addAttribute("ehMembro", ehMembro);
+        model.addAttribute("projeto", projeto);
+        return "ver-projeto";
+    }
+
+    @GetMapping("/editar-projeto/{id}")
+    public String editarProjeto(Model model, @PathVariable Long id) throws ProjetoNotFoundException {
+        // todo auth
+        Usuario principal =  usuarioService.buscarUsuarioPorId(2l);
+
+        List<Tecnologia> tecnologias = tecnologiaService.listarTecnologias();
+        model.addAttribute("tecnologias", tecnologias);
+        List<Cargo> cargos = cargoService.listarCargos();
+        model.addAttribute("cargos", cargos);
+        ProjetoCadastroDTO projeto = projetoService.buscarProjetoCadastradoPorId(id);
+        model.addAttribute("projetoCadastroDTO", projeto);
+        model.addAttribute("id", id);
+
+        return "editar-projeto";
+    }
+
+
 }

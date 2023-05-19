@@ -27,6 +27,12 @@ public class UsuarioDAOJPA implements UsuarioDAO{
         Optional<Usuario> usuario = usuarioRepository.findById(id);
         return usuario.orElse(null);
     }
+
+    public Usuario buscarUsuarioPorEmail(String email){
+        Usuario usuario = usuarioRepository.findByEmail(email);
+        return usuario;
+    }
+
     @Override
     public Usuario criarUsuario(Usuario usuario){
         return usuarioRepository.save(usuario);
@@ -34,9 +40,5 @@ public class UsuarioDAOJPA implements UsuarioDAO{
     @Override
     public Usuario atualizarUsuario(Usuario usuario) {
         return usuarioRepository.save(usuario);
-    }
-    @Override
-    public boolean Login(String email, String senha){
-        return false;
     }
 }
