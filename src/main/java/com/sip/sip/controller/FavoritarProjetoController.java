@@ -30,11 +30,9 @@ public class FavoritarProjetoController {
         int numFavoritos = projetoService.favoritarProjeto(projetoId, usuario);
 
         Map<String, Integer> response = new HashMap<>();
-        if (numFavoritos == -1) {
-            return ResponseEntity.ok(response);
-        }
         Projeto projeto = projetoService.retornarProjetoPorId(projetoId);
         usuarioService.favoritarProjeto(projeto, usuario);
+        response.put("numFavoritos", numFavoritos);
         return ResponseEntity.ok(response);
     }
 }

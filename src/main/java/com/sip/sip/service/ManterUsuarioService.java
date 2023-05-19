@@ -65,9 +65,11 @@ public class ManterUsuarioService {
         return "redirect:/";
     }
     public void favoritarProjeto(Projeto p, Usuario u) {
-        if (u.getProjetosFavoritados().contains(p)) return;
-
-        u.getProjetosFavoritados().add(p);
+        if (u.getProjetosFavoritados().contains(p)) {
+            u.getProjetosFavoritados().remove(p);
+        } else {
+            u.getProjetosFavoritados().add(p);
+        }
 
         usuarioDAOJPA.atualizarUsuario(u);
     }

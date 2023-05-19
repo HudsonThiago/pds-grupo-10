@@ -279,12 +279,14 @@ public class ProjetoService implements IProjetoService {
 	public int favoritarProjeto(Long idProjeto, Usuario usuario) throws ProjetoNotFoundException {
 		Projeto p = retornarProjetoPorId(idProjeto);
 		if (p.getFavoritadoPorUsuarios().contains(usuario)) {
-			return -1;
+			p.getFavoritadoPorUsuarios().remove(usuario);
+		} else {
+			p.getFavoritadoPorUsuarios().add(usuario);
 		}
-		p.setNumFavoritos(p.getNumFavoritos() + 1);
+
+		p.setNumFavoritos(p.getFavoritadoPorUsuarios().size());
 
 		projetoDAO.atualizarProjeto(p);
 		return p.getNumFavoritos();
 	}
-
 }
