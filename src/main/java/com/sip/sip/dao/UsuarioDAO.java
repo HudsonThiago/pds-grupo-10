@@ -13,4 +13,5 @@ public interface UsuarioDAO {
 
     Usuario criarUsuario(Usuario usuario);
     Usuario atualizarUsuario(Usuario usuario);
+    void excluirUsuario(Long id);
 }

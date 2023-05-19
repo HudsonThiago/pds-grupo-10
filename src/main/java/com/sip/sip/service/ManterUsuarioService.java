@@ -1,16 +1,22 @@
 package com.sip.sip.service;
 
+import com.sip.sip.dao.TecnologiaDAOJPA;
 import com.sip.sip.dao.UsuarioDAOJPA;
 import com.sip.sip.dto.AtualizarUsuarioDTO;
 import com.sip.sip.dto.UsuarioCadastroDTO;
-import com.sip.sip.exception.ProjetoNotFoundException;
+import com.sip.sip.exception.TecnologiaNotFoundException;
+import com.sip.sip.exception.Usuario.*;
+import com.sip.sip.model.Tecnologia;
 import com.sip.sip.model.Projeto;
 import com.sip.sip.model.Usuario;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.Objects.isNull;
 
@@ -19,6 +25,9 @@ public class ManterUsuarioService {
 
     @Autowired
     private UsuarioDAOJPA usuarioDAOJPA;
+
+    @Autowired
+    private TecnologiaDAOJPA tecnologiaDAOJPA;
 
     public List<Usuario> listarUsuarios(){
         return usuarioDAOJPA.listarUsuarios();
@@ -32,37 +41,63 @@ public class ManterUsuarioService {
         return usuarioDAOJPA.buscarUsuarioPorEmail(email);
     }
 
-    public Usuario criarUsuario(UsuarioCadastroDTO usuarioDto){
+    public Usuario criarUsuario(UsuarioCadastroDTO usuarioDto) throws UsuarioException{
+
+        Usuario usuarioFiltrado = buscarUsuarioPorEmail(usuarioDto.getEmail());
+        if(!isNull(usuarioFiltrado)){
+            throw new UsuarioAlreadyExistsException("Usuário já existe");
+        }
+
+        if(!usuarioDto.getSenha().equals(usuarioDto.getConfirmarSenha())){
+            throw new UsuarioUnsupportedPasswordsException("As senhas não são iguais");
+        }
 
         Usuario usuario = new Usuario();
         BeanUtils.copyProperties(usuarioDto, usuario);
-
         return usuarioDAOJPA.criarUsuario(usuario);
     }
 
-    public Usuario atualizarUsuario(long id, AtualizarUsuarioDTO atualizarUsuarioDTO) throws ProjetoNotFoundException{
-        Usuario usuario = buscarUsuarioPorId(id);
-        if (usuario == null) {
-            throw new ProjetoNotFoundException("Usuario não encontrado com id: " + id);
-        }
-        if(atualizarUsuarioDTO.getNome() != null) usuario.setNome(atualizarUsuarioDTO.getNome());
-        if(atualizarUsuarioDTO.getEmail() != null) usuario.setEmail(atualizarUsuarioDTO.getEmail());
-        if(atualizarUsuarioDTO.getDescricao() != null) usuario.setDescricao(atualizarUsuarioDTO.getDescricao());
-        if(atualizarUsuarioDTO.getSenha() != null) usuario.setSenha(atualizarUsuarioDTO.getSenha());
-        usuario.setTecnologias(atualizarUsuarioDTO.getTecnologias());
-
-        return usuarioDAOJPA.atualizarUsuario(usuario);
+    public void excluirUsuario(Long id){
+        usuarioDAOJPA.excluirUsuario(id);
     }
 
-    public String login(String email, String senha){
+    public Usuario atualizarUsuario(long id, AtualizarUsuarioDTO atualizarUsuarioDTO) throws Exception {
+        Optional<Usuario> usuario = Optional.of(buscarUsuarioPorId(id));
+
+        if (usuario.isEmpty()) {
+            throw new UsuarioNotFoundException("Nenhum usuário encontrado");
+        }
+        if(atualizarUsuarioDTO.getNome() != null) usuario.get().setNome(atualizarUsuarioDTO.getNome());
+        if(atualizarUsuarioDTO.getEmail() != null) usuario.get().setEmail(atualizarUsuarioDTO.getEmail());
+        if(atualizarUsuarioDTO.getDescricao() != null) usuario.get().setDescricao(atualizarUsuarioDTO.getDescricao());
+
+        List<Tecnologia> tecnologias = new ArrayList<Tecnologia>();
+
+        if(atualizarUsuarioDTO.getIdTecnologias().size() != 0){
+            for (long idTecnologia:atualizarUsuarioDTO.getIdTecnologias()) {
+                tecnologias.add(tecnologiaDAOJPA.buscarTecnologia(idTecnologia));
+            }
+        } else {
+            throw new TecnologiaNotFoundException("Tecnologia não encontrada");
+        }
+
+        usuario.get().setTecnologias(tecnologias);
+
+        return usuarioDAOJPA.atualizarUsuario(usuario.get());
+    }
+
+    public Usuario login(String email, String senha) throws UsuarioException {
         Usuario usuario = usuarioDAOJPA.buscarUsuarioPorEmail(email);
 
         if(!isNull(usuario)){
             if(usuario.getEmail().equals(email) && usuario.getSenha().equals(senha)){
-                return "redirect:/dashboard";
+                return usuario;
+            } else {
+                throw new UsuarioIncorrectDataException("email ou senha incorreta");
             }
+        }else {
+            throw new UsuarioNotFoundException("usuario não foi encontrado");
         }
-        return "redirect:/";
     }
     public void favoritarProjeto(Projeto p, Usuario u) {
         if (u.getProjetosFavoritados().contains(p)) {

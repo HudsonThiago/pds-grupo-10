@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Listar Usuários</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+
+  <link rel="stylesheet" th:href="@{/css/bootstrap-select.min.css}">
+
+</head>
+<body>
+<div class="container mt-5">
+  <h1>Lista de usuários</h1>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nome</th>
+      <th scope="col">Email</th>
+      <th scope="col">Tecnologias</th>
+      <th scope="col">Projetos</th>
+      <th scope="col">Editar</th>
+      <th scope="col">Exlcuir</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="usuario : ${usuarios}">
+      <th scope="row" th:text="${usuario.id}">--</th>
+
+      <td th:text="${usuario.nome}">--</td>
+
+      <td th:text="${usuario.email}">--</td>
+
+      <td th:if="${not #lists.isEmpty(usuario.tecnologias)}">
+        <div th:each="tecnologia : ${usuario.tecnologias}">
+          <span th:text="${tecnologia.nome}"></span><br/>
+        </div>
+      </td>
+      <td th:unless="${not #lists.isEmpty(usuario.tecnologias)}">
+        --
+      </td>
+
+      <td th:if="${not #lists.isEmpty(usuario.projetosParticipados)}">
+        <span th:each="projeto : ${usuario.projetosParticipados}">
+          <span th:text="${projeto.nome}"></span>
+        </span>
+      </td>
+      <td th:unless="${not #lists.isEmpty(usuario.projetosParticipados)}">
+        --
+      </td>
+      <td>
+        <a th:href="@{/editar-usuario/{id}(id=${usuario.id})}">
+          <button type="button" class="btn btn-outline-primary">Editar</button>
+        </a>
+      </td>
+      <td>
+        <form th:action="@{/excluir-usuario/} + ${usuario.id}" method="post">
+          <button type="submit" class="btn btn-outline-danger">Apagar</button>
+        </form>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+<script th:src="@{/js/bootstrap-select.js}"></script>
+<script th:defer>$.fn.selectpicker.Constructor.BootstrapVersion = '4';</script>
+<script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
+<script>
+  $(document).ready(function () {
+    bsCustomFileInput.init()
+  })
+</script>
+</body>
+</html>

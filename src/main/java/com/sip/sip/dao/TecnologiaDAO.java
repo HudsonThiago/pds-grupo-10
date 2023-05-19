@@ -16,4 +16,6 @@ public interface TecnologiaDAO {
     Tecnologia atualizarTecnologia(Tecnologia tecnologia);
     public List<Tecnologia> listarTodasAsTecnologias();
     void excluirTecnologia(Long id);
+
+    void mudarEstadoTecnologia(Long id);
 }

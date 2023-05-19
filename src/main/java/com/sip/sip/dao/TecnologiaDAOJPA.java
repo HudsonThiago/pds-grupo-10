@@ -50,4 +50,11 @@ public class TecnologiaDAOJPA implements TecnologiaDAO{
     public void excluirTecnologia(Long id) {
         tecnologiaRepository.deleteById(id);
     }
+
+    @Override
+    public void mudarEstadoTecnologia(Long id){
+        Optional<Tecnologia> tecnologiaOptional = tecnologiaRepository.findById(id);
+        tecnologiaOptional.get().setAtivo(!(tecnologiaOptional.get().getAtivo()));
+        tecnologiaRepository.save(tecnologiaOptional.get());
+    };
 }

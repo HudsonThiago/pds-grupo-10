@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8" />
-        <title>Criação de Projeto</title>
+        <title>Cadastro</title>
         <link
             rel="stylesheet"
             href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
@@ -38,7 +38,7 @@
                         <p>Voltar</p>
                     </a>
                     <h1 class="boldTitle">Cadastro</h1>
-                    <form method="post">
+                    <form method="post" th:object="${usuarioDto}">
                         <label class="inputContainer" for="nome">
                             <h4 class="inputLabel">Nome</h4>
                             <div class="inputBox">
@@ -69,9 +69,9 @@
                                     required
                                 />
                             </div>
-                            <div class="errorText">
+                            <div class="errorText" th:if="${not #strings.isEmpty(emailError)}">
                                 <i class="fa-solid fa-circle-xmark"></i>
-                                <p>Este email já foi cadastrado</p>
+                                <p th:text="${emailError}">/p>
                             </div>
                         </label>
 
@@ -105,9 +105,9 @@
                                     required
                                 />
                             </div>
-                            <div class="errorText">
+                            <div class="errorText" th:if="${not #strings.isEmpty(senhaError)}">
                                 <i class="fa-solid fa-circle-xmark"></i>
-                                <p>As senhas não são iguais</p>
+                                <p th:text="${senhaError}">/p>
                             </div>
                         </label>
                         <button class="button" type="submit">Cadastrar</button>

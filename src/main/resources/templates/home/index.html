@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8" />
-        <title>Criação de Projeto</title>
+        <title>Início</title>
         <link
             rel="stylesheet"
             href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
@@ -49,6 +49,10 @@
                                 required
                             />
                         </div>
+                        <div class="errorText" th:if="${not #strings.isEmpty(emailError)}">
+                            <i class="fa-solid fa-circle-xmark"></i>
+                            <p th:text="${emailError}">/p>
+                        </div>
                     </label>
 
                     <label class="inputContainer" for="senha">
@@ -65,9 +69,9 @@
                                 required
                             />
                         </div>
-                        <div class="errorText">
+                        <div class="errorText" th:if="${not #strings.isEmpty(senhaError)}">
                             <i class="fa-solid fa-circle-xmark"></i>
-                            <p>Email ou senha incorreta, tente de novo</p>
+                            <p th:text="${senhaError}">/p>
                         </div>
                     </label>
                     <a class="registerButton" th:href="@{/cadastro}">

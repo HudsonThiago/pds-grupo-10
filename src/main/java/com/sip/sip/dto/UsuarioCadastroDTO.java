@@ -31,10 +31,10 @@ public class UsuarioCadastroDTO {
     }
 
     public String getConfirmarSenha() {
-        return senha;
+        return confirmarSenha;
     }
 
-    public void setConfirmarSenha(String senha) {
-        this.senha = senha;
+    public void setConfirmarSenha(String confirmarSenha) {
+        this.confirmarSenha = confirmarSenha;
     }
 }
