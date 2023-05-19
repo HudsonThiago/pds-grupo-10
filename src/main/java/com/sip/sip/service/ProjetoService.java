@@ -278,6 +278,11 @@ public class ProjetoService implements IProjetoService {
 		return projetoExistente;
 	}
 
+	@Override
+	public void salvarProjeto(Projeto projeto) {
+		projetoDAO.atualizarProjeto(projeto);
+	}
+
 	public int curtirProjeto(Long idProjeto, Usuario usuario) throws ProjetoNotFoundException {
 		Projeto p = retornarProjetoPorId(idProjeto);
 		if (p.getCurtidoPorUsuarios().contains(usuario)) {

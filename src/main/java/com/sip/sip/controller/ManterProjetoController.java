@@ -57,7 +57,7 @@ public class ManterProjetoController {
 
         ProjetoDTO projeto = projetoService.buscarProjetoPorId(id);
         Boolean ehMembro = projetoService.ehMembro(principal.getId(), projeto.getId());
-        ehMembro = true; // debug
+        ehMembro = true; // test
         model.addAttribute("ehMembro", ehMembro);
         model.addAttribute("projeto", projeto);
         return "ver-projeto";

@@ -25,4 +25,7 @@ public interface IProjetoService {
     ProjetoCadastroDTO buscarProjetoCadastradoPorId(Long id) throws ProjetoNotFoundException;
 
     void destacarProjeto(Long idProjeto) throws ProjetoNotFoundException;
+
+    Projeto retornarProjetoPorId(Long id) throws ProjetoNotFoundException;
+    void salvarProjeto(Projeto projeto); // testing purposes
 }

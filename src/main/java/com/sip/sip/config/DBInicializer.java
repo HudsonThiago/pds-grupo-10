@@ -100,21 +100,33 @@ public class DBInicializer implements CommandLineRunner {
 
     private void instanciarProjetos() throws IOException, ProjetoNotFoundException {
         projetoService.criarProjeto(new ProjetoCadastroDTO("projeto1","um projeto", 0,
-                0,0, null,List.of(1l,2l)));
+                0,0, List.of(1l,2l),List.of(1l,2l)));
         projetoService.criarProjeto(new ProjetoCadastroDTO("projeto2","um projeto", 0,
-                0,0, null,List.of(2l,3l)));
+                0,0,  List.of(2l,3l),List.of(2l,3l)));
         projetoService.criarProjeto(new ProjetoCadastroDTO("projeto3","um projeto", 0,
-                0,0, null,List.of(1l)));
+                0,0,  List.of(3l,1l,2l),List.of(1l)));
         projetoService.criarProjeto(new ProjetoCadastroDTO("projeto4","um projeto", 0,
-                0,0, null,List.of(1l, 4l)));
+                0,0,  List.of(1l,2l),List.of(1l, 4l)));
         projetoService.criarProjeto(new ProjetoCadastroDTO("projeto5","um projeto", 0,
-                0,0, null,List.of(3l)));
+                0,0,  List.of(2l),List.of(3l)));
         projetoService.criarProjeto(new ProjetoCadastroDTO("projeto6","um projeto", 0,
-                0,0, null,List.of(3l,4l)));
+                0,0,  List.of(1l,4l),List.of(3l,4l)));
 
         projetoService.destacarProjeto(4l);
         projetoService.destacarProjeto(5l);
         projetoService.destacarProjeto(6l);
+
+        Projeto p1 = projetoService.retornarProjetoPorId(1l);
+        p1.setMembros(List.of(usuario.buscarUsuarioPorId(4l), usuario.buscarUsuarioPorId(2l), usuario.buscarUsuarioPorId(3l)));
+        projetoService.salvarProjeto(p1);
+
+        Projeto p2 = projetoService.retornarProjetoPorId(2l);
+        p1.setMembros(List.of(usuario.buscarUsuarioPorId(4l), usuario.buscarUsuarioPorId(2l)));
+        projetoService.salvarProjeto(p2);
+
+        Projeto p3 = projetoService.retornarProjetoPorId(3l);
+        p1.setMembros(List.of(usuario.buscarUsuarioPorId(4l)));
+        projetoService.salvarProjeto(p3);
     }
     private void instanciarMensagensChat() throws IOException, ProjetoNotFoundException {
 //        mensagemCService.criarMensagem(new MensagemCEnviadaDTO("teste do user1 para o projeto 2", 2l, 3l));
