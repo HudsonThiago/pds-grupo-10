@@ -106,7 +106,7 @@
                         <div class="card-body">
                             <h5 class="card-title" th:text="${projeto.nome}"></h5>
                             <p class="card-text" th:text="${projeto.descricao}"></p>
-                            <a href="#" class="btn btn-primary" th:href="@{/projetos/{id}(id=${projeto.id})}">Ler Mais</a>
+                            <a href="#" class="btn btn-primary" th:href="@{/ver-projeto/{id}(id=${projeto.id})}">Ver Projeto</a>
                             <a class="btn btn-light" th:attr="projeto-id=${projeto.id}" onclick="curtir(this)">
                                 <i class="bi bi-hand-thumbs-up"></i> Curtir <span class="badge badge-light" th:text="${projeto.numCurtidas}"></span>
                             </a>
