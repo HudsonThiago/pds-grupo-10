@@ -58,6 +58,10 @@ public class DashboardController {
         model.addAttribute("projetos", projetos);
         Usuario usuarioLogado = usuarioService.buscarUsuarioPorId(2l);      // todo auth
         model.addAttribute("usuarioLogado", usuarioLogado);
+        List<Projeto> projetosRec = explorarProjetosService.listarProjetosRecomendados(usuarioLogado);
+        model.addAttribute("projetosRec", projetosRec);
+        List<Projeto> projetosD = explorarProjetosService.listarProjetos();
+        model.addAttribute("projetosD", projetosD);
         return "dashboard/dashboard";
     }
 }
