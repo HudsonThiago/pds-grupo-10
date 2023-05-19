@@ -71,4 +71,13 @@ public class ManterUsuarioService {
         u.setProjetosFavoritados(projetosFavoritados);
         usuarioDAOJPA.atualizarUsuario(u);
     }
+
+    public void curtirProjeto(Projeto projeto, Usuario usuario) {
+        if (usuario.getProjetosCurtidos().contains(projeto)) {
+            return;
+        }
+        usuario.getProjetosCurtidos().add(projeto);
+
+        usuarioDAOJPA.atualizarUsuario(usuario);
+    }
 }
