@@ -64,11 +64,11 @@ public class ManterUsuarioService {
         }
         return "redirect:/";
     }
-    public void favoritarProjeto(Projeto p, Long usuarioId) {
-        Usuario u = buscarUsuarioPorId(usuarioId);
-        List<Projeto> projetosFavoritados = u.getProjetosFavoritados();
-        projetosFavoritados.add(p);
-        u.setProjetosFavoritados(projetosFavoritados);
+    public void favoritarProjeto(Projeto p, Usuario u) {
+        if (u.getProjetosFavoritados().contains(p)) return;
+
+        u.getProjetosFavoritados().add(p);
+
         usuarioDAOJPA.atualizarUsuario(u);
     }
 

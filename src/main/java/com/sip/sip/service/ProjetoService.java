@@ -273,4 +273,15 @@ public class ProjetoService implements IProjetoService {
 		return p.getNumCurtidas();
 	}
 
+	public int favoritarProjeto(Long idProjeto, Usuario usuario) throws ProjetoNotFoundException {
+		Projeto p = retornarProjetoPorId(idProjeto);
+		if (p.getFavoritadoPorUsuarios().contains(usuario)) {
+			return -1;
+		}
+		p.setNumFavoritos(p.getNumFavoritos() + 1);
+
+		projetoDAO.atualizarProjeto(p);
+		return p.getNumFavoritos();
+	}
+
 }

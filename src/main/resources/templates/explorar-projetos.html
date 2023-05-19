@@ -134,16 +134,6 @@
     }
 
 
-    function favoritar(botao) {
-        var id = botao.getAttribute("projeto-id");
-        fetch("/favoritar/" + id, {method: "POST"})
-            .then(function(response) {
-                return response.json();
-            })
-            .then(function(data) {
-                console.log(data);
-            });
-    }
 
     function favoritar(botao) {
         var id = botao.getAttribute("projeto-id");
