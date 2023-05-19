@@ -23,4 +23,6 @@ public interface IProjetoService {
     Boolean ehMembro(Long idUsuario, Long idProjeto);
 
     ProjetoCadastroDTO buscarProjetoCadastradoPorId(Long id) throws ProjetoNotFoundException;
+
+    void destacarProjeto(Long idProjeto) throws ProjetoNotFoundException;
 }

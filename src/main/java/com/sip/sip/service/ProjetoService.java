@@ -123,7 +123,7 @@ public class ProjetoService implements IProjetoService {
 				uProj -> uProj.getCargos().stream().map(Cargo::getNome).collect(Collectors.toList())
 		));
 		dto.setNomeCargoMap(usuariosMap);
-
+		dto.setEmDestaque(p.getEmDestaque());
 		return dto;
 	}
 
@@ -289,4 +289,11 @@ public class ProjetoService implements IProjetoService {
 		projetoDAO.atualizarProjeto(p);
 		return p.getNumFavoritos();
 	}
+
+	public void destacarProjeto(Long idProjeto) throws ProjetoNotFoundException {
+		Projeto p = retornarProjetoPorId(idProjeto);
+		p.setEmDestaque(true);
+		projetoDAO.atualizarProjeto(p);
+	}
+
 }

@@ -6,6 +6,7 @@ import com.sip.sip.dto.MensagemCEnviadaDTO;
 import com.sip.sip.dto.MensagemPEnviadaDTO;
 import com.sip.sip.dto.ProjetoCadastroDTO;
 import com.sip.sip.exception.ProjetoNotFoundException;
+import com.sip.sip.model.Projeto;
 import com.sip.sip.model.Tecnologia;
 import com.sip.sip.model.Usuario;
 import com.sip.sip.service.IMensagemCService;
@@ -71,13 +72,23 @@ public class DBInicializer implements CommandLineRunner {
 
     }
 
-    private void instanciarProjetos() throws IOException {
+    private void instanciarProjetos() throws IOException, ProjetoNotFoundException {
         projetoService.criarProjeto(new ProjetoCadastroDTO("projeto1","um projeto", 0,
                 0,0, null,null));
         projetoService.criarProjeto(new ProjetoCadastroDTO("projeto2","um projeto", 0,
                 0,0, null,null));
         projetoService.criarProjeto(new ProjetoCadastroDTO("projeto3","um projeto", 0,
                 0,0, null,null));
+        projetoService.criarProjeto(new ProjetoCadastroDTO("projeto4","um projeto", 0,
+                0,0, null,null));
+        projetoService.criarProjeto(new ProjetoCadastroDTO("projeto5","um projeto", 0,
+                0,0, null,null));
+        projetoService.criarProjeto(new ProjetoCadastroDTO("projeto6","um projeto", 0,
+                0,0, null,null));
+
+        projetoService.destacarProjeto(4l);
+        projetoService.destacarProjeto(5l);
+        projetoService.destacarProjeto(6l);
     }
     private void instanciarMensagensChat() throws IOException, ProjetoNotFoundException {
 //        mensagemCService.criarMensagem(new MensagemCEnviadaDTO("teste do user1 para o projeto 2", 2l, 3l));

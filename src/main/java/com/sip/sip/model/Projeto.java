@@ -59,6 +59,9 @@ public class Projeto {
 	@ManyToMany(mappedBy = "projetosFavoritados")
 	private List<Usuario> favoritadoPorUsuarios;
 
+	@Column
+	private Boolean emDestaque = false;
+
 	public Projeto() {
 	}
 	
@@ -223,5 +226,13 @@ public class Projeto {
 
 	public void setFavoritadoPorUsuarios(List<Usuario> favoritadoPorUsuarios) {
 		this.favoritadoPorUsuarios = favoritadoPorUsuarios;
+	}
+
+	public Boolean getEmDestaque() {
+		return emDestaque;
+	}
+
+	public void setEmDestaque(Boolean emDestaque) {
+		this.emDestaque = emDestaque;
 	}
 }
