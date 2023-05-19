@@ -94,50 +94,37 @@
                         </div>
                     </section>
                     <section>
-                        <h2>Projetos populares</h2>
+                        <h2>Projetos em Destaque</h2>
                         <div class="row">
-                            <div class="cardProjeto">
+                            <div class="cardProjeto" th:each="projeto : ${projetos}" th:if="${projeto.emDestaque}">
                                 <div class="projectImg">
                                     <img
-                                        th:src="@{/image/imageProjectDefault.png}"
-                                        alt="projectImage"
-                                        draggable="false"
+                                            th:src="@{${projeto.imagemUrl}}"
+                                            alt="projectImage"
+                                            draggable="false"
                                     />
-                                    <div class="technologiesBox">
-                                        <div class="circle">
-                                            <img
-                                                th:src="@{/image/tecnologias/react.png}"
-                                                alt="react"
-                                                draggable="false"
-                                            />
-                                        </div>
-                                        <div class="circle">
-                                            <img
-                                                th:src="@{/image/tecnologias/springBoot.png}"
-                                                alt="react"
-                                                draggable="false"
-                                            />
-                                        </div>
-                                    </div>
                                 </div>
                                 <div class="projectTitleBox">
-                                    <h4>Título</h4>
+                                    <h4 th:text="${projeto.nome}"></h4>
                                     <div class="buttonContent">
-                                        <button class="btn btn-primary">
-                                            Ler mais
-                                        </button>
-                                        <button class="btn btn-light">
-                                            <i class="fa-regular fa-heart"></i>
-                                            Curtir
-                                            <span>18</span>
-                                        </button>
-                                        <button class="btn btn-light">
+                                        <a class="btn btn-primary" th:href="@{/ver-projeto/{id}(id=${projeto.id})}">
+                                            Ver Projeto
+                                        </a>
+                                        <button class="btn btn-light" th:attr="projeto-id=${projeto.id}"
+                                                onclick="curtir(this)">
                                             <i
-                                                class="fa-regular fa-bookmark"
+                                                    class="fa-regular fa-heart"
+                                            ></i>
+                                            Curtir
+                                            <span class="badge badge-light" th:text="${projeto.numCurtidas}"></span>
+                                        </button>
+                                        <a class="btn btn-light" th:attr="projeto-id=${projeto.id}" onclick="favoritar(this)">
+                                            <i
+                                                    class="fa-regular fa-bookmark"
                                             ></i>
                                             Favoritar
-                                            <span>2</span>
-                                        </button>
+                                            <span class="badge badge-light" th:text="${projeto.numFavoritos}"></span>
+                                        </a>
                                     </div>
                                 </div>
                             </div>

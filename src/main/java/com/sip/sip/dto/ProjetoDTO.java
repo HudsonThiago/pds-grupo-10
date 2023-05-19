@@ -62,6 +62,8 @@ public class ProjetoDTO {
         private int numDeVagas;
         private String imagemUrl;
 
+        private Boolean emDestaque;
+
         public String getImagemUrl() {
                 return imagemUrl;
         }
@@ -106,5 +108,13 @@ public class ProjetoDTO {
 
         public void setNomeCargoMap(Map<String, List<String>> nomeCargoMap) {
                 this.nomeCargoMap = nomeCargoMap;
+        }
+
+        public Boolean getEmDestaque() {
+                return emDestaque;
+        }
+
+        public void setEmDestaque(Boolean emDestaque) {
+                this.emDestaque = emDestaque;
         }
 }
