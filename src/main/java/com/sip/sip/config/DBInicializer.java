@@ -6,9 +6,11 @@ import com.sip.sip.dto.MensagemCEnviadaDTO;
 import com.sip.sip.dto.MensagemPEnviadaDTO;
 import com.sip.sip.dto.ProjetoCadastroDTO;
 import com.sip.sip.exception.ProjetoNotFoundException;
+import com.sip.sip.model.Cargo;
 import com.sip.sip.model.Projeto;
 import com.sip.sip.model.Tecnologia;
 import com.sip.sip.model.Usuario;
+import com.sip.sip.service.ICargoService;
 import com.sip.sip.service.IMensagemCService;
 import com.sip.sip.service.IMensagemPService;
 import com.sip.sip.service.IProjetoService;
@@ -17,6 +19,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -31,7 +35,8 @@ public class DBInicializer implements CommandLineRunner {
     private IMensagemCService mensagemCService;
     @Autowired
     private IProjetoService projetoService;
-
+    @Autowired
+    private ICargoService cargoService;
     public DBInicializer(TecnologiaDAOJPA tecnologia, UsuarioDAOJPA usuario) {
         this.tecnologia = tecnologia;
         this.usuario = usuario;
@@ -40,10 +45,19 @@ public class DBInicializer implements CommandLineRunner {
     @Override
     public void run(String... streings) throws Exception {
         instanciarTecnologias();
+        instanciarCargos();
         instanciarUsuarios();
         instanciarMensagens();
         instanciarProjetos();
         instanciarMensagensChat();
+    }
+
+    private void instanciarCargos() {
+        cargoService.criarCargo(new Cargo("Desenvolvedor Frontend"));
+        cargoService.criarCargo(new Cargo("Desenvolvedor Backend"));
+        cargoService.criarCargo(new Cargo("Designer"));
+        cargoService.criarCargo(new Cargo("Testador"));
+
     }
 
     private void instanciarTecnologias() {
@@ -58,9 +72,21 @@ public class DBInicializer implements CommandLineRunner {
     private void instanciarUsuarios() {
         usuario.criarUsuario(new Usuario(1l, "Administrador", "adm@gmail.com", "123", true));
         usuario.criarUsuario(new Usuario(2l, "Usuario 1", "user1@gmail.com", "123"));
+        Usuario u1 = usuario.buscarUsuarioPorId(2l);
+        u1.setCargos(List.of(cargoService.buscarCargoPorId(1l)));
+        usuario.atualizarUsuario(u1);
         usuario.criarUsuario(new Usuario(3l, "Usuario 2", "user2@gmail.com", "123"));
+        Usuario u2 = usuario.buscarUsuarioPorId(3l);
+        u2.setCargos(List.of(cargoService.buscarCargoPorId(2l)));
+        usuario.atualizarUsuario(u2);
         usuario.criarUsuario(new Usuario(4l, "Usuario 3", "user3@gmail.com", "123"));
+        Usuario u3 = usuario.buscarUsuarioPorId(4l);
+        u3.setCargos(List.of(cargoService.buscarCargoPorId(3l)));
+        usuario.atualizarUsuario(u3);
         usuario.criarUsuario(new Usuario(5l, "Usuario 4", "user4@gmail.com", "123"));
+        Usuario u4 = usuario.buscarUsuarioPorId(5l);
+        u4.setCargos(List.of(cargoService.buscarCargoPorId(4l)));
+        usuario.atualizarUsuario(u4);
     }
 
     private void instanciarMensagens() throws IOException {
@@ -74,17 +100,17 @@ public class DBInicializer implements CommandLineRunner {
 
     private void instanciarProjetos() throws IOException, ProjetoNotFoundException {
         projetoService.criarProjeto(new ProjetoCadastroDTO("projeto1","um projeto", 0,
-                0,0, null,null));
+                0,0, null,List.of(1l,2l)));
         projetoService.criarProjeto(new ProjetoCadastroDTO("projeto2","um projeto", 0,
-                0,0, null,null));
+                0,0, null,List.of(2l,3l)));
         projetoService.criarProjeto(new ProjetoCadastroDTO("projeto3","um projeto", 0,
-                0,0, null,null));
+                0,0, null,List.of(1l)));
         projetoService.criarProjeto(new ProjetoCadastroDTO("projeto4","um projeto", 0,
-                0,0, null,null));
+                0,0, null,List.of(1l, 4l)));
         projetoService.criarProjeto(new ProjetoCadastroDTO("projeto5","um projeto", 0,
-                0,0, null,null));
+                0,0, null,List.of(3l)));
         projetoService.criarProjeto(new ProjetoCadastroDTO("projeto6","um projeto", 0,
-                0,0, null,null));
+                0,0, null,List.of(3l,4l)));
 
         projetoService.destacarProjeto(4l);
         projetoService.destacarProjeto(5l);

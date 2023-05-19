@@ -44,6 +44,15 @@ public class Usuario {
     )
     private List<Projeto> projetosFavoritados;
 
+    @Column
+    @OneToMany
+    @JoinTable(
+            name = "usuario_cargo",
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "cargo_id")
+    )
+    private List<Cargo> cargos;
+
     public Usuario(){};
     public Usuario(Long id, String nome, String email, String senha) {
         this.id = id;
@@ -137,5 +146,13 @@ public class Usuario {
 
     public void setAdministrador(Boolean administrador) {
         this.administrador = administrador;
+    }
+
+    public List<Cargo> getCargos() {
+        return cargos;
+    }
+
+    public void setCargos(List<Cargo> cargos) {
+        this.cargos = cargos;
     }
 }

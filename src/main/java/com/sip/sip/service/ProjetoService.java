@@ -33,6 +33,8 @@ public class ProjetoService implements IProjetoService {
 	@Qualifier("TecnologiaDAOJPA")
 	@Autowired
 	private TecnologiaDAO tecnologiaDAO;
+	@Autowired
+	private ICargoService cargoService;
 
 	public List<Projeto> listarProjetos() {
 		return projetoDAO.listarProjetos();
@@ -87,6 +89,20 @@ public class ProjetoService implements IProjetoService {
 			if (!dto.getImagem().isEmpty()) {
 				projeto.setImagemUrl(null);
 			}
+		}
+
+		if (dto.getCargosEscolhidosId() != null) {
+			List<Long> cargoIds = dto.getCargosEscolhidosId();
+
+			List<Cargo> cargos = new ArrayList<>();
+
+			for (Long cargoId : cargoIds) {
+				Cargo cargo = cargoService.buscarCargoPorId(cargoId);
+
+				// Add the fetched Cargo object to the list
+				cargos.add(cargo);
+			}
+			projeto.setCargosDesejados(cargos);
 		}
 		return projeto;
 	}
