@@ -16,19 +16,14 @@ public class ExplorarProjetosService implements IExplorarProjetosService{
     @Qualifier("ProjetoDAOJPA")
     @Autowired
     private ProjetoDAO projetoDAO;
-    @Qualifier("TecnologiaDAOJPA")
     @Autowired
-    private TecnologiaDAO tecnologiaDAO;
+    private RecStrategy recStrategy;
 
     @Override
     public List<Projeto> listarProjetos() {
         return projetoDAO.listarProjetos();
     }
 
-    public List<Projeto> filtrarProjetosNumCurtidasMaior (int min) {
-//        return projetoDAO.filtrarProjetosNumCurtidasMaior(min);
-        return null;
-    }
 
     @Override
     public List<Projeto> filtrarProjetos(FiltroDTO filtros) {
@@ -37,8 +32,6 @@ public class ExplorarProjetosService implements IExplorarProjetosService{
     }
 
     public List<Projeto> listarProjetosRecomendados(Usuario usuario) {
-        List<Projeto> projetosRec = projetoDAO.filtrarProjetosCargos(usuario.getCargos());
-        int amountProjetos = projetosRec.size() >= 3 ? 3 : projetosRec.size();
-        return projetosRec.subList(0,amountProjetos);
+        return recStrategy.listarProjetosRecomendados(usuario);
     }
 }
