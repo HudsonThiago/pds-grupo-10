@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title th:text="|Chat Projeto ${projeto.getNome()}|"></title>
+    <title th:text="|Chat Projeto: ${projeto.getNome()}|"></title>
 
     <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css}" integrity="sha512-tDXPcamuZsWWd6OsKFyH6nAqh/MjZ/5Yk88T5o+aMfygqNFPan1pLyPFAndRzmOWHKT+jSDzWpJv8krj6x1LMA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" th:href="@{/css/mensagens-privadas.css}">
@@ -58,6 +58,12 @@
                     </div>
                 </div>
             </form>
+            <div class="alert alert-warning alert-dismissible fade show d-none" role="alert" id="error-alert">
+                <span id="error-message">Starting text over here </span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
 
             <script>
                 const messageForm = document.getElementById("message-form");
@@ -66,6 +72,9 @@
 
                 messageForm.addEventListener("submit", function(event) {
                     event.preventDefault();
+                    if (!messageInput.value && !fileInput.value) {
+                        return;
+                    }
 
                     let dest = [[${projetoId}]];
                     const formData = new FormData();
@@ -80,15 +89,29 @@
                     };
 
                     fetch("/mensagensChat", requestOptions)
-                        .then(response => response.json())
-                        .then(data => window.location.href = window.location.href)
-                        .catch(error => console.log(error));
+                        .then(response => {
+                            if (response.ok) {
+                                return response.text(); // Successful response
+                            } else {
+                                return response.text().then(errorMessage => {
+                                    throw new Error("HTTP error " + response.status + ": " + errorMessage); // Throw an error with the error message
+                                });
+                            }
+                        })
+                        .then(data => {
+                            window.location.href = window.location.href
+                        })
+                        .catch(error => {
+                            // Display the error message to the user
+                            showErrorMessage(error.message);
+                        });
+
 
                     messageInput.value = "";
                 });
 
                 document.getElementById('upload-button').addEventListener('click', function(event) {
-                    event.preventDefault(); // Prevent default link behavior
+                    event.preventDefault();
 
                     const fInput = document.getElementById('file-input');
                     fInput.click();
@@ -98,6 +121,21 @@
                     const filename = fileInput.files[0].name;
                     document.getElementById('file-name').textContent = filename;
                 });
+
+
+
+                function showErrorMessage(message) {
+                    // Get the alert element
+                    const errorAlert = document.getElementById('error-alert');
+                    const errorMessage = document.getElementById('error-message');
+
+                    errorAlert.style.display = 'block';
+                    errorMessage.innerText = message.substring(0,450);
+                    errorAlert.classList.remove('d-none');
+                }
+
+
+
 
             </script>
 

@@ -8,6 +8,7 @@ import com.sip.sip.exception.ProjetoNotFoundException;
 import com.sip.sip.model.MensagemChat;
 import com.sip.sip.model.Projeto;
 import com.sip.sip.model.Usuario;
+import jakarta.transaction.NotSupportedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.util.Pair;
@@ -35,6 +36,8 @@ public class MensagemCService implements IMensagemCService {
 	private ManterUsuarioService usuarioService;
 	@Autowired
 	private ProjetoService projetoService;
+	@Autowired
+	private UploadStrategy uploadStrategy;
 
 
 	public List<MensagemChat> listarMensagens() {
@@ -147,6 +150,8 @@ public class MensagemCService implements IMensagemCService {
 		mensagem.setTimestamp(timestamp);
 
 		if (dto.getFile() != null) {
+			uploadStrategy.validate(dto.getFile());
+
 			MultipartFile file = dto.getFile();
 			String originalFileName = file.getOriginalFilename();
 			String uniqueFileName = System.currentTimeMillis() + "_" + UUID.randomUUID() + "_" + originalFileName;

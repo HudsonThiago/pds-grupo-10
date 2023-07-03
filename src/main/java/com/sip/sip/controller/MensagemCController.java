@@ -8,6 +8,7 @@ import com.sip.sip.model.MensagemChat;
 import com.sip.sip.service.IMensagemCService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,10 +35,17 @@ public class MensagemCController {
     }
 
     @PostMapping("")
-    @ResponseStatus(HttpStatus.CREATED)
-    public MensagemCDTO criarMensagem(Model model, @ModelAttribute MensagemCEnviadaDTO mensagemCEnviadaDTO) throws IOException, ProjetoNotFoundException {
-        return mensagemService.criarMensagem(mensagemCEnviadaDTO);
+    public ResponseEntity<String> criarMensagem(@ModelAttribute MensagemCEnviadaDTO mensagemCEnviadaDTO) throws IOException, ProjetoNotFoundException {
+        try {
+            mensagemService.criarMensagem(mensagemCEnviadaDTO);
+            return ResponseEntity.ok("File uploaded successfully");
+
+        } catch (UnsupportedOperationException e) {
+            String mensagemErro = e.getMessage();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensagemErro);
+        }
     }
+
 
 
     @DeleteMapping("/{id}")
