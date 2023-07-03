@@ -1,17 +1,22 @@
 package com.sip.sip.dto;
 
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class MensagemCEnviadaDTO {
     private String conteudo;
     private Long projetoDestinatario;
     // temp todo auth
     private Long usuarioRemetente;
 
-    public MensagemCEnviadaDTO(String conteudo, Long usuarioRemetente, Long projetoDestinatario) {
+    private MultipartFile file = null;
+    public MensagemCEnviadaDTO(String conteudo, Long usuarioRemetente, Long projetoDestinatario, MultipartFile file) {
         this.conteudo = conteudo;
         this.projetoDestinatario = projetoDestinatario;
         this.usuarioRemetente = usuarioRemetente;
+        this.file = file;
     }
+
 
     public Long getUsuarioRemetente() {
         return usuarioRemetente;
@@ -35,5 +40,13 @@ public class MensagemCEnviadaDTO {
 
     public void setProjetoDestinatario(Long projetoDestinatario) {
         this.projetoDestinatario = projetoDestinatario;
+    }
+
+    public void setFile(MultipartFile file) {
+        this.file = file;
+    }
+
+    public MultipartFile getFile() {
+        return file;
     }
 }

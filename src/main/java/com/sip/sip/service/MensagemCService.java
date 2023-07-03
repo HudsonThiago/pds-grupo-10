@@ -12,7 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -82,6 +88,9 @@ public class MensagemCService implements IMensagemCService {
 			String formattedDateTime = dateTime.format(outputFormatter);
 
 			dto.setTimestamp(formattedDateTime);
+
+			if (m.getArquivoNome() != null) dto.setArquivoNome(m.getArquivoNome());
+			if (m.getArquivoURI() != null) dto.setArquivoURI(m.getArquivoURI());
 		}
 		return dto;
 	}
@@ -137,6 +146,22 @@ public class MensagemCService implements IMensagemCService {
 
 		mensagem.setTimestamp(timestamp);
 
+		if (dto.getFile() != null) {
+			MultipartFile file = dto.getFile();
+			String originalFileName = file.getOriginalFilename();
+			String uniqueFileName = System.currentTimeMillis() + "_" + UUID.randomUUID() + "_" + originalFileName;
+
+			Path destinationFolder = Paths.get("upload");
+			Path destinationPath = destinationFolder.resolve(uniqueFileName);
+
+			try {
+				Files.copy(file.getInputStream(), destinationPath, StandardCopyOption.REPLACE_EXISTING);
+				mensagem.setArquivoNome(originalFileName);
+				mensagem.setArquivoURI("/"+destinationPath);
+			} catch (IOException e) {
+				throw new RuntimeException();
+			}
+		}
 		return mensagem;
 	}
 

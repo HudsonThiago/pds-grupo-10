@@ -21,11 +21,6 @@ import java.util.Map;
 @RequestMapping("/chat")
 public class ManterChatController {
     @Autowired
-    private IExplorarProjetosService explorarProjetosService;
-    @Autowired
-    private ITecnologiaService tecnologiaService;
-
-    @Autowired
     private IMensagemCService mensagemService;
 
     @Autowired

@@ -15,13 +15,17 @@
     <div class="row rounded-lg overflow-hidden shadow">
         <!-- Chat -->
         <div class="col-12 px-0">
-            <div class="px-4 py-5 chat-box bg-white">
+            <div class="px-4 py-5 chat-box bg-white"  id="chat-container">
                 <div th:if="${projetoId != null}">
                     <div th:each="mensagem : ${mensagens}">
                         <div th:if="${mensagem.usuarioRemetente.second == principal.id}" class="media w-50 ml-auto mb-3">
                             <div class="media-body">
                                 <p class="small font-weight-bold mb-2" th:text="Você"></p>
                                 <div class="bg-primary rounded py-2 px-3 mb-2">
+                                    <a th:href="${mensagem.getArquivoURI()}"
+                                       class="text-small mb-0 text-white"
+                                       th:if="${mensagem.getArquivoNome() != null}"
+                                       th:text="${mensagem.getArquivoNome()}"></a>
                                     <p class="text-small mb-0 text-white" th:text="${mensagem.getConteudo()}"></p>
                                 </div>
                                 <p class="small text-muted" th:text="${mensagem.getTimestamp()}"></p>
@@ -44,7 +48,12 @@
             <form id="message-form" class="bg-light">
                 <div class="input-group">
                     <input id="message-input" type="text" placeholder="Escreva uma mensagem..." aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
+                    <input type="file" id="file-input" style="display: none;">
                     <div class="input-group-append">
+                        <span id="file-name" class="align-self-center"></span>
+                        <button id="upload-button" class="btn btn-link">
+                            <i class="fa fa-file" aria-hidden="true"></i>
+                        </button>
                         <button id="send-button" type="submit" class="btn btn-link"> <i class="fa fa-paper-plane"></i></button>
                     </div>
                 </div>
@@ -53,27 +62,43 @@
             <script>
                 const messageForm = document.getElementById("message-form");
                 const messageInput = document.getElementById("message-input");
+                const fileInput = document.getElementById("file-input");
 
                 messageForm.addEventListener("submit", function(event) {
                     event.preventDefault();
-                    const conteudoMensagem = messageInput.value;
+
                     let dest = [[${projetoId}]];
-                    const dadosMensagem = {
-                        conteudo: conteudoMensagem,
-                        projetoDestinatario: dest,
-                        usuarioRemetente: 2 //temp todo auth
-                    };
+                    const formData = new FormData();
+                    formData.append("conteudo", messageInput.value);
+                    formData.append("projetoDestinatario", dest);
+                    formData.append("usuarioRemetente", 2); // temporary auth
+                    formData.append("file", fileInput.files[0]);
+
                     const requestOptions = {
                         method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(dadosMensagem)
+                        body: formData
                     };
+
                     fetch("/mensagensChat", requestOptions)
                         .then(response => response.json())
                         .then(data => window.location.href = window.location.href)
                         .catch(error => console.log(error));
+
                     messageInput.value = "";
                 });
+
+                document.getElementById('upload-button').addEventListener('click', function(event) {
+                    event.preventDefault(); // Prevent default link behavior
+
+                    const fInput = document.getElementById('file-input');
+                    fInput.click();
+                });
+
+                fileInput.addEventListener('change', function() {
+                    const filename = fileInput.files[0].name;
+                    document.getElementById('file-name').textContent = filename;
+                });
+
             </script>
 
         </div>

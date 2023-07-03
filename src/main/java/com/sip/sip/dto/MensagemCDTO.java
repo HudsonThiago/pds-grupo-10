@@ -8,6 +8,8 @@ public class MensagemCDTO {
     private Pair<String,Long> usuarioRemetente;
     private Long projetoDestinatario;
     private String timestamp;
+    private String arquivoURI = null;
+    private String arquivoNome = null;
 
     public MensagemCDTO(String conteudo, Pair<String, Long> usuarioRemetente, Long projetoDestinatario, String timestamp) {
         this.conteudo = conteudo;
@@ -61,5 +63,20 @@ public class MensagemCDTO {
 
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
+    }
+    public String getArquivoURI() {
+        return this.arquivoURI;
+    }
+
+    public void setArquivoURI(String arquivoURI) {
+        this.arquivoURI = arquivoURI;
+    }
+
+    public String getArquivoNome() {
+        return this.arquivoNome;
+    }
+
+    public void setArquivoNome(String arquivoNome) {
+        this.arquivoNome = arquivoNome;
     }
 }
