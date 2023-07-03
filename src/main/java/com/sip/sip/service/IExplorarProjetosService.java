@@ -9,7 +9,9 @@ import java.util.List;
 public interface IExplorarProjetosService {
     List<Projeto> listarProjetos();
 
-
     List<Projeto> filtrarProjetos(FiltroDTO filtros);
+
+    List<Projeto> listarProjetosDestacados();
+
     List<Projeto> listarProjetosRecomendados(Usuario usuario);
 }

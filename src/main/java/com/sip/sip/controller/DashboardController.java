@@ -5,10 +5,7 @@ import com.sip.sip.model.Cargo;
 import com.sip.sip.model.Projeto;
 import com.sip.sip.model.Tecnologia;
 import com.sip.sip.model.Usuario;
-import com.sip.sip.service.ICargoService;
-import com.sip.sip.service.IExplorarProjetosService;
-import com.sip.sip.service.ITecnologiaService;
-import com.sip.sip.service.ManterUsuarioService;
+import com.sip.sip.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +29,9 @@ public class DashboardController {
     @Autowired
     private ManterUsuarioService usuarioService;
 
+    @Autowired
+    private DestaqueStrategy destaqueStrategy;
+
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String dashboard(Model model) {
         List<Projeto> projetos = explorarProjetosService.listarProjetos();
@@ -45,7 +45,7 @@ public class DashboardController {
         model.addAttribute("usuarioLogado", usuarioLogado);
         List<Projeto> projetosRec = explorarProjetosService.listarProjetosRecomendados(usuarioLogado);
         model.addAttribute("projetosRec", projetosRec);
-        List<Projeto> projetosD = explorarProjetosService.listarProjetos();
+        List<Projeto> projetosD = destaqueStrategy.listarProjetosDestacados();
         model.addAttribute("projetosD", projetosD);
         return "dashboard/dashboard";
     }
@@ -62,7 +62,7 @@ public class DashboardController {
         model.addAttribute("usuarioLogado", usuarioLogado);
         List<Projeto> projetosRec = explorarProjetosService.listarProjetosRecomendados(usuarioLogado);
         model.addAttribute("projetosRec", projetosRec);
-        List<Projeto> projetosD = explorarProjetosService.listarProjetos();
+        List<Projeto> projetosD = destaqueStrategy.listarProjetosDestacados();
         model.addAttribute("projetosD", projetosD);
         return "dashboard/dashboard";
     }
