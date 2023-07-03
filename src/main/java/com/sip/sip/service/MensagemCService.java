@@ -196,4 +196,7 @@ public class MensagemCService implements IMensagemCService {
 
 	}
 
+	public Boolean getUploadEnabled() {
+		return uploadStrategy.getUploadEnabled();
+	}
 }

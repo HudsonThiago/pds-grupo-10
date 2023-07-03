@@ -40,6 +40,7 @@ public class ManterChatController {
         model.addAttribute("mensagens", mensagens);
         model.addAttribute("principal", principal);
         model.addAttribute("projeto", projeto);
+        model.addAttribute("uploadEnabled", mensagemService.getUploadEnabled());
 
         return "chat";
     }
