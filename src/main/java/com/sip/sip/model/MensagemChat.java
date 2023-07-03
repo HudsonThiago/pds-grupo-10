@@ -8,6 +8,8 @@ import jakarta.persistence.OneToOne;
 @Entity
 public class MensagemChat extends Mensagem {
 
+    private String arquivoURI = null;
+    private String arquivoNome = null;
     MensagemChat(Projeto projeto) {
         this.projetoDestinatario = projeto;
     }
@@ -24,5 +26,21 @@ public class MensagemChat extends Mensagem {
 
     public void setProjetoDestinatario(Projeto projetoDestinatario) {
         this.projetoDestinatario = projetoDestinatario;
+    }
+
+    public String getArquivoURI() {
+        return this.arquivoURI;
+    }
+
+    public void setArquivoURI(String arquivoURI) {
+        this.arquivoURI = arquivoURI;
+    }
+
+    public String getArquivoNome() {
+        return this.arquivoNome;
+    }
+
+    public void setArquivoNome(String arquivoNome) {
+        this.arquivoNome = arquivoNome;
     }
 }

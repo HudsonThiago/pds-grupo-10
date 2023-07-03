@@ -15,6 +15,9 @@ public class MvcConfig implements WebMvcConfigurer {
         String rootPath = Paths.get("").toAbsolutePath().toString();
         registry.addResourceHandler("/imagens/**")
                 .addResourceLocations("file:/" + rootPath + "/imagens/")
-                .setCacheControl(CacheControl.noCache());;
+                .setCacheControl(CacheControl.noCache());
+        registry.addResourceHandler("/upload/**")
+                .addResourceLocations("file:/" + rootPath + "/upload/")
+                .setCacheControl(CacheControl.noCache());
     }
 }

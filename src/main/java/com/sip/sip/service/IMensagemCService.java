@@ -26,5 +26,6 @@ public interface IMensagemCService {
      MensagemCDTO mensagemCToMensagemCDTO(MensagemChat m);
      MensagemChat mensagemCDTOToMensagemC(MensagemCDTO dto) throws ProjetoNotFoundException;
      MensagemChat mensagemCEnviadaDTOToMensagemC(MensagemCEnviadaDTO dto) throws ProjetoNotFoundException;
+     Boolean getUploadEnabled();
 
 }

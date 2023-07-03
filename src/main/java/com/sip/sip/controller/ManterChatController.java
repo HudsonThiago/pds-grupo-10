@@ -21,11 +21,6 @@ import java.util.Map;
 @RequestMapping("/chat")
 public class ManterChatController {
     @Autowired
-    private IExplorarProjetosService explorarProjetosService;
-    @Autowired
-    private ITecnologiaService tecnologiaService;
-
-    @Autowired
     private IMensagemCService mensagemService;
 
     @Autowired
@@ -45,6 +40,7 @@ public class ManterChatController {
         model.addAttribute("mensagens", mensagens);
         model.addAttribute("principal", principal);
         model.addAttribute("projeto", projeto);
+        model.addAttribute("uploadEnabled", mensagemService.getUploadEnabled());
 
         return "chat";
     }
