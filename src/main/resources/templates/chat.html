@@ -35,6 +35,10 @@
                             <div class="media-body ml-3">
                                 <p class="small font-weight-bold mb-2" th:text="${mensagem.usuarioRemetente.getFirst()}"></p>
                                 <div class="bg-light rounded py-2 px-3 mb-2">
+                                    <a th:href="${mensagem.getArquivoURI()}"
+                                       class="text-small mb-0 text-muted"
+                                       th:if="${mensagem.getArquivoNome() != null}"
+                                       th:text="${mensagem.getArquivoNome()}"></a>
                                     <p class="text-small mb-0 text-muted" th:text="${mensagem.getConteudo()}"></p>
                                 </div>
                                 <p class="small text-muted" th:text="${mensagem.getTimestamp()}"></p>
