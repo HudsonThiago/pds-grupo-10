@@ -152,22 +152,25 @@ public class MensagemCService implements IMensagemCService {
 		if (dto.getFile() != null) {
 			uploadStrategy.validate(dto.getFile());
 
-			MultipartFile file = dto.getFile();
-			String originalFileName = file.getOriginalFilename();
-			String uniqueFileName = System.currentTimeMillis() + "_" + UUID.randomUUID() + "_" + originalFileName;
-
-			Path destinationFolder = Paths.get("upload");
-			Path destinationPath = destinationFolder.resolve(uniqueFileName);
-
-			try {
-				Files.copy(file.getInputStream(), destinationPath, StandardCopyOption.REPLACE_EXISTING);
-				mensagem.setArquivoNome(originalFileName);
-				mensagem.setArquivoURI("/"+destinationPath);
-			} catch (IOException e) {
-				throw new RuntimeException();
-			}
+			saveFile(dto.getFile(), mensagem);
 		}
 		return mensagem;
+	}
+
+	private static void saveFile(MultipartFile file, MensagemChat mensagem) {
+		String originalFileName = file.getOriginalFilename();
+		String uniqueFileName = System.currentTimeMillis() + "_" + UUID.randomUUID() + "_" + originalFileName;
+
+		Path destinationFolder = Paths.get("upload");
+		Path destinationPath = destinationFolder.resolve(uniqueFileName);
+
+		try {
+			Files.copy(file.getInputStream(), destinationPath, StandardCopyOption.REPLACE_EXISTING);
+			mensagem.setArquivoNome(originalFileName);
+			mensagem.setArquivoURI("/"+destinationPath);
+		} catch (IOException e) {
+			throw new RuntimeException();
+		}
 	}
 
 

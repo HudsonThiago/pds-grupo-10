@@ -35,14 +35,15 @@ public class MensagemCController {
     }
 
     @PostMapping("")
-    public ResponseEntity<String> criarMensagem(@ModelAttribute MensagemCEnviadaDTO mensagemCEnviadaDTO) throws IOException, ProjetoNotFoundException {
+    public ResponseEntity<String> criarMensagem(@ModelAttribute MensagemCEnviadaDTO mensagemCEnviadaDTO) {
         try {
             mensagemService.criarMensagem(mensagemCEnviadaDTO);
-            return ResponseEntity.ok("File uploaded successfully");
-
+            return ResponseEntity.ok("");
         } catch (UnsupportedOperationException e) {
             String mensagemErro = e.getMessage();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensagemErro);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
