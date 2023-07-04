@@ -29,8 +29,6 @@ public class DashboardController {
     @Autowired
     private ManterUsuarioService usuarioService;
 
-    @Autowired
-    private DestaqueStrategy destaqueStrategy;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String dashboard(Model model) {
@@ -41,11 +39,14 @@ public class DashboardController {
         model.addAttribute("tecnologias", tecnologias);
         List<Cargo> cargos = cargoService.listarCargos();
         model.addAttribute("cargos", cargos);
-        Usuario usuarioLogado = usuarioService.buscarUsuarioPorId(2l);      // todo auth
+
+        Usuario usuarioLogado = usuarioService.buscarUsuarioPorId(2l);
         model.addAttribute("usuarioLogado", usuarioLogado);
+
         List<Projeto> projetosRec = explorarProjetosService.listarProjetosRecomendados(usuarioLogado);
         model.addAttribute("projetosRec", projetosRec);
-        List<Projeto> projetosD = destaqueStrategy.listarProjetosDestacados();
+
+        List<Projeto> projetosD = explorarProjetosService.listarProjetosDestacados();
         model.addAttribute("projetosD", projetosD);
         return "dashboard/dashboard";
     }
@@ -62,7 +63,7 @@ public class DashboardController {
         model.addAttribute("usuarioLogado", usuarioLogado);
         List<Projeto> projetosRec = explorarProjetosService.listarProjetosRecomendados(usuarioLogado);
         model.addAttribute("projetosRec", projetosRec);
-        List<Projeto> projetosD = destaqueStrategy.listarProjetosDestacados();
+        List<Projeto> projetosD = explorarProjetosService.listarProjetosDestacados();
         model.addAttribute("projetosD", projetosD);
         return "dashboard/dashboard";
     }
