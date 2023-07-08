@@ -77,6 +77,7 @@ public class ProjetoService implements IProjetoService {
 				dto.getDiasPorSemana());
 		projeto.setDisponibilidade(d);
 		projeto.setNumDeVagas(dto.getNumDeVagas());
+		projeto.setNumCurtidas(dto.getNumCurtidas());
 		List<Long> tecnologiasEscolhidasId = dto.getTecnologiasEscolhidasId();
 		if (dto.getTecnologiasEscolhidasId() != null) {
 			List<Tecnologia> tecnologiasEscolhidas =

@@ -99,22 +99,18 @@ public class DBInicializer implements CommandLineRunner {
     }
 
     private void instanciarProjetos() throws IOException, ProjetoNotFoundException {
-        projetoService.criarProjeto(new ProjetoCadastroDTO("projeto1","um projeto", 0,
-                0,0, List.of(1l,2l),List.of(1l,2l)));
-        projetoService.criarProjeto(new ProjetoCadastroDTO("projeto2","um projeto", 0,
-                0,0,  List.of(2l,3l),List.of(2l,3l)));
-        projetoService.criarProjeto(new ProjetoCadastroDTO("projeto3","um projeto", 0,
-                0,0,  List.of(3l,1l,2l),List.of(1l)));
-        projetoService.criarProjeto(new ProjetoCadastroDTO("projeto4","um projeto", 0,
-                0,0,  List.of(1l,2l),List.of(1l, 4l)));
-        projetoService.criarProjeto(new ProjetoCadastroDTO("projeto5","um projeto", 0,
-                0,0,  List.of(2l),List.of(3l)));
-        projetoService.criarProjeto(new ProjetoCadastroDTO("projeto6","um projeto", 0,
-                0,0,  List.of(1l,4l),List.of(3l,4l)));
-
-        projetoService.destacarProjeto(4l);
-        projetoService.destacarProjeto(5l);
-        projetoService.destacarProjeto(6l);
+        projetoService.criarProjeto(new ProjetoCadastroDTO("projeto1","um projeto", 20,
+                5,0,40, List.of(1l,2l),List.of(1l,2l)));
+        projetoService.criarProjeto(new ProjetoCadastroDTO("projeto2","um projeto", 14,
+                4,0,121,  List.of(2l,3l),List.of(2l,3l)));
+        projetoService.criarProjeto(new ProjetoCadastroDTO("projeto3","um projeto", 32,
+                5,0,74,  List.of(3l,1l,2l),List.of(1l)));
+        projetoService.criarProjeto(new ProjetoCadastroDTO("projeto4","um projeto", 14,
+                3,0,33,  List.of(1l,2l),List.of(1l, 4l)));
+        projetoService.criarProjeto(new ProjetoCadastroDTO("projeto5","um projeto", 40,
+                5,0,56,  List.of(2l),List.of(3l)));
+        projetoService.criarProjeto(new ProjetoCadastroDTO("projeto6","um projeto", 12,
+                3,0,49,  List.of(1l,4l),List.of(3l,4l)));
 
         Projeto p1 = projetoService.retornarProjetoPorId(1l);
         p1.setMembros(List.of(usuario.buscarUsuarioPorId(4l), usuario.buscarUsuarioPorId(2l), usuario.buscarUsuarioPorId(3l)));

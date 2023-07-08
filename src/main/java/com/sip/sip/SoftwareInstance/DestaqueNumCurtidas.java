@@ -8,23 +8,30 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
-public class DestaqueManual implements DestaqueStrategy {
+@Component
+public class DestaqueNumCurtidas implements DestaqueStrategy {
 
-    @Qualifier("ProjetoDAOJPA")
     @Autowired
     private ProjetoDAO projetoDAO;
     @Override
     public List<Projeto> listarProjetosDestacados() {
         List<Projeto> projetosDestaque = new ArrayList<Projeto>();
-        Projeto projeto1 = projetoDAO.buscarProjetoPorId(4l);
-        Projeto projeto2 = projetoDAO.buscarProjetoPorId(6l);
-        Projeto projeto3 = projetoDAO.buscarProjetoPorId(5l);
+        List<Projeto> projetos = projetoDAO.listarProjetos();
 
-        projetosDestaque.add(projeto1);
-        projetosDestaque.add(projeto2);
-        projetosDestaque.add(projeto3);
+        Collections.sort(projetos, new Comparator<Projeto>() {
+            @Override
+            public int compare(Projeto o1, Projeto o2) {
+                return Integer.compare(o2.getNumCurtidas(), o1.getNumCurtidas());
+            }
+        });
+
+        projetosDestaque.add(projetos.get(0));
+        projetosDestaque.add(projetos.get(1));
+        projetosDestaque.add(projetos.get(2));
 
         return projetosDestaque;
     }

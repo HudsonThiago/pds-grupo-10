@@ -10,16 +10,27 @@ public class ProjetoCadastroDTO {
         private int horasPorSemana;
         private int diasPorSemana;
         private int numDeVagas;
+
+        public int getNumCurtidas() {
+                return numCurtidas;
+        }
+
+        public void setNumCurtidas(int numCurtidas) {
+                this.numCurtidas = numCurtidas;
+        }
+
+        private int numCurtidas;
         private List<Long> tecnologiasEscolhidasId;
         private List<Long> cargosEscolhidosId;
         private MultipartFile imagem;
 
-        public ProjetoCadastroDTO(String nome, String descricao, int horasPorSemana, int diasPorSemana, int numDeVagas, List<Long> tecnologiasEscolhidasId, List<Long> cargosEscolhidosId) {
+        public ProjetoCadastroDTO(String nome, String descricao, int horasPorSemana, int diasPorSemana, int numDeVagas, int numCurtidas, List<Long> tecnologiasEscolhidasId, List<Long> cargosEscolhidosId) {
                 this.nome = nome;
                 this.descricao = descricao;
                 this.horasPorSemana = horasPorSemana;
                 this.diasPorSemana = diasPorSemana;
                 this.numDeVagas = numDeVagas;
+                this.numCurtidas = numCurtidas;
                 this.tecnologiasEscolhidasId = tecnologiasEscolhidasId;
                 this.cargosEscolhidosId = cargosEscolhidosId;
         }
