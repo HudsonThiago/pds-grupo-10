@@ -72,14 +72,14 @@ public class ProjetoDTO {
                 this.imagemUrl = imagemUrl;
         }
 
-        private Map<String, Long> tecnologiasEscolhidasId;
+        private Map<String, Long> habilidadesEscolhidasId;
 
-        public Map<String, Long> getTecnologiasEscolhidasId() {
-                return tecnologiasEscolhidasId;
+        public Map<String, Long> getHabilidadesEscolhidasId() {
+                return habilidadesEscolhidasId;
         }
 
-        public void setTecnologiasEscolhidasId(Map<String, Long> tecnologiasEscolhidasId) {
-                this.tecnologiasEscolhidasId = tecnologiasEscolhidasId;
+        public void setHabilidadesEscolhidasId(Map<String, Long> habilidadesEscolhidasId) {
+                this.habilidadesEscolhidasId = habilidadesEscolhidasId;
         }
 
         public Long getId() {

@@ -6,7 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class Tecnologia {
+public class Habilidade {
 
     @Id
     @GeneratedValue(strategy= GenerationType.SEQUENCE)
@@ -16,10 +16,10 @@ public class Tecnologia {
     private Long idUsuarioQueSolicitou;
     private Long idAdministradorQueAceitou;
 
-    public Tecnologia() {
+    public Habilidade() {
         this.ativo = true;
     }
-    public Tecnologia(Long id, String nome, Boolean ativo) {
+    public Habilidade(Long id, String nome, Boolean ativo) {
         this.id = id;
         this.nome = nome;
         this.ativo = ativo;

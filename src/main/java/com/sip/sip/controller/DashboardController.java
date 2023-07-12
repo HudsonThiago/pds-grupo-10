@@ -3,7 +3,7 @@ package com.sip.sip.controller;
 import com.sip.sip.dto.FiltroDTO;
 import com.sip.sip.model.Cargo;
 import com.sip.sip.model.Projeto;
-import com.sip.sip.model.Tecnologia;
+import com.sip.sip.model.Habilidade;
 import com.sip.sip.model.Usuario;
 import com.sip.sip.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class DashboardController {
     @Autowired
     private IExplorarProjetosService explorarProjetosService;
     @Autowired
-    private ITecnologiaService tecnologiaService;
+    private IHabilidadeService habilidadeService;
     @Autowired
     private ICargoService cargoService;
     @Autowired
@@ -35,8 +35,8 @@ public class DashboardController {
         List<Projeto> projetos = explorarProjetosService.listarProjetos();
         model.addAttribute("projetos", projetos);
         model.addAttribute("filtroDTO",new FiltroDTO());
-        List<Tecnologia> tecnologias = tecnologiaService.listarTecnologias();
-        model.addAttribute("tecnologias", tecnologias);
+        List<Habilidade> habilidades = habilidadeService.listarHabilidades();
+        model.addAttribute("habilidades", habilidades);
         List<Cargo> cargos = cargoService.listarCargos();
         model.addAttribute("cargos", cargos);
 
@@ -54,9 +54,9 @@ public class DashboardController {
     @PostMapping("")
     public String filtrarProjetos(Model model,@ModelAttribute FiltroDTO filtroDTO) {
         List<Projeto> projetos = explorarProjetosService.filtrarProjetos(filtroDTO);
-        List<Tecnologia> tecnologias = tecnologiaService.listarTecnologias();
+        List<Habilidade> habilidades = habilidadeService.listarHabilidades();
         List<Cargo> cargos = cargoService.listarCargos();
-        model.addAttribute("tecnologias", tecnologias);
+        model.addAttribute("habilidades", habilidades);
         model.addAttribute("cargos", cargos);
         model.addAttribute("projetos", projetos);
         Usuario usuarioLogado = usuarioService.buscarUsuarioPorId(2l);      // todo auth

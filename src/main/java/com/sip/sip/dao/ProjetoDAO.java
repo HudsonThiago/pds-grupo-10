@@ -3,7 +3,7 @@ package com.sip.sip.dao;
 import com.sip.sip.dto.FiltroDTO;
 import com.sip.sip.model.Cargo;
 import com.sip.sip.model.Projeto;
-import com.sip.sip.model.Tecnologia;
+import com.sip.sip.model.Habilidade;
 
 import java.util.List;
 
@@ -37,8 +37,8 @@ public interface ProjetoDAO {
 	List<Projeto> filtrarProjetosDisponibilidadeDiasPorSemana(int diasPorSemana, List<Long> ids);
 	List<Projeto> filtrarProjetosDisponibilidadeDiasPorSemana(int diasPorSemana);
 
-	List<Projeto> filtrarProjetosTecnologias(List<Tecnologia> tecnologias);
-	List<Projeto> filtrarProjetosTecnologias(List<Tecnologia> tecnologias, List<Long> ids);
+	List<Projeto> filtrarProjetosHabilidades(List<Habilidade> habilidades);
+	List<Projeto> filtrarProjetosHabilidades(List<Habilidade> habilidades, List<Long> ids);
 
 	List<Projeto> filtrarProjetosCargos(List<Cargo> cargos);
 	List<Projeto> filtrarProjetosCargos(List<Cargo> cargos, List<Long> ids);

@@ -1,7 +1,7 @@
 package com.sip.sip.service;
 
 import com.sip.sip.dao.ProjetoDAO;
-import com.sip.sip.dao.TecnologiaDAO;
+import com.sip.sip.dao.HabilidadeDAO;
 import com.sip.sip.dto.ProjetoCadastroDTO;
 import com.sip.sip.exception.ProjetoNotFoundException;
 import com.sip.sip.model.*;
@@ -30,9 +30,9 @@ public class ProjetoService implements IProjetoService {
 	@Autowired
 	@Qualifier("ProjetoDAOJPA")
 	private ProjetoDAO projetoDAO;
-	@Qualifier("TecnologiaDAOJPA")
+	@Qualifier("HabilidadeDAOJPA")
 	@Autowired
-	private TecnologiaDAO tecnologiaDAO;
+	private HabilidadeDAO habilidadeDAO;
 	@Autowired
 	private ICargoService cargoService;
 
@@ -64,8 +64,8 @@ public class ProjetoService implements IProjetoService {
 		dto.setDiasPorSemana(projeto.getDisponibilidade().getDiasPorSemana());
 		dto.setNumDeVagas(projeto.getNumDeVagas());
 
-		List<Long> tecnologiasEscolhidasId = projeto.getTecnologias().stream().map(tecnologia -> tecnologia.getId()).collect(Collectors.toList());
-		dto.setTecnologiasEscolhidasId(tecnologiasEscolhidasId);
+		List<Long> habilidadesEscolhidasId = projeto.getHabilidades().stream().map(habilidade -> habilidade.getId()).collect(Collectors.toList());
+		dto.setHabilidadesEscolhidasId(habilidadesEscolhidasId);
 		return dto;
 	}
 
@@ -78,13 +78,13 @@ public class ProjetoService implements IProjetoService {
 		projeto.setDisponibilidade(d);
 		projeto.setNumDeVagas(dto.getNumDeVagas());
 		projeto.setNumCurtidas(dto.getNumCurtidas());
-		List<Long> tecnologiasEscolhidasId = dto.getTecnologiasEscolhidasId();
-		if (dto.getTecnologiasEscolhidasId() != null) {
-			List<Tecnologia> tecnologiasEscolhidas =
-					tecnologiasEscolhidasId.stream().map((id) -> {
-						return tecnologiaDAO.buscarTecnologia(id);
+		List<Long> habilidadesEscolhidasId = dto.getHabilidadesEscolhidasId();
+		if (dto.getHabilidadesEscolhidasId() != null) {
+			List<Habilidade> habilidadesEscolhidas =
+					habilidadesEscolhidasId.stream().map((id) -> {
+						return habilidadeDAO.buscarHabilidade(id);
 					}).collect(Collectors.toList());
-			projeto.setTecnologias((ArrayList<Tecnologia>) tecnologiasEscolhidas);
+			projeto.setHabilidades((ArrayList<Habilidade>) habilidadesEscolhidas);
 		}
 		if (dto.getImagem() != null) {
 			if (!dto.getImagem().isEmpty()) {
@@ -121,14 +121,14 @@ public class ProjetoService implements IProjetoService {
 
 		dto.setNumDeVagas(p.getNumDeVagas());
 
-		if (p.getTecnologias() != null) {
-			Map<String, Long> tecnologiasId = p.getTecnologias().stream()
+		if (p.getHabilidades() != null) {
+			Map<String, Long> habilidadesId = p.getHabilidades().stream()
 					.collect(Collectors.toMap(
-							tecnologia -> tecnologia.getNome(),
-							tecnologia -> tecnologia.getId()
+							habilidade -> habilidade.getNome(),
+							habilidade -> habilidade.getId()
 							)
 					);
-			dto.setTecnologiasEscolhidasId(tecnologiasId);
+			dto.setHabilidadesEscolhidasId(habilidadesId);
 		}
 
 		dto.setImagemUrl(p.getImagemUrl());

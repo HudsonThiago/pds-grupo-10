@@ -23,7 +23,7 @@ public class Usuario {
     private Boolean administrador;
     @Column
     @OneToMany(cascade=CascadeType.ALL)
-    private List<Tecnologia> tecnologias;
+    private List<Habilidade> habilidades;
     @Column
     @OneToMany(cascade=CascadeType.ALL)
     private List<Projeto> projetosParticipados;
@@ -108,12 +108,12 @@ public class Usuario {
         this.descricao = descricao;
     }
 
-    public List<Tecnologia> getTecnologias() {
-        return tecnologias;
+    public List<Habilidade> getHabilidades() {
+        return habilidades;
     }
 
-    public void setTecnologias(List<Tecnologia> tecnologias) {
-        this.tecnologias = tecnologias;
+    public void setHabilidades(List<Habilidade> habilidades) {
+        this.habilidades = habilidades;
     }
 
     public List<Projeto> getProjetosParticipados() {

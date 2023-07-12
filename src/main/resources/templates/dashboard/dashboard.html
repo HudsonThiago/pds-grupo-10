@@ -194,11 +194,11 @@
                                         <input hidden th:value="unchecked" th:field="*{procurandoVagas}">
                                     </div>
                                     <div class="form-group">
-                                        <label for="tecnologias"><h4 class="inputLabel">Tecnologias:</h4></label>
+                                        <label for="habilidades"><h4 class="inputLabel">Habilidades:</h4></label>
                                         <br>
-                                        <select id="tecnologias" class="selectpicker" multiple title="Tecnologias"
-                                                data-live-search="true" data-width="260px" th:field="*{tecnologiasEscolhidasId}">
-                                            <option th:each="tecnologia : ${tecnologias}" th:value="${tecnologia.id}" th:text="${tecnologia.nome}"></option>
+                                        <select id="habilidades" class="selectpicker" multiple title="Habilidades"
+                                                data-live-search="true" data-width="260px" th:field="*{habilidadesEscolhidasId}">
+                                            <option th:each="habilidade : ${habilidades}" th:value="${habilidade.id}" th:text="${habilidade.nome}"></option>
                                         </select>
                                     </div>
                                     <div class="form-group">

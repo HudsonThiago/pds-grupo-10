@@ -19,9 +19,9 @@
       <textarea class="form-control" id="descricao" name="descricao" required></textarea>
     </div>
     <div class="form-group">
-      <label for="tecnologias">Tecnologias:</label>
-      <select class="form-control" id="tecnologias">
-        <option th:each="tecnologia : ${tecnologias}" th:text="${tecnologia.nome}"></option>
+      <label for="habilidades">Habilidades:</label>
+      <select class="form-control" id="habilidades">
+        <option th:each="habilidade : ${habilidades}" th:text="${habilidade.nome}"></option>
       </select>
     </div>
     <div class="form-group">

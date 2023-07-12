@@ -1,6 +1,6 @@
 package com.sip.sip.config;
 
-import com.sip.sip.dao.TecnologiaDAOJPA;
+import com.sip.sip.dao.HabilidadeDAOJPA;
 import com.sip.sip.dao.UsuarioDAOJPA;
 import com.sip.sip.dto.MensagemCEnviadaDTO;
 import com.sip.sip.dto.MensagemPEnviadaDTO;
@@ -8,7 +8,7 @@ import com.sip.sip.dto.ProjetoCadastroDTO;
 import com.sip.sip.exception.ProjetoNotFoundException;
 import com.sip.sip.model.Cargo;
 import com.sip.sip.model.Projeto;
-import com.sip.sip.model.Tecnologia;
+import com.sip.sip.model.Habilidade;
 import com.sip.sip.model.Usuario;
 import com.sip.sip.service.ICargoService;
 import com.sip.sip.service.IMensagemCService;
@@ -25,7 +25,7 @@ import java.util.List;
 
 @Component
 public class DBInicializer implements CommandLineRunner {
-    private TecnologiaDAOJPA tecnologia;
+    private HabilidadeDAOJPA habilidade;
     private UsuarioDAOJPA usuario;
 
     @Autowired
@@ -37,14 +37,14 @@ public class DBInicializer implements CommandLineRunner {
     private IProjetoService projetoService;
     @Autowired
     private ICargoService cargoService;
-    public DBInicializer(TecnologiaDAOJPA tecnologia, UsuarioDAOJPA usuario) {
-        this.tecnologia = tecnologia;
+    public DBInicializer(HabilidadeDAOJPA habilidade, UsuarioDAOJPA usuario) {
+        this.habilidade = habilidade;
         this.usuario = usuario;
     }
 
     @Override
     public void run(String... streings) throws Exception {
-        instanciarTecnologias();
+        instanciarHabilidades();
         instanciarCargos();
         instanciarUsuarios();
         instanciarMensagens();
@@ -60,13 +60,13 @@ public class DBInicializer implements CommandLineRunner {
 
     }
 
-    private void instanciarTecnologias() {
-        tecnologia.criarTecnologia(new Tecnologia(1l, "Java", true));
-        tecnologia.criarTecnologia(new Tecnologia(2l, "React", true));
-        tecnologia.criarTecnologia(new Tecnologia(3l, "C#", true));
-        tecnologia.criarTecnologia(new Tecnologia(4l, "SpringBoot", true));
-        tecnologia.criarTecnologia(new Tecnologia(5l, "Figma", true));
-        tecnologia.criarTecnologia(new Tecnologia(6l, "Ilustrator", true));
+    private void instanciarHabilidades() {
+        habilidade.criarHabilidade(new Habilidade(1l, "Java", true));
+        habilidade.criarHabilidade(new Habilidade(2l, "React", true));
+        habilidade.criarHabilidade(new Habilidade(3l, "C#", true));
+        habilidade.criarHabilidade(new Habilidade(4l, "SpringBoot", true));
+        habilidade.criarHabilidade(new Habilidade(5l, "Figma", true));
+        habilidade.criarHabilidade(new Habilidade(6l, "Ilustrator", true));
     }
 
     private void instanciarUsuarios() {
