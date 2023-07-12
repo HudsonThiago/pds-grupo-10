@@ -4,7 +4,7 @@ import com.sip.sip.service.UploadStrategy;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-@Component
+//@Component
 public class SemUpload extends UploadStrategy {
     private final Boolean uploadEnabled = false;
     @Override
