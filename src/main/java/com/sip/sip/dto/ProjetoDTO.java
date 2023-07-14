@@ -62,6 +62,8 @@ public class ProjetoDTO {
         private int numDeVagas;
         private String imagemUrl;
 
+        private String cidadeNome;
+
         private Boolean emDestaque;
 
         public String getImagemUrl() {
@@ -116,5 +118,13 @@ public class ProjetoDTO {
 
         public void setEmDestaque(Boolean emDestaque) {
                 this.emDestaque = emDestaque;
+        }
+
+        public String getCidadeNome() {
+                return cidadeNome;
+        }
+
+        public void setCidadeNome(String cidadeNome) {
+                this.cidadeNome = cidadeNome;
         }
 }

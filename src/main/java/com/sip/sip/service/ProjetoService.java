@@ -155,6 +155,9 @@ public class ProjetoService implements IProjetoService {
 		));
 		dto.setNomeCargoMap(usuariosMap);
 		dto.setEmDestaque(p.getEmDestaque());
+		if(p.getCidade() != null) {
+			dto.setCidadeNome(p.getCidade().getNome());
+		}
 		return dto;
 	}
 
