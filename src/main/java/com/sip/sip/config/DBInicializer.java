@@ -1,27 +1,26 @@
 package com.sip.sip.config;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.sip.sip.dao.HabilidadeDAOJPA;
 import com.sip.sip.dao.UsuarioDAOJPA;
 import com.sip.sip.dto.MensagemCEnviadaDTO;
 import com.sip.sip.dto.MensagemPEnviadaDTO;
 import com.sip.sip.dto.ProjetoCadastroDTO;
 import com.sip.sip.exception.ProjetoNotFoundException;
-import com.sip.sip.model.Cargo;
-import com.sip.sip.model.Projeto;
-import com.sip.sip.model.Habilidade;
-import com.sip.sip.model.Usuario;
-import com.sip.sip.service.ICargoService;
-import com.sip.sip.service.IMensagemCService;
-import com.sip.sip.service.IMensagemPService;
-import com.sip.sip.service.IProjetoService;
+import com.sip.sip.model.*;
+import com.sip.sip.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class DBInicializer implements CommandLineRunner {
@@ -37,6 +36,9 @@ public class DBInicializer implements CommandLineRunner {
     private IProjetoService projetoService;
     @Autowired
     private ICargoService cargoService;
+    @Autowired
+    private ICidadeService cidadeService;
+
     public DBInicializer(HabilidadeDAOJPA habilidade, UsuarioDAOJPA usuario) {
         this.habilidade = habilidade;
         this.usuario = usuario;
@@ -50,6 +52,7 @@ public class DBInicializer implements CommandLineRunner {
         instanciarMensagens();
         instanciarProjetos();
         instanciarMensagensChat();
+        instanciarCidades();
     }
 
     private void instanciarCargos() {
@@ -132,5 +135,28 @@ public class DBInicializer implements CommandLineRunner {
 //        mensagemCService.criarMensagem(new MensagemCEnviadaDTO("teste do user1 para o projeto 3", 2l, 4l));
 //        mensagemCService.criarMensagem(new MensagemCEnviadaDTO("teste do user2 para o projeto 3", 3l, 4l));
 
+    }
+
+    private void instanciarCidades() {
+        String jsonFile = "src/main/resources/static/cidades.json";
+        String jsonString = lerArquivoCidades(jsonFile);
+
+        // Convert the JSON array to a list of strings using Gson
+        Gson gson = new Gson();
+        List<String> nomes = gson.fromJson(jsonString, new TypeToken<List<String>>() {}.getType());
+
+        // Convert each string to a Cidade entity using criarCidade
+        List<Cidade> cidades = nomes.stream()
+                .map(Cidade::new)
+                .collect(Collectors.toList());
+        cidades.forEach(cidadeService::criarCidade);
+    }
+    private static String lerArquivoCidades(String filePath) {
+        try {
+            return new String(Files.readAllBytes(Paths.get(filePath)));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

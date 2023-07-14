@@ -3,6 +3,7 @@ package com.sip.sip.service;
 import com.sip.sip.dao.ProjetoDAO;
 import com.sip.sip.dao.HabilidadeDAO;
 import com.sip.sip.dto.ProjetoCadastroDTO;
+import com.sip.sip.exception.CidadeNotFoundException;
 import com.sip.sip.exception.ProjetoNotFoundException;
 import com.sip.sip.model.*;
 import com.sip.sip.dto.ProjetoDTO;
@@ -35,6 +36,8 @@ public class ProjetoService implements IProjetoService {
 	private HabilidadeDAO habilidadeDAO;
 	@Autowired
 	private ICargoService cargoService;
+	@Autowired
+	private ICidadeService cidadeService;
 
 	public List<Projeto> listarProjetos() {
 		return projetoDAO.listarProjetos();
@@ -104,6 +107,17 @@ public class ProjetoService implements IProjetoService {
 				cargos.add(cargo);
 			}
 			projeto.setCargosDesejados(cargos);
+		}
+
+		if (dto.getCidadeNome() != null) {
+			Cidade c;
+			try {
+				c = cidadeService.buscarCidadePorNome(dto.getCidadeNome());
+			} catch (CidadeNotFoundException e) {
+				throw new RuntimeException(e);
+			}
+
+			projeto.setCidade(c);
 		}
 		return projeto;
 	}

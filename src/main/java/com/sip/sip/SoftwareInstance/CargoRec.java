@@ -23,4 +23,9 @@ public class CargoRec implements RecStrategy {
 
         return projetosRec.subList(0,amountProjetos);
     }
+
+    @Override
+    public boolean getLocationRequired() {
+        return false;
+    }
 }

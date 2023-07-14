@@ -11,6 +11,8 @@ public class ProjetoCadastroDTO {
         private int diasPorSemana;
         private int numDeVagas;
 
+
+
         public int getNumCurtidas() {
                 return numCurtidas;
         }
@@ -23,6 +25,8 @@ public class ProjetoCadastroDTO {
         private List<Long> habilidadesEscolhidasId;
         private List<Long> cargosEscolhidosId;
         private MultipartFile imagem;
+
+        private String cidadeNome;
 
         public ProjetoCadastroDTO(String nome, String descricao, int horasPorSemana, int diasPorSemana, int numDeVagas, int numCurtidas, List<Long> habilidadesEscolhidasId, List<Long> cargosEscolhidosId) {
                 this.nome = nome;
@@ -98,5 +102,13 @@ public class ProjetoCadastroDTO {
 
         public void setImagem(MultipartFile imagem) {
                 this.imagem = imagem;
+        }
+
+        public String getCidadeNome() {
+                return cidadeNome;
+        }
+
+        public void setCidadeNome(String cidadeNome) {
+                this.cidadeNome = cidadeNome;
         }
 }

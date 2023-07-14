@@ -51,6 +51,8 @@ public class Projeto {
 	private int numCurtidas;
 	@Column
 	private int numFavoritos;
+	@ManyToOne
+	private Cidade cidade;
 	@OneToMany(mappedBy = "projeto")
 	private List<UsuarioProjeto> usuariosProjeto;
 	@ManyToMany(mappedBy = "projetosCurtidos")
@@ -234,5 +236,12 @@ public class Projeto {
 
 	public void setEmDestaque(Boolean emDestaque) {
 		this.emDestaque = emDestaque;
+	}
+
+	public void setCidade(Cidade cidade) {
+		this.cidade = cidade;
+	}
+	public Cidade getCidade() {
+		return this.cidade;
 	}
 }

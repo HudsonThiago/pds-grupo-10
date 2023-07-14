@@ -7,10 +7,7 @@ import com.sip.sip.model.Cargo;
 import com.sip.sip.model.Projeto;
 import com.sip.sip.model.Habilidade;
 import com.sip.sip.model.Usuario;
-import com.sip.sip.service.ICargoService;
-import com.sip.sip.service.IProjetoService;
-import com.sip.sip.service.IHabilidadeService;
-import com.sip.sip.service.ManterUsuarioService;
+import com.sip.sip.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +26,8 @@ public class ManterProjetoController {
     private ManterUsuarioService usuarioService;
     @Autowired
     private IProjetoService projetoService;
+    @Autowired
+    private RecStrategy recStrategy;
 
     @GetMapping("/criar-projeto")
     public String criarProjeto(Model model) {
@@ -37,6 +36,7 @@ public class ManterProjetoController {
         List<Cargo> cargos = cargoService.listarCargos();
         model.addAttribute("cargos", cargos);
         model.addAttribute("projetoCadastroDTO", new ProjetoCadastroDTO());
+        model.addAttribute("locationRequired", recStrategy.getLocationRequired());
         return "criar-projeto";
     }
 
