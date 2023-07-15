@@ -9,6 +9,7 @@ import com.sip.sip.framework.model.Usuario;
 import com.sip.sip.framework.service.ICargoService;
 import com.sip.sip.framework.service.IHabilidadeService;
 import com.sip.sip.framework.service.ManterUsuarioService;
+import com.sip.sip.framework.service.RecStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +26,8 @@ public class ManterUsuarioController {
     private IHabilidadeService habilidadeService;
     @Autowired
     private ICargoService cargoService;
+    @Autowired
+    private RecStrategy recStrategy;
 
     @GetMapping("/listar-usuarios")
     public String listarUsuario(Model model) {
@@ -46,7 +49,7 @@ public class ManterUsuarioController {
         model.addAttribute("usuario", usuario);
         List<Habilidade> habilidades = habilidadeService.listarHabilidades();
         model.addAttribute("habilidades", habilidades);
-
+        model.addAttribute("locationRequired", recStrategy.getLocationRequired());
 
         return "editar-usuario";
     }
