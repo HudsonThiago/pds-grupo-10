@@ -10,10 +10,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component
+//@Component
 public class CargoRec implements RecStrategy {
-    @Qualifier("ProjetoDAOJPA")
-    @Autowired
+//    @Qualifier("ProjetoDAOJPA")
+//    @Autowired
     private ProjetoDAO projetoDAO;
     @Override
     public List<Projeto> listarProjetosRecomendados(Usuario usuario) {

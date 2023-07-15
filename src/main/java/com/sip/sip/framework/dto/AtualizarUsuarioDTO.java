@@ -7,6 +7,7 @@ public class AtualizarUsuarioDTO {
     private String email;
     private String descricao;
     private List<Long> idHabilidades;
+    private String cidadeNome;
 
     public String getNome() {
         return nome;
@@ -38,5 +39,13 @@ public class AtualizarUsuarioDTO {
 
     public void setIdHabilidades(List<Long> idHabilidades) {
         this.idHabilidades = idHabilidades;
+    }
+
+    public String getCidadeNome() {
+        return cidadeNome;
+    }
+
+    public void setCidadeNome(String cidadeNome) {
+        this.cidadeNome = cidadeNome;
     }
 }

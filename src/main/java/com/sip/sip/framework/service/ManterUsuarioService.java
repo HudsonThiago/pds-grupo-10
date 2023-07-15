@@ -6,6 +6,7 @@ import com.sip.sip.framework.dto.AtualizarUsuarioDTO;
 import com.sip.sip.framework.dto.UsuarioCadastroDTO;
 import com.sip.sip.framework.exception.HabilidadeNotFoundException;
 import com.sip.sip.framework.exception.Usuario.*;
+import com.sip.sip.framework.model.Cidade;
 import com.sip.sip.framework.model.Habilidade;
 import com.sip.sip.framework.model.Projeto;
 import com.sip.sip.framework.model.Usuario;
@@ -27,6 +28,8 @@ public class ManterUsuarioService {
 
     @Autowired
     private HabilidadeDAOJPA habilidadeDAOJPA;
+    @Autowired
+    private CidadeService cidadeService;
 
     public List<Usuario> listarUsuarios(){
         return usuarioDAOJPA.listarUsuarios();
@@ -81,6 +84,9 @@ public class ManterUsuarioService {
         }
 
         usuario.get().setHabilidades(habilidades);
+
+        Cidade c = cidadeService.buscarCidadePorNome(atualizarUsuarioDTO.getCidadeNome());
+        usuario.get().setCidade(c);
 
         return usuarioDAOJPA.atualizarUsuario(usuario.get());
     }
