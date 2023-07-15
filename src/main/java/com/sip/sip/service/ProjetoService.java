@@ -1,8 +1,9 @@
 package com.sip.sip.service;
 
 import com.sip.sip.dao.ProjetoDAO;
-import com.sip.sip.dao.TecnologiaDAO;
+import com.sip.sip.dao.HabilidadeDAO;
 import com.sip.sip.dto.ProjetoCadastroDTO;
+import com.sip.sip.exception.CidadeNotFoundException;
 import com.sip.sip.exception.ProjetoNotFoundException;
 import com.sip.sip.model.*;
 import com.sip.sip.dto.ProjetoDTO;
@@ -30,11 +31,13 @@ public class ProjetoService implements IProjetoService {
 	@Autowired
 	@Qualifier("ProjetoDAOJPA")
 	private ProjetoDAO projetoDAO;
-	@Qualifier("TecnologiaDAOJPA")
+	@Qualifier("HabilidadeDAOJPA")
 	@Autowired
-	private TecnologiaDAO tecnologiaDAO;
+	private HabilidadeDAO habilidadeDAO;
 	@Autowired
 	private ICargoService cargoService;
+	@Autowired
+	private ICidadeService cidadeService;
 
 	public List<Projeto> listarProjetos() {
 		return projetoDAO.listarProjetos();
@@ -64,8 +67,8 @@ public class ProjetoService implements IProjetoService {
 		dto.setDiasPorSemana(projeto.getDisponibilidade().getDiasPorSemana());
 		dto.setNumDeVagas(projeto.getNumDeVagas());
 
-		List<Long> tecnologiasEscolhidasId = projeto.getTecnologias().stream().map(tecnologia -> tecnologia.getId()).collect(Collectors.toList());
-		dto.setTecnologiasEscolhidasId(tecnologiasEscolhidasId);
+		List<Long> habilidadesEscolhidasId = projeto.getHabilidades().stream().map(habilidade -> habilidade.getId()).collect(Collectors.toList());
+		dto.setHabilidadesEscolhidasId(habilidadesEscolhidasId);
 		return dto;
 	}
 
@@ -78,13 +81,13 @@ public class ProjetoService implements IProjetoService {
 		projeto.setDisponibilidade(d);
 		projeto.setNumDeVagas(dto.getNumDeVagas());
 		projeto.setNumCurtidas(dto.getNumCurtidas());
-		List<Long> tecnologiasEscolhidasId = dto.getTecnologiasEscolhidasId();
-		if (dto.getTecnologiasEscolhidasId() != null) {
-			List<Tecnologia> tecnologiasEscolhidas =
-					tecnologiasEscolhidasId.stream().map((id) -> {
-						return tecnologiaDAO.buscarTecnologia(id);
+		List<Long> habilidadesEscolhidasId = dto.getHabilidadesEscolhidasId();
+		if (dto.getHabilidadesEscolhidasId() != null) {
+			List<Habilidade> habilidadesEscolhidas =
+					habilidadesEscolhidasId.stream().map((id) -> {
+						return habilidadeDAO.buscarHabilidade(id);
 					}).collect(Collectors.toList());
-			projeto.setTecnologias((ArrayList<Tecnologia>) tecnologiasEscolhidas);
+			projeto.setHabilidades((ArrayList<Habilidade>) habilidadesEscolhidas);
 		}
 		if (dto.getImagem() != null) {
 			if (!dto.getImagem().isEmpty()) {
@@ -105,6 +108,17 @@ public class ProjetoService implements IProjetoService {
 			}
 			projeto.setCargosDesejados(cargos);
 		}
+
+		if (dto.getCidadeNome() != null) {
+			Cidade c;
+			try {
+				c = cidadeService.buscarCidadePorNome(dto.getCidadeNome());
+			} catch (CidadeNotFoundException e) {
+				throw new RuntimeException(e);
+			}
+
+			projeto.setCidade(c);
+		}
 		return projeto;
 	}
 
@@ -121,14 +135,14 @@ public class ProjetoService implements IProjetoService {
 
 		dto.setNumDeVagas(p.getNumDeVagas());
 
-		if (p.getTecnologias() != null) {
-			Map<String, Long> tecnologiasId = p.getTecnologias().stream()
+		if (p.getHabilidades() != null) {
+			Map<String, Long> habilidadesId = p.getHabilidades().stream()
 					.collect(Collectors.toMap(
-							tecnologia -> tecnologia.getNome(),
-							tecnologia -> tecnologia.getId()
+							habilidade -> habilidade.getNome(),
+							habilidade -> habilidade.getId()
 							)
 					);
-			dto.setTecnologiasEscolhidasId(tecnologiasId);
+			dto.setHabilidadesEscolhidasId(habilidadesId);
 		}
 
 		dto.setImagemUrl(p.getImagemUrl());
@@ -141,6 +155,9 @@ public class ProjetoService implements IProjetoService {
 		));
 		dto.setNomeCargoMap(usuariosMap);
 		dto.setEmDestaque(p.getEmDestaque());
+		if(p.getCidade() != null) {
+			dto.setCidadeNome(p.getCidade().getNome());
+		}
 		return dto;
 	}
 
@@ -263,9 +280,9 @@ public class ProjetoService implements IProjetoService {
 
 	public Boolean ehMembro(Long idUsuario, Long idProjeto) {
 		Boolean encontrado = false;
-		List<Usuario> membros = projetoDAO.buscarProjetoPorId(idProjeto).getMembros();
-		for (Usuario membro : membros) {
-			if (membro.getId() == idUsuario) {
+		List<UsuarioProjeto> membros = projetoDAO.buscarProjetoPorId(idProjeto).getUsuariosProjeto();
+		for (UsuarioProjeto up : membros) {
+			if (up.getUsuario().getId() == idUsuario) {
 				encontrado = true;
 			}
 		}

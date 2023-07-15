@@ -35,9 +35,9 @@
           <hr>
           <p class="card-text ml-3"><strong>Número de vagas: </strong> <span th:text="${projeto.numDeVagas}"></span></p>
           <hr>
-          <p class="card-text"><strong>Tecnologias: </strong></p>
-          <ul class="list-group mt-3 w-50 ml-3" th:each="tecnologia : ${projeto.tecnologiasEscolhidasId}">
-            <li class="list-group-item" th:text="${tecnologia.key}"></li>
+          <p class="card-text"><strong>Habilidades: </strong></p>
+          <ul class="list-group mt-3 w-50 ml-3" th:each="habilidade : ${projeto.habilidadesEscolhidasId}">
+            <li class="list-group-item" th:text="${habilidade.key}"></li>
           </ul>
         </div>
       </div>

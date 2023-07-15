@@ -17,7 +17,7 @@ public class ManterMensagensPrivadasController {
     @Autowired
     private IExplorarProjetosService explorarProjetosService;
     @Autowired
-    private ITecnologiaService tecnologiaService;
+    private IHabilidadeService habilidadeService;
 
     @Autowired
     private IMensagemPService mensagemService;

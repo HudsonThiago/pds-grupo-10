@@ -1,12 +1,12 @@
 package com.sip.sip.service;
 
-import com.sip.sip.dao.TecnologiaDAOJPA;
+import com.sip.sip.dao.HabilidadeDAOJPA;
 import com.sip.sip.dao.UsuarioDAOJPA;
 import com.sip.sip.dto.AtualizarUsuarioDTO;
 import com.sip.sip.dto.UsuarioCadastroDTO;
-import com.sip.sip.exception.TecnologiaNotFoundException;
+import com.sip.sip.exception.HabilidadeNotFoundException;
 import com.sip.sip.exception.Usuario.*;
-import com.sip.sip.model.Tecnologia;
+import com.sip.sip.model.Habilidade;
 import com.sip.sip.model.Projeto;
 import com.sip.sip.model.Usuario;
 import org.springframework.beans.BeanUtils;
@@ -27,7 +27,7 @@ public class ManterUsuarioService {
     private UsuarioDAOJPA usuarioDAOJPA;
 
     @Autowired
-    private TecnologiaDAOJPA tecnologiaDAOJPA;
+    private HabilidadeDAOJPA habilidadeDAOJPA;
 
     public List<Usuario> listarUsuarios(){
         return usuarioDAOJPA.listarUsuarios();
@@ -71,17 +71,17 @@ public class ManterUsuarioService {
         if(atualizarUsuarioDTO.getEmail() != null) usuario.get().setEmail(atualizarUsuarioDTO.getEmail());
         if(atualizarUsuarioDTO.getDescricao() != null) usuario.get().setDescricao(atualizarUsuarioDTO.getDescricao());
 
-        List<Tecnologia> tecnologias = new ArrayList<Tecnologia>();
+        List<Habilidade> habilidades = new ArrayList<Habilidade>();
 
-        if(atualizarUsuarioDTO.getIdTecnologias().size() != 0){
-            for (long idTecnologia:atualizarUsuarioDTO.getIdTecnologias()) {
-                tecnologias.add(tecnologiaDAOJPA.buscarTecnologia(idTecnologia));
+        if(atualizarUsuarioDTO.getIdHabilidades().size() != 0){
+            for (long idHabilidade:atualizarUsuarioDTO.getIdHabilidades()) {
+                habilidades.add(habilidadeDAOJPA.buscarHabilidade(idHabilidade));
             }
         } else {
-            throw new TecnologiaNotFoundException("Tecnologia não encontrada");
+            throw new HabilidadeNotFoundException("Habilidade não encontrada");
         }
 
-        usuario.get().setTecnologias(tecnologias);
+        usuario.get().setHabilidades(habilidades);
 
         return usuarioDAOJPA.atualizarUsuario(usuario.get());
     }

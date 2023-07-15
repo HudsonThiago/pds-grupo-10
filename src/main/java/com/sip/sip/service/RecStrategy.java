@@ -8,4 +8,6 @@ import java.util.List;
 public interface RecStrategy {
 
     List<Projeto> listarProjetosRecomendados(Usuario usuario);
+
+    boolean getLocationRequired();
 }

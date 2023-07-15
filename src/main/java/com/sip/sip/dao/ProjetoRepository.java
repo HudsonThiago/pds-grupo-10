@@ -1,8 +1,9 @@
 package com.sip.sip.dao;
 
 import com.sip.sip.model.Cargo;
+import com.sip.sip.model.Cidade;
 import com.sip.sip.model.Projeto;
-import com.sip.sip.model.Tecnologia;
+import com.sip.sip.model.Habilidade;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -28,12 +29,13 @@ public interface ProjetoRepository extends CrudRepository<Projeto,Long>{
     List<Projeto> findByDisponibilidadeDiasPorSemanaAndIdIn(int diasPorSemana, List<Long> ids);
     List<Projeto> findByDisponibilidadeDiasPorSemana(int diasPorSemana);
 
-    List<Projeto> findByTecnologiasIn(List<Tecnologia> tecnologias);
-    List<Projeto> findByTecnologiasInAndIdIn(List<Tecnologia> tecnologias, List<Long> ids);
+    List<Projeto> findByHabilidadesIn(List<Habilidade> habilidades);
+    List<Projeto> findByHabilidadesInAndIdIn(List<Habilidade> habilidades, List<Long> ids);
 //
     List<Projeto> findByCargosDesejadosIn(List<Cargo> cargos);
 
     List<Projeto> findByCargosDesejadosInAndIdIn(List<Cargo> cargos, List<Long> ids);
 
+    List<Projeto> findByCidade(Cidade cidade);
 }
 

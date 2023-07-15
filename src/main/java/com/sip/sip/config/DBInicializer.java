@@ -1,31 +1,31 @@
 package com.sip.sip.config;
 
-import com.sip.sip.dao.TecnologiaDAOJPA;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.sip.sip.dao.HabilidadeDAOJPA;
 import com.sip.sip.dao.UsuarioDAOJPA;
 import com.sip.sip.dto.MensagemCEnviadaDTO;
 import com.sip.sip.dto.MensagemPEnviadaDTO;
 import com.sip.sip.dto.ProjetoCadastroDTO;
+import com.sip.sip.exception.CidadeNotFoundException;
 import com.sip.sip.exception.ProjetoNotFoundException;
-import com.sip.sip.model.Cargo;
-import com.sip.sip.model.Projeto;
-import com.sip.sip.model.Tecnologia;
-import com.sip.sip.model.Usuario;
-import com.sip.sip.service.ICargoService;
-import com.sip.sip.service.IMensagemCService;
-import com.sip.sip.service.IMensagemPService;
-import com.sip.sip.service.IProjetoService;
+import com.sip.sip.model.*;
+import com.sip.sip.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class DBInicializer implements CommandLineRunner {
-    private TecnologiaDAOJPA tecnologia;
+    private HabilidadeDAOJPA habilidade;
     private UsuarioDAOJPA usuario;
 
     @Autowired
@@ -37,14 +37,18 @@ public class DBInicializer implements CommandLineRunner {
     private IProjetoService projetoService;
     @Autowired
     private ICargoService cargoService;
-    public DBInicializer(TecnologiaDAOJPA tecnologia, UsuarioDAOJPA usuario) {
-        this.tecnologia = tecnologia;
+    @Autowired
+    private ICidadeService cidadeService;
+
+    public DBInicializer(HabilidadeDAOJPA habilidade, UsuarioDAOJPA usuario) {
+        this.habilidade = habilidade;
         this.usuario = usuario;
     }
 
     @Override
     public void run(String... streings) throws Exception {
-        instanciarTecnologias();
+        instanciarHabilidades();
+        instanciarCidades();
         instanciarCargos();
         instanciarUsuarios();
         instanciarMensagens();
@@ -60,13 +64,13 @@ public class DBInicializer implements CommandLineRunner {
 
     }
 
-    private void instanciarTecnologias() {
-        tecnologia.criarTecnologia(new Tecnologia(1l, "Java", true));
-        tecnologia.criarTecnologia(new Tecnologia(2l, "React", true));
-        tecnologia.criarTecnologia(new Tecnologia(3l, "C#", true));
-        tecnologia.criarTecnologia(new Tecnologia(4l, "SpringBoot", true));
-        tecnologia.criarTecnologia(new Tecnologia(5l, "Figma", true));
-        tecnologia.criarTecnologia(new Tecnologia(6l, "Ilustrator", true));
+    private void instanciarHabilidades() {
+        habilidade.criarHabilidade(new Habilidade(1l, "Java", true));
+        habilidade.criarHabilidade(new Habilidade(2l, "React", true));
+        habilidade.criarHabilidade(new Habilidade(3l, "C#", true));
+        habilidade.criarHabilidade(new Habilidade(4l, "SpringBoot", true));
+        habilidade.criarHabilidade(new Habilidade(5l, "Figma", true));
+        habilidade.criarHabilidade(new Habilidade(6l, "Ilustrator", true));
     }
 
     private void instanciarUsuarios() {
@@ -74,6 +78,13 @@ public class DBInicializer implements CommandLineRunner {
         usuario.criarUsuario(new Usuario(2l, "Usuario 1", "user1@gmail.com", "123"));
         Usuario u1 = usuario.buscarUsuarioPorId(2l);
         u1.setCargos(List.of(cargoService.buscarCargoPorId(1l)));
+        Cidade natal = null;
+        try {
+            natal = cidadeService.buscarCidadePorNome("Natal , Rio Grande do Norte , Brasil");
+        } catch (CidadeNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        u1.setCidade(natal);
         usuario.atualizarUsuario(u1);
         usuario.criarUsuario(new Usuario(3l, "Usuario 2", "user2@gmail.com", "123"));
         Usuario u2 = usuario.buscarUsuarioPorId(3l);
@@ -112,17 +123,57 @@ public class DBInicializer implements CommandLineRunner {
         projetoService.criarProjeto(new ProjetoCadastroDTO("projeto6","um projeto", 12,
                 3,0,49,  List.of(1l,4l),List.of(3l,4l)));
 
-        Projeto p1 = projetoService.retornarProjetoPorId(1l);
-        p1.setMembros(List.of(usuario.buscarUsuarioPorId(4l), usuario.buscarUsuarioPorId(2l), usuario.buscarUsuarioPorId(3l)));
+        Cidade natal = null;
+        Cidade fortaleza = null;
+        try {
+            natal = cidadeService.buscarCidadePorNome("Natal , Rio Grande do Norte , Brasil");
+            fortaleza = cidadeService.buscarCidadePorNome("Fortaleza , Ceará , Brasil");
+
+        } catch (CidadeNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        Projeto p1 = projetoService.retornarProjetoPorId(1L);
+        Projeto p2 = projetoService.retornarProjetoPorId(2L);
+        Projeto p3 = projetoService.retornarProjetoPorId(3L);
+        Projeto p4 = projetoService.retornarProjetoPorId(4L);
+        Usuario usuario4 = usuario.buscarUsuarioPorId(4L);
+        Usuario usuario2 = usuario.buscarUsuarioPorId(2L);
+        Usuario usuario3 = usuario.buscarUsuarioPorId(3L);
+
+        UsuarioProjeto up41 = new UsuarioProjeto();
+        up41.setUsuario(usuario4);
+        up41.setProjeto(p1);
+        UsuarioProjeto up21 = new UsuarioProjeto();
+        up21.setUsuario(usuario2);
+        up21.setProjeto(p1);
+        UsuarioProjeto up31 = new UsuarioProjeto();
+        up31.setUsuario(usuario3);
+        up31.setProjeto(p1);
+
+        p1.setUsuariosProjeto(List.of(up41, up21, up31));
+        p1.setCidade(natal);
         projetoService.salvarProjeto(p1);
 
-        Projeto p2 = projetoService.retornarProjetoPorId(2l);
-        p1.setMembros(List.of(usuario.buscarUsuarioPorId(4l), usuario.buscarUsuarioPorId(2l)));
+
+
+        UsuarioProjeto up32 = new UsuarioProjeto();
+        up32.setUsuario(usuario3);
+        up32.setProjeto(p2);
+        p2.setUsuariosProjeto(List.of(up32));
+        p2.setCidade(natal);
         projetoService.salvarProjeto(p2);
 
-        Projeto p3 = projetoService.retornarProjetoPorId(3l);
-        p1.setMembros(List.of(usuario.buscarUsuarioPorId(4l)));
+
+        UsuarioProjeto up23 = new UsuarioProjeto();
+        up23.setUsuario(usuario2);
+        up23.setProjeto(p3);
+        p3.setUsuariosProjeto(List.of(up23));
+        p3.setCidade(fortaleza);
         projetoService.salvarProjeto(p3);
+
+        p4.setCidade(natal);
+        projetoService.salvarProjeto(p4);
     }
     private void instanciarMensagensChat() throws IOException, ProjetoNotFoundException {
 //        mensagemCService.criarMensagem(new MensagemCEnviadaDTO("teste do user1 para o projeto 2", 2l, 3l));
@@ -132,5 +183,28 @@ public class DBInicializer implements CommandLineRunner {
 //        mensagemCService.criarMensagem(new MensagemCEnviadaDTO("teste do user1 para o projeto 3", 2l, 4l));
 //        mensagemCService.criarMensagem(new MensagemCEnviadaDTO("teste do user2 para o projeto 3", 3l, 4l));
 
+    }
+
+    private void instanciarCidades() {
+        String jsonFile = "src/main/resources/static/cidades.json";
+        String jsonString = lerArquivoCidades(jsonFile);
+
+        // Convert the JSON array to a list of strings using Gson
+        Gson gson = new Gson();
+        List<String> nomes = gson.fromJson(jsonString, new TypeToken<List<String>>() {}.getType());
+
+        // Convert each string to a Cidade entity using criarCidade
+        List<Cidade> cidades = nomes.stream()
+                .map(Cidade::new)
+                .collect(Collectors.toList());
+        cidades.forEach(cidadeService::criarCidade);
+    }
+    private static String lerArquivoCidades(String filePath) {
+        try {
+            return new String(Files.readAllBytes(Paths.get(filePath)));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

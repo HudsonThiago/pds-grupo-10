@@ -1,6 +1,6 @@
 package com.sip.sip.dto;
 
-import com.sip.sip.model.Tecnologia;
+import com.sip.sip.model.Habilidade;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ public class AtualizarUsuarioDTO {
     private String nome;
     private String email;
     private String descricao;
-    private List<Long> idTecnologias;
+    private List<Long> idHabilidades;
 
     public String getNome() {
         return nome;
@@ -34,11 +34,11 @@ public class AtualizarUsuarioDTO {
         this.descricao = descricao;
     }
 
-    public List<Long> getIdTecnologias() {
-        return idTecnologias;
+    public List<Long> getIdHabilidades() {
+        return idHabilidades;
     }
 
-    public void setIdTecnologias(List<Long> idTecnologias) {
-        this.idTecnologias = idTecnologias;
+    public void setIdHabilidades(List<Long> idHabilidades) {
+        this.idHabilidades = idHabilidades;
     }
 }

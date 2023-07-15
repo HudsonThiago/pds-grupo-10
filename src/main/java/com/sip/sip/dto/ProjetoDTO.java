@@ -62,6 +62,8 @@ public class ProjetoDTO {
         private int numDeVagas;
         private String imagemUrl;
 
+        private String cidadeNome;
+
         private Boolean emDestaque;
 
         public String getImagemUrl() {
@@ -72,14 +74,14 @@ public class ProjetoDTO {
                 this.imagemUrl = imagemUrl;
         }
 
-        private Map<String, Long> tecnologiasEscolhidasId;
+        private Map<String, Long> habilidadesEscolhidasId;
 
-        public Map<String, Long> getTecnologiasEscolhidasId() {
-                return tecnologiasEscolhidasId;
+        public Map<String, Long> getHabilidadesEscolhidasId() {
+                return habilidadesEscolhidasId;
         }
 
-        public void setTecnologiasEscolhidasId(Map<String, Long> tecnologiasEscolhidasId) {
-                this.tecnologiasEscolhidasId = tecnologiasEscolhidasId;
+        public void setHabilidadesEscolhidasId(Map<String, Long> habilidadesEscolhidasId) {
+                this.habilidadesEscolhidasId = habilidadesEscolhidasId;
         }
 
         public Long getId() {
@@ -116,5 +118,13 @@ public class ProjetoDTO {
 
         public void setEmDestaque(Boolean emDestaque) {
                 this.emDestaque = emDestaque;
+        }
+
+        public String getCidadeNome() {
+                return cidadeNome;
+        }
+
+        public void setCidadeNome(String cidadeNome) {
+                this.cidadeNome = cidadeNome;
         }
 }

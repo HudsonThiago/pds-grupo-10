@@ -1,7 +1,7 @@
 package com.sip.sip.dao;
 
 import com.sip.sip.model.Cargo;
-import com.sip.sip.model.Tecnologia;
+import com.sip.sip.model.Habilidade;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

@@ -5,12 +5,9 @@ import com.sip.sip.dto.ProjetoDTO;
 import com.sip.sip.exception.ProjetoNotFoundException;
 import com.sip.sip.model.Cargo;
 import com.sip.sip.model.Projeto;
-import com.sip.sip.model.Tecnologia;
+import com.sip.sip.model.Habilidade;
 import com.sip.sip.model.Usuario;
-import com.sip.sip.service.ICargoService;
-import com.sip.sip.service.IProjetoService;
-import com.sip.sip.service.ITecnologiaService;
-import com.sip.sip.service.ManterUsuarioService;
+import com.sip.sip.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,21 +19,24 @@ import java.util.List;
 @Controller
 public class ManterProjetoController {
     @Autowired
-    private ITecnologiaService tecnologiaService;
+    private IHabilidadeService habilidadeService;
     @Autowired
     private ICargoService cargoService;
     @Autowired
     private ManterUsuarioService usuarioService;
     @Autowired
     private IProjetoService projetoService;
+    @Autowired
+    private RecStrategy recStrategy;
 
     @GetMapping("/criar-projeto")
     public String criarProjeto(Model model) {
-        List<Tecnologia> tecnologias = tecnologiaService.listarTecnologias();
-        model.addAttribute("tecnologias", tecnologias);
+        List<Habilidade> habilidades = habilidadeService.listarHabilidades();
+        model.addAttribute("habilidades", habilidades);
         List<Cargo> cargos = cargoService.listarCargos();
         model.addAttribute("cargos", cargos);
         model.addAttribute("projetoCadastroDTO", new ProjetoCadastroDTO());
+        model.addAttribute("locationRequired", recStrategy.getLocationRequired());
         return "criar-projeto";
     }
 
@@ -68,8 +68,8 @@ public class ManterProjetoController {
         // todo auth
         Usuario principal =  usuarioService.buscarUsuarioPorId(2l);
 
-        List<Tecnologia> tecnologias = tecnologiaService.listarTecnologias();
-        model.addAttribute("tecnologias", tecnologias);
+        List<Habilidade> habilidades = habilidadeService.listarHabilidades();
+        model.addAttribute("habilidades", habilidades);
         List<Cargo> cargos = cargoService.listarCargos();
         model.addAttribute("cargos", cargos);
         ProjetoCadastroDTO projeto = projetoService.buscarProjetoCadastradoPorId(id);

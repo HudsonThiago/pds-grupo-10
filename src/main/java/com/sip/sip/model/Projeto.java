@@ -24,13 +24,10 @@ public class Projeto {
 	private Usuario criador;
 	@JoinColumn
 	@ManyToMany
-	private List<Tecnologia> tecnologias;
+	private List<Habilidade> habilidades;
 	@Column
 	@ManyToMany
 	private List<Cargo> cargosDesejados;
-	@Column
-	@OneToMany(cascade=CascadeType.ALL)
-	private List<Usuario> membros;
 	@PrimaryKeyJoinColumn
 	@OneToOne(cascade=CascadeType.ALL)
 	private Disponibilidade disponibilidade;
@@ -51,6 +48,8 @@ public class Projeto {
 	private int numCurtidas;
 	@Column
 	private int numFavoritos;
+	@ManyToOne
+	private Cidade cidade;
 	@OneToMany(mappedBy = "projeto")
 	private List<UsuarioProjeto> usuariosProjeto;
 	@ManyToMany(mappedBy = "projetosCurtidos")
@@ -156,14 +155,6 @@ public class Projeto {
 		this.disponibilidade = disponibilidade;
 	}
 
-	public List<Usuario> getMembros() {
-		return membros;
-	}
-
-	public void setMembros(ArrayList<Usuario> membros) {
-		this.membros = membros;
-	}
-
 	public List<Cargo> getCargosDesejados() {
 		return cargosDesejados;
 	}
@@ -172,12 +163,12 @@ public class Projeto {
 		this.cargosDesejados = cargosDesejados;
 	}
 
-	public List<Tecnologia> getTecnologias() {
-		return tecnologias;
+	public List<Habilidade> getHabilidades() {
+		return habilidades;
 	}
 
-	public void setTecnologias(ArrayList<Tecnologia> tecnologias) {
-		this.tecnologias = tecnologias;
+	public void setHabilidades(ArrayList<Habilidade> habilidades) {
+		this.habilidades = habilidades;
 	}
 
 	public Usuario getCriador() {
@@ -188,16 +179,12 @@ public class Projeto {
 		this.criador = criador;
 	}
 
-	public void setTecnologias(List<Tecnologia> tecnologias) {
-		this.tecnologias = tecnologias;
+	public void setHabilidades(List<Habilidade> habilidades) {
+		this.habilidades = habilidades;
 	}
 
 	public void setCargosDesejados(List<Cargo> cargosDesejados) {
 		this.cargosDesejados = cargosDesejados;
-	}
-
-	public void setMembros(List<Usuario> membros) {
-		this.membros = membros;
 	}
 
 	public void setCargosAbertos(List<Cargo> cargosAbertos) {
@@ -234,5 +221,12 @@ public class Projeto {
 
 	public void setEmDestaque(Boolean emDestaque) {
 		this.emDestaque = emDestaque;
+	}
+
+	public void setCidade(Cidade cidade) {
+		this.cidade = cidade;
+	}
+	public Cidade getCidade() {
+		return this.cidade;
 	}
 }

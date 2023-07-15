@@ -17,7 +17,7 @@
       <th scope="col">#</th>
       <th scope="col">Nome</th>
       <th scope="col">Email</th>
-      <th scope="col">Tecnologias</th>
+      <th scope="col">Habilidades</th>
       <th scope="col">Projetos</th>
       <th scope="col">Editar</th>
       <th scope="col">Exlcuir</th>
@@ -32,12 +32,12 @@
 
       <td th:text="${usuario.email}">--</td>
 
-      <td th:if="${not #lists.isEmpty(usuario.tecnologias)}">
-        <div th:each="tecnologia : ${usuario.tecnologias}">
-          <span th:text="${tecnologia.nome}"></span><br/>
+      <td th:if="${not #lists.isEmpty(usuario.habilidades)}">
+        <div th:each="habilidade : ${usuario.habilidades}">
+          <span th:text="${habilidade.nome}"></span><br/>
         </div>
       </td>
-      <td th:unless="${not #lists.isEmpty(usuario.tecnologias)}">
+      <td th:unless="${not #lists.isEmpty(usuario.habilidades)}">
         --
       </td>
 

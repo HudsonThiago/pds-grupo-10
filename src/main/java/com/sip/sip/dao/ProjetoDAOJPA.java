@@ -18,7 +18,7 @@ public class ProjetoDAOJPA implements ProjetoDAO {
 	@Autowired
 	private ProjetoRepository projetoRepository;
 	@Autowired
-	private TecnologiaDAO tecnologiaDAO;
+	private HabilidadeDAO habilidadeDAO;
 	@Autowired
 	private CargoDAO cargoDAO;
 
@@ -107,11 +107,11 @@ public class ProjetoDAOJPA implements ProjetoDAO {
 	}
 
 	@Override
-	public List<Projeto> filtrarProjetosTecnologias(List<Tecnologia> tecnologias) {
-		return projetoRepository.findByTecnologiasIn(tecnologias);
+	public List<Projeto> filtrarProjetosHabilidades(List<Habilidade> habilidades) {
+		return projetoRepository.findByHabilidadesIn(habilidades);
 	}
-	public List<Projeto> filtrarProjetosTecnologias(List<Tecnologia> tecnologias, List<Long> ids) {
-		return projetoRepository.findByTecnologiasInAndIdIn(tecnologias, ids);
+	public List<Projeto> filtrarProjetosHabilidades(List<Habilidade> habilidades, List<Long> ids) {
+		return projetoRepository.findByHabilidadesInAndIdIn(habilidades, ids);
 	}
 
 	@Override
@@ -131,8 +131,8 @@ public class ProjetoDAOJPA implements ProjetoDAO {
 		int diasPorSemana = filtros.getDiasPorSemana();
 		String procurandoVagas = filtros.getProcurandoVagas();
 		String emDesenvolvimento = filtros.getEmDesenvolvimento();
-		List<Long> tecnologiasId = filtros.getTecnologiasEscolhidasId();
-		List<Tecnologia> tecnologias = tecnologiasId.stream().map(tecnologiaId -> tecnologiaDAO.buscarTecnologia(tecnologiaId))
+		List<Long> habilidadesId = filtros.getHabilidadesEscolhidasId();
+		List<Habilidade> habilidades = habilidadesId.stream().map(habilidadeId -> habilidadeDAO.buscarHabilidade(habilidadeId))
 								.collect(Collectors.toList());
 		List<Long> cargosId = filtros.getCargosEscolhidosId();
 		List<Cargo> cargos = cargosId.stream().map(cargoId -> cargoDAO.buscarCargo(cargoId)).collect(Collectors.toList());
@@ -226,15 +226,15 @@ public class ProjetoDAOJPA implements ProjetoDAO {
 			}
 		}
 
-		if (!tecnologias.isEmpty()) {
+		if (!habilidades.isEmpty()) {
 			if (ids == null) {
-				projetos = filtrarProjetosTecnologias(tecnologias);
+				projetos = filtrarProjetosHabilidades(habilidades);
 				if (projetos.isEmpty()) return projetos;
 
 				ids = projetos.stream().map(Projeto::getId).collect(Collectors.toList());
 			}
 			else {
-				projetos = filtrarProjetosTecnologias(tecnologias, ids);
+				projetos = filtrarProjetosHabilidades(habilidades, ids);
 				ids = projetos.stream().map(Projeto::getId).collect(Collectors.toList());
 			}
 		}
@@ -252,5 +252,10 @@ public class ProjetoDAOJPA implements ProjetoDAO {
 		}
 		return projetos;
     }
+
+	@Override
+	public List<Projeto> filtrarProjetosCidade(Cidade cidade) {
+		return projetoRepository.findByCidade(cidade);
+	}
 
 }

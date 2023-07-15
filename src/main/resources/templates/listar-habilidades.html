@@ -10,7 +10,7 @@
 </head>
 <body>
 <div class="container mt-5">
-  <h1>Lista de Tecnologias</h1>
+  <h1>Lista de Habilidades</h1>
   <table class="table table-striped">
     <thead>
     <tr>
@@ -23,21 +23,21 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="tecnologia : ${tecnologias}">
-      <th scope="row" th:text="${tecnologia.id}">--</th>
+    <tr th:each="habilidade : ${habilidades}">
+      <th scope="row" th:text="${habilidade.id}">--</th>
 
-      <td th:text="${tecnologia.nome}">--</td>
+      <td th:text="${habilidade.nome}">--</td>
 
-      <td th:text="${tecnologia.ativo}">--</td>
+      <td th:text="${habilidade.ativo}">--</td>
 
       <td>
-          <form th:action="@{/ativar-tecnologia/} + ${tecnologia.id}" method="post">
-            <button type="submit" th:if="${tecnologia.ativo == true}" class="btn btn-outline-warning">Desativar</button>
-            <button type="submit" th:if="${tecnologia.ativo == false}" class="btn btn-outline-primary">Ativar</button>
+          <form th:action="@{/ativar-habilidade/} + ${habilidade.id}" method="post">
+            <button type="submit" th:if="${habilidade.ativo == true}" class="btn btn-outline-warning">Desativar</button>
+            <button type="submit" th:if="${habilidade.ativo == false}" class="btn btn-outline-primary">Ativar</button>
           </form>
       </td>
       <td>
-        <form th:action="@{/excluir-tecnologia/} + ${tecnologia.id}" method="post">
+        <form th:action="@{/excluir-habilidade/} + ${habilidade.id}" method="post">
           <button type="submit" class="btn btn-outline-danger">Apagar</button>
         </form>
       </td>

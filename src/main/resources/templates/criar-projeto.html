@@ -4,9 +4,8 @@
   <meta charset="UTF-8">
   <title>Criar Projeto</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-
   <link rel="stylesheet" th:href="@{/css/bootstrap-select.min.css}">
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.min.css" integrity="sha512-ELV+xyi8IhEApPS/pSj66+Jiw+sOT1Mqkzlh8ExXihe4zfqbWkxPRi8wptXIO9g73FSlhmquFlUOuMSoXz5IRw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
 <div class="container col-6 my-5 border rounded-lg px-4 py-4">
@@ -23,11 +22,11 @@
     </div>
 
     <div class="form-group">
-      <label for="tecnologias">Tecnologias:</label>
+      <label for="habilidades">Habilidades:</label>
       <br>
-      <select id="tecnologias" class="selectpicker" multiple title="Escolha pelo menos uma Tecnologia"
-              data-live-search="true" data-width="auto" th:field="*{tecnologiasEscolhidasId}">
-        <option th:each="tecnologia : ${tecnologias}" th:value="${tecnologia.id}" th:text="${tecnologia.nome}"></option>
+      <select id="habilidades" class="selectpicker" multiple title="Escolha pelo menos uma Habilidade"
+              data-live-search="true" data-width="auto" th:field="*{habilidadesEscolhidasId}">
+        <option th:each="habilidade : ${habilidades}" th:value="${habilidade.id}" th:text="${habilidade.nome}"></option>
       </select>
     </div>
     <div class="form-group">
@@ -56,6 +55,13 @@
         <label class="custom-file-label" for="imagem">Escolha uma imagem para o projeto</label>
       </div>
     </div>
+
+    <div class="form-group">
+      <label for="cidade">Cidade:</label>
+      <input th:if="${locationRequired}" type="text" class="form-control" id="cidade" th:field="*{cidadeNome}" required>
+      <input th:unless="${locationRequired}" type="text" class="form-control" id="cidade" th:field="*{cidadeNome}">
+    </div>
+
 
     <button type="submit" class="btn btn-primary" id="submit-btn">Criar Projeto</button>
   </form>
@@ -87,7 +93,8 @@
 
 
 <!-- Latest compiled and minified JavaScript -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js" integrity="sha512-57oZ/vW8ANMjR/KQ6Be9v/+/h6bq9/l3f0Oc7vn6qMqyhvPd1cvKBRWWpzu0QoneImqr2SkmO4MSqU+RpHom3Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
 <script th:src="@{/js/bootstrap-select.js}"></script>
@@ -97,6 +104,22 @@
   $(document).ready(function () {
     bsCustomFileInput.init()
   })
+</script>
+<script>
+  $( function() {
+    function log( message ) {
+      $( "<div>" ).text( message ).prependTo( "#log" );
+      $( "#log" ).scrollTop( 0 );
+    }
+
+    $( "#cidade" ).autocomplete({
+      source: "/cidades",
+      minLength: 3,
+      select: function( event, ui ) {
+        log( "Selected: " + ui.item.value + " aka " + ui.item.id );
+      }
+    });
+  } );
 </script>
 </body>
 </html>

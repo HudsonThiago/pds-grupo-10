@@ -15,7 +15,7 @@ public class FiltroDTO {
     private String procurandoVagas;
     private String emDesenvolvimento;
 
-    private List<Long> tecnologiasEscolhidasId;
+    private List<Long> habilidadesEscolhidasId;
 
     private List<Long> cargosEscolhidosId;
 
@@ -27,12 +27,12 @@ public class FiltroDTO {
         this.cargosEscolhidosId = cargosEscolhidosId;
     }
 
-    public List<Long> getTecnologiasEscolhidasId() {
-        return tecnologiasEscolhidasId;
+    public List<Long> getHabilidadesEscolhidasId() {
+        return habilidadesEscolhidasId;
     }
 
-    public void setTecnologiasEscolhidasId(List<Long> tecnologiasEscolhidasId) {
-        this.tecnologiasEscolhidasId = tecnologiasEscolhidasId;
+    public void setHabilidadesEscolhidasId(List<Long> habilidadesEscolhidasId) {
+        this.habilidadesEscolhidasId = habilidadesEscolhidasId;
     }
 
     public int getMinCurtidas() {

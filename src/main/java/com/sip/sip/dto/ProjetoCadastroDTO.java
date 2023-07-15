@@ -11,6 +11,8 @@ public class ProjetoCadastroDTO {
         private int diasPorSemana;
         private int numDeVagas;
 
+
+
         public int getNumCurtidas() {
                 return numCurtidas;
         }
@@ -20,18 +22,20 @@ public class ProjetoCadastroDTO {
         }
 
         private int numCurtidas;
-        private List<Long> tecnologiasEscolhidasId;
+        private List<Long> habilidadesEscolhidasId;
         private List<Long> cargosEscolhidosId;
         private MultipartFile imagem;
 
-        public ProjetoCadastroDTO(String nome, String descricao, int horasPorSemana, int diasPorSemana, int numDeVagas, int numCurtidas, List<Long> tecnologiasEscolhidasId, List<Long> cargosEscolhidosId) {
+        private String cidadeNome;
+
+        public ProjetoCadastroDTO(String nome, String descricao, int horasPorSemana, int diasPorSemana, int numDeVagas, int numCurtidas, List<Long> habilidadesEscolhidasId, List<Long> cargosEscolhidosId) {
                 this.nome = nome;
                 this.descricao = descricao;
                 this.horasPorSemana = horasPorSemana;
                 this.diasPorSemana = diasPorSemana;
                 this.numDeVagas = numDeVagas;
                 this.numCurtidas = numCurtidas;
-                this.tecnologiasEscolhidasId = tecnologiasEscolhidasId;
+                this.habilidadesEscolhidasId = habilidadesEscolhidasId;
                 this.cargosEscolhidosId = cargosEscolhidosId;
         }
         public ProjetoCadastroDTO() {};
@@ -76,12 +80,12 @@ public class ProjetoCadastroDTO {
                 this.numDeVagas = numDeVagas;
         }
 
-        public List<Long> getTecnologiasEscolhidasId() {
-                return tecnologiasEscolhidasId;
+        public List<Long> getHabilidadesEscolhidasId() {
+                return habilidadesEscolhidasId;
         }
 
-        public void setTecnologiasEscolhidasId(List<Long> tecnologiasEscolhidasId) {
-                this.tecnologiasEscolhidasId = tecnologiasEscolhidasId;
+        public void setHabilidadesEscolhidasId(List<Long> habilidadesEscolhidasId) {
+                this.habilidadesEscolhidasId = habilidadesEscolhidasId;
         }
 
         public List<Long> getCargosEscolhidosId() {
@@ -98,5 +102,13 @@ public class ProjetoCadastroDTO {
 
         public void setImagem(MultipartFile imagem) {
                 this.imagem = imagem;
+        }
+
+        public String getCidadeNome() {
+                return cidadeNome;
+        }
+
+        public void setCidadeNome(String cidadeNome) {
+                this.cidadeNome = cidadeNome;
         }
 }

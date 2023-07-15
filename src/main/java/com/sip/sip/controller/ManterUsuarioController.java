@@ -1,16 +1,16 @@
 package com.sip.sip.controller;
 
 import com.sip.sip.dto.AtualizarUsuarioDTO;
-import com.sip.sip.exception.TecnologiaNotFoundException;
+import com.sip.sip.exception.HabilidadeNotFoundException;
 import com.sip.sip.exception.Usuario.UsuarioAlreadyExistsException;
 import com.sip.sip.exception.Usuario.UsuarioException;
 import com.sip.sip.exception.Usuario.UsuarioNotFoundException;
 import com.sip.sip.exception.Usuario.UsuarioUnsupportedPasswordsException;
 import com.sip.sip.model.Cargo;
-import com.sip.sip.model.Tecnologia;
+import com.sip.sip.model.Habilidade;
 import com.sip.sip.model.Usuario;
 import com.sip.sip.service.ICargoService;
-import com.sip.sip.service.ITecnologiaService;
+import com.sip.sip.service.IHabilidadeService;
 import com.sip.sip.service.ManterUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,15 +26,15 @@ public class ManterUsuarioController {
     @Autowired
     private ManterUsuarioService usuarioService;
     @Autowired
-    private ITecnologiaService tecnologiaService;
+    private IHabilidadeService habilidadeService;
     @Autowired
     private ICargoService cargoService;
 
     @GetMapping("/listar-usuarios")
     public String listarUsuario(Model model) {
 
-        List<Tecnologia> tecnologias = tecnologiaService.listarTecnologias();
-        model.addAttribute("tecnologias", tecnologias);
+        List<Habilidade> habilidades = habilidadeService.listarHabilidades();
+        model.addAttribute("habilidades", habilidades);
         List<Cargo> cargos = cargoService.listarCargos();
         model.addAttribute("cargos", cargos);
         List<Usuario> usuarios = usuarioService.listarUsuarios();
@@ -48,8 +48,8 @@ public class ManterUsuarioController {
     public String editarUsuario(Model model, @PathVariable Long id) {
         Usuario usuario = usuarioService.buscarUsuarioPorId(id);
         model.addAttribute("usuario", usuario);
-        List<Tecnologia> tecnologias = tecnologiaService.listarTecnologias();
-        model.addAttribute("tecnologias", tecnologias);
+        List<Habilidade> habilidades = habilidadeService.listarHabilidades();
+        model.addAttribute("habilidades", habilidades);
 
 
         return "editar-usuario";
@@ -63,7 +63,7 @@ public class ManterUsuarioController {
             return "redirect:/listar-usuarios";
         }catch(UsuarioNotFoundException e) {
             return "redirect:/editar-usuario/"+id;
-        }catch (TecnologiaNotFoundException e){
+        }catch (HabilidadeNotFoundException e){
             return "redirect:/editar-usuario/"+id;
         }
     }
