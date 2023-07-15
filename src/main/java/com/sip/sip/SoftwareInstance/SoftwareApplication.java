@@ -1,6 +1,6 @@
 package com.sip.sip.SoftwareInstance;
 
-import com.sip.sip.SipApplication;
+import com.sip.sip.framework.SipApplication;
 
 
 public class SoftwareApplication {

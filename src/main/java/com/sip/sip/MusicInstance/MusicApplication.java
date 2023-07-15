@@ -1,6 +1,6 @@
 package com.sip.sip.MusicInstance;
 
-import com.sip.sip.SipApplication;
+import com.sip.sip.framework.SipApplication;
 
 
 public class MusicApplication {

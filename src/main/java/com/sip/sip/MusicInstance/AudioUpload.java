@@ -1,7 +1,6 @@
 package com.sip.sip.MusicInstance;
 
-import com.sip.sip.service.UploadStrategy;
-import org.springframework.stereotype.Component;
+import com.sip.sip.framework.service.UploadStrategy;
 import org.springframework.web.multipart.MultipartFile;
 //@Component
 public class AudioUpload extends UploadStrategy {

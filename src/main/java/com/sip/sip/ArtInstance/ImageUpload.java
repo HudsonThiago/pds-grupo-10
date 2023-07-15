@@ -1,6 +1,6 @@
 package com.sip.sip.ArtInstance;
 
-import com.sip.sip.service.UploadStrategy;
+import com.sip.sip.framework.service.UploadStrategy;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 @Component
