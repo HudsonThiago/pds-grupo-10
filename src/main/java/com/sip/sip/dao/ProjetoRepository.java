@@ -1,6 +1,7 @@
 package com.sip.sip.dao;
 
 import com.sip.sip.model.Cargo;
+import com.sip.sip.model.Cidade;
 import com.sip.sip.model.Projeto;
 import com.sip.sip.model.Habilidade;
 import org.springframework.data.repository.CrudRepository;
@@ -35,5 +36,6 @@ public interface ProjetoRepository extends CrudRepository<Projeto,Long>{
 
     List<Projeto> findByCargosDesejadosInAndIdIn(List<Cargo> cargos, List<Long> ids);
 
+    List<Projeto> findByCidade(Cidade cidade);
 }
 

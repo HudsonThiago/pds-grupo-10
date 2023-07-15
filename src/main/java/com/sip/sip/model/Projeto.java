@@ -28,9 +28,6 @@ public class Projeto {
 	@Column
 	@ManyToMany
 	private List<Cargo> cargosDesejados;
-	@Column
-	@OneToMany(cascade=CascadeType.ALL)
-	private List<Usuario> membros;
 	@PrimaryKeyJoinColumn
 	@OneToOne(cascade=CascadeType.ALL)
 	private Disponibilidade disponibilidade;
@@ -158,14 +155,6 @@ public class Projeto {
 		this.disponibilidade = disponibilidade;
 	}
 
-	public List<Usuario> getMembros() {
-		return membros;
-	}
-
-	public void setMembros(ArrayList<Usuario> membros) {
-		this.membros = membros;
-	}
-
 	public List<Cargo> getCargosDesejados() {
 		return cargosDesejados;
 	}
@@ -196,10 +185,6 @@ public class Projeto {
 
 	public void setCargosDesejados(List<Cargo> cargosDesejados) {
 		this.cargosDesejados = cargosDesejados;
-	}
-
-	public void setMembros(List<Usuario> membros) {
-		this.membros = membros;
 	}
 
 	public void setCargosAbertos(List<Cargo> cargosAbertos) {

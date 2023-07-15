@@ -53,6 +53,9 @@ public class Usuario {
     )
     private List<Cargo> cargos;
 
+    @ManyToOne
+    private Cidade cidade;
+
     public Usuario(){};
     public Usuario(Long id, String nome, String email, String senha) {
         this.id = id;
@@ -154,5 +157,13 @@ public class Usuario {
 
     public void setCargos(List<Cargo> cargos) {
         this.cargos = cargos;
+    }
+
+    public Cidade getCidade() {
+        return cidade;
+    }
+
+    public void setCidade(Cidade cidade) {
+        this.cidade = cidade;
     }
 }

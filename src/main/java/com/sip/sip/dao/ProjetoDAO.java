@@ -2,6 +2,7 @@ package com.sip.sip.dao;
 
 import com.sip.sip.dto.FiltroDTO;
 import com.sip.sip.model.Cargo;
+import com.sip.sip.model.Cidade;
 import com.sip.sip.model.Projeto;
 import com.sip.sip.model.Habilidade;
 
@@ -45,4 +46,5 @@ public interface ProjetoDAO {
 
 	List<Projeto> filtrarProjetos(FiltroDTO filtros);
 
+    List<Projeto> filtrarProjetosCidade(Cidade cidade);
 }

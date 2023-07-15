@@ -253,4 +253,9 @@ public class ProjetoDAOJPA implements ProjetoDAO {
 		return projetos;
     }
 
+	@Override
+	public List<Projeto> filtrarProjetosCidade(Cidade cidade) {
+		return projetoRepository.findByCidade(cidade);
+	}
+
 }

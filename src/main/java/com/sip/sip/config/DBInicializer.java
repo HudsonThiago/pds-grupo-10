@@ -7,6 +7,7 @@ import com.sip.sip.dao.UsuarioDAOJPA;
 import com.sip.sip.dto.MensagemCEnviadaDTO;
 import com.sip.sip.dto.MensagemPEnviadaDTO;
 import com.sip.sip.dto.ProjetoCadastroDTO;
+import com.sip.sip.exception.CidadeNotFoundException;
 import com.sip.sip.exception.ProjetoNotFoundException;
 import com.sip.sip.model.*;
 import com.sip.sip.service.*;
@@ -47,12 +48,12 @@ public class DBInicializer implements CommandLineRunner {
     @Override
     public void run(String... streings) throws Exception {
         instanciarHabilidades();
+        instanciarCidades();
         instanciarCargos();
         instanciarUsuarios();
         instanciarMensagens();
         instanciarProjetos();
         instanciarMensagensChat();
-        instanciarCidades();
     }
 
     private void instanciarCargos() {
@@ -77,6 +78,13 @@ public class DBInicializer implements CommandLineRunner {
         usuario.criarUsuario(new Usuario(2l, "Usuario 1", "user1@gmail.com", "123"));
         Usuario u1 = usuario.buscarUsuarioPorId(2l);
         u1.setCargos(List.of(cargoService.buscarCargoPorId(1l)));
+        Cidade natal = null;
+        try {
+            natal = cidadeService.buscarCidadePorNome("Natal , Rio Grande do Norte , Brasil");
+        } catch (CidadeNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        u1.setCidade(natal);
         usuario.atualizarUsuario(u1);
         usuario.criarUsuario(new Usuario(3l, "Usuario 2", "user2@gmail.com", "123"));
         Usuario u2 = usuario.buscarUsuarioPorId(3l);
@@ -115,17 +123,57 @@ public class DBInicializer implements CommandLineRunner {
         projetoService.criarProjeto(new ProjetoCadastroDTO("projeto6","um projeto", 12,
                 3,0,49,  List.of(1l,4l),List.of(3l,4l)));
 
-        Projeto p1 = projetoService.retornarProjetoPorId(1l);
-        p1.setMembros(List.of(usuario.buscarUsuarioPorId(4l), usuario.buscarUsuarioPorId(2l), usuario.buscarUsuarioPorId(3l)));
+        Cidade natal = null;
+        Cidade fortaleza = null;
+        try {
+            natal = cidadeService.buscarCidadePorNome("Natal , Rio Grande do Norte , Brasil");
+            fortaleza = cidadeService.buscarCidadePorNome("Fortaleza , Ceará , Brasil");
+
+        } catch (CidadeNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        Projeto p1 = projetoService.retornarProjetoPorId(1L);
+        Projeto p2 = projetoService.retornarProjetoPorId(2L);
+        Projeto p3 = projetoService.retornarProjetoPorId(3L);
+        Projeto p4 = projetoService.retornarProjetoPorId(4L);
+        Usuario usuario4 = usuario.buscarUsuarioPorId(4L);
+        Usuario usuario2 = usuario.buscarUsuarioPorId(2L);
+        Usuario usuario3 = usuario.buscarUsuarioPorId(3L);
+
+        UsuarioProjeto up41 = new UsuarioProjeto();
+        up41.setUsuario(usuario4);
+        up41.setProjeto(p1);
+        UsuarioProjeto up21 = new UsuarioProjeto();
+        up21.setUsuario(usuario2);
+        up21.setProjeto(p1);
+        UsuarioProjeto up31 = new UsuarioProjeto();
+        up31.setUsuario(usuario3);
+        up31.setProjeto(p1);
+
+        p1.setUsuariosProjeto(List.of(up41, up21, up31));
+        p1.setCidade(natal);
         projetoService.salvarProjeto(p1);
 
-        Projeto p2 = projetoService.retornarProjetoPorId(2l);
-        p1.setMembros(List.of(usuario.buscarUsuarioPorId(4l), usuario.buscarUsuarioPorId(2l)));
+
+
+        UsuarioProjeto up32 = new UsuarioProjeto();
+        up32.setUsuario(usuario3);
+        up32.setProjeto(p2);
+        p2.setUsuariosProjeto(List.of(up32));
+        p2.setCidade(natal);
         projetoService.salvarProjeto(p2);
 
-        Projeto p3 = projetoService.retornarProjetoPorId(3l);
-        p1.setMembros(List.of(usuario.buscarUsuarioPorId(4l)));
+
+        UsuarioProjeto up23 = new UsuarioProjeto();
+        up23.setUsuario(usuario2);
+        up23.setProjeto(p3);
+        p3.setUsuariosProjeto(List.of(up23));
+        p3.setCidade(fortaleza);
         projetoService.salvarProjeto(p3);
+
+        p4.setCidade(natal);
+        projetoService.salvarProjeto(p4);
     }
     private void instanciarMensagensChat() throws IOException, ProjetoNotFoundException {
 //        mensagemCService.criarMensagem(new MensagemCEnviadaDTO("teste do user1 para o projeto 2", 2l, 3l));

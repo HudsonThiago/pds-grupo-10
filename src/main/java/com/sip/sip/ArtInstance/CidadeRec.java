@@ -1,4 +1,4 @@
-package com.sip.sip.SoftwareInstance;
+package com.sip.sip.ArtInstance;
 
 import com.sip.sip.dao.ProjetoDAO;
 import com.sip.sip.model.Projeto;
@@ -10,14 +10,14 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-//@Component
-public class CargoRec implements RecStrategy {
-//    @Qualifier("ProjetoDAOJPA")
-//    @Autowired
+@Component
+public class CidadeRec implements RecStrategy {
+    @Qualifier("ProjetoDAOJPA")
+    @Autowired
     private ProjetoDAO projetoDAO;
     @Override
     public List<Projeto> listarProjetosRecomendados(Usuario usuario) {
-        List<Projeto> projetosRec = projetoDAO.filtrarProjetosCargos(usuario.getCargos());
+        List<Projeto> projetosRec = projetoDAO.filtrarProjetosCidade(usuario.getCidade());
 
         int amountProjetos = Math.min(projetosRec.size(), 3);
 
@@ -26,6 +26,6 @@ public class CargoRec implements RecStrategy {
 
     @Override
     public boolean getLocationRequired() {
-        return false;
+        return true;
     }
 }
