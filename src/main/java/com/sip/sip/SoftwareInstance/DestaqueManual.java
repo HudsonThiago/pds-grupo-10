@@ -1,8 +1,8 @@
 package com.sip.sip.SoftwareInstance;
 
-import com.sip.sip.dao.ProjetoDAO;
-import com.sip.sip.model.Projeto;
-import com.sip.sip.service.DestaqueStrategy;
+import com.sip.sip.framework.dao.ProjetoDAO;
+import com.sip.sip.framework.model.Projeto;
+import com.sip.sip.framework.service.DestaqueStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class DestaqueManual implements DestaqueStrategy {
 
     @Qualifier("ProjetoDAOJPA")
