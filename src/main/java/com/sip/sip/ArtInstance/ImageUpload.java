@@ -3,7 +3,7 @@ package com.sip.sip.ArtInstance;
 import com.sip.sip.framework.service.UploadStrategy;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-//@Component
+@Component
 public class ImageUpload extends UploadStrategy {
     @Override
     public void validate(MultipartFile file) throws UnsupportedOperationException {

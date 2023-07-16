@@ -11,10 +11,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-//@Component
+@Component
 public class DestaqueDisponibilidade implements DestaqueStrategy  {
 
-//    @Autowired
+    @Autowired
     private ProjetoDAO projetoDAO;
     @Override
     public List<Projeto> listarProjetosDestacados() {
