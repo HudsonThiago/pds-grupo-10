@@ -78,7 +78,7 @@ public class DBInicializer implements CommandLineRunner {
         u1.setCargos(List.of(cargoService.buscarCargoPorId(1l)));
         Cidade natal = null;
         try {
-            natal = cidadeService.buscarCidadePorNome("Natal , Rio Grande do Norte , Brasil");
+            natal = cidadeService.buscarCidadePorNome("Natal, Rio Grande do Norte");
         } catch (CidadeNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -109,24 +109,26 @@ public class DBInicializer implements CommandLineRunner {
     }
 
     private void instanciarProjetos() throws IOException, ProjetoNotFoundException {
-        projetoService.criarProjeto(new ProjetoCadastroDTO("projeto1","um projeto", 20,
+        String descricao = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nisl ipsum, faucibus sed " +
+                "consequat quis, aliquet id nisi. Cras diam velit, iaculis ac rutrum a, ultricies id mi.";
+        projetoService.criarProjeto(new ProjetoCadastroDTO("projeto 1",descricao, 20,
                 5,0,40, List.of(1l,2l),List.of(1l,2l)));
-        projetoService.criarProjeto(new ProjetoCadastroDTO("projeto2","um projeto", 14,
+        projetoService.criarProjeto(new ProjetoCadastroDTO("projeto 2",descricao, 14,
                 4,0,121,  List.of(2l,3l),List.of(2l,3l)));
-        projetoService.criarProjeto(new ProjetoCadastroDTO("projeto3","um projeto", 32,
+        projetoService.criarProjeto(new ProjetoCadastroDTO("projeto 3",descricao, 32,
                 5,0,74,  List.of(3l,1l,2l),List.of(1l)));
-        projetoService.criarProjeto(new ProjetoCadastroDTO("projeto4","um projeto", 14,
+        projetoService.criarProjeto(new ProjetoCadastroDTO("projeto 4",descricao, 14,
                 3,0,33,  List.of(1l,2l),List.of(1l, 4l)));
-        projetoService.criarProjeto(new ProjetoCadastroDTO("projeto5","um projeto", 40,
+        projetoService.criarProjeto(new ProjetoCadastroDTO("projeto 5",descricao, 40,
                 5,0,56,  List.of(2l),List.of(3l)));
-        projetoService.criarProjeto(new ProjetoCadastroDTO("projeto6","um projeto", 12,
+        projetoService.criarProjeto(new ProjetoCadastroDTO("projeto 6",descricao, 12,
                 3,0,49,  List.of(1l,4l),List.of(3l,4l)));
 
         Cidade natal = null;
         Cidade fortaleza = null;
         try {
-            natal = cidadeService.buscarCidadePorNome("Natal , Rio Grande do Norte , Brasil");
-            fortaleza = cidadeService.buscarCidadePorNome("Fortaleza , Ceará , Brasil");
+            natal = cidadeService.buscarCidadePorNome("Natal, Rio Grande do Norte");
+            fortaleza = cidadeService.buscarCidadePorNome("Fortaleza, Ceará");
 
         } catch (CidadeNotFoundException e) {
             throw new RuntimeException(e);
@@ -181,12 +183,10 @@ public class DBInicializer implements CommandLineRunner {
 
     }
     private void instanciarMensagensChat() throws IOException, ProjetoNotFoundException {
-//        mensagemCService.criarMensagem(new MensagemCEnviadaDTO("teste do user1 para o projeto 2", 2l, 3l));
         mensagemCService.criarMensagem(new MensagemCEnviadaDTO("teste do user1 para o projeto 1", 2l, 1l,null));
         mensagemCService.criarMensagem(new MensagemCEnviadaDTO("teste do user3 para o projeto 1", 4l, 1l,null));
         mensagemCService.criarMensagem(new MensagemCEnviadaDTO("teste do user2 para o projeto 1", 3l, 1l,null));
-//        mensagemCService.criarMensagem(new MensagemCEnviadaDTO("teste do user1 para o projeto 3", 2l, 4l));
-//        mensagemCService.criarMensagem(new MensagemCEnviadaDTO("teste do user2 para o projeto 3", 3l, 4l));
+
 
     }
 
