@@ -55,20 +55,26 @@ public class DBInicializer implements CommandLineRunner {
     }
 
     private void instanciarCargos() {
-        cargoService.criarCargo(new Cargo("Desenvolvedor Frontend"));
-        cargoService.criarCargo(new Cargo("Desenvolvedor Backend"));
-        cargoService.criarCargo(new Cargo("Designer"));
-        cargoService.criarCargo(new Cargo("Testador"));
+        cargoService.criarCargo(new Cargo("Vocalista"));
+        cargoService.criarCargo(new Cargo("Compositor"));
+        cargoService.criarCargo(new Cargo("Maestro"));
+        cargoService.criarCargo(new Cargo("Guitarrista"));
+        cargoService.criarCargo(new Cargo("Baterista"));
+        cargoService.criarCargo(new Cargo("Baixista"));
+        cargoService.criarCargo(new Cargo("Tecladista"));
 
     }
 
     private void instanciarHabilidades() {
-        habilidade.criarHabilidade(new Habilidade(1l, "Java", true));
-        habilidade.criarHabilidade(new Habilidade(2l, "React", true));
-        habilidade.criarHabilidade(new Habilidade(3l, "C#", true));
-        habilidade.criarHabilidade(new Habilidade(4l, "SpringBoot", true));
-        habilidade.criarHabilidade(new Habilidade(5l, "Figma", true));
-        habilidade.criarHabilidade(new Habilidade(6l, "Ilustrator", true));
+        habilidade.criarHabilidade(new Habilidade(1l, "Guitarra", true));
+        habilidade.criarHabilidade(new Habilidade(2l, "Baixo", true));
+        habilidade.criarHabilidade(new Habilidade(3l, "Teclado", true));
+        habilidade.criarHabilidade(new Habilidade(4l, "Violão", true));
+        habilidade.criarHabilidade(new Habilidade(5l, "Vocal", true));
+        habilidade.criarHabilidade(new Habilidade(6l, "Bateria", true));
+        habilidade.criarHabilidade(new Habilidade(7l, "Pandeiro", true));
+        habilidade.criarHabilidade(new Habilidade(8l, "Violino", true));
+        habilidade.criarHabilidade(new Habilidade(9l, "Acordeon", true));
     }
 
     private void instanciarUsuarios() {
