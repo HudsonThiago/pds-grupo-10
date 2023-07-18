@@ -85,12 +85,22 @@
                     formData.append("conteudo", messageInput.value);
                     formData.append("projetoDestinatario", dest);
                     formData.append("usuarioRemetente", 2); // temporary auth
-                    formData.append("file", fileInput.files[0]);
 
-                    const requestOptions = {
+
+                    let requestOptions = {
                         method: "POST",
-                        body: formData
+                        body: formData,
                     };
+                    if (fileInput.value) {
+                        formData.append("file", fileInput.files[0]);
+                        let requestOptions = {
+                            method: "POST",
+                            body: formData,
+                            headers: {
+                                "Content-Type": "multipart/form-data"
+                            }
+                        };
+                    }
 
                     fetch("/mensagensChat", requestOptions)
                         .then(response => {
